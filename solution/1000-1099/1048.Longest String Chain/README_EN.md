@@ -60,44 +60,40 @@
 ```python
 class Solution:
     def longestStrChain(self, words: List[str]) -> int:
-        def check(w1, w2):
-            if len(w2) - len(w1) != 1:
-                return False
-            i = j = cnt = 0
-            while i < len(w1) and j < len(w2):
-                if w1[i] != w2[j]:
-                    cnt += 1
-                else:
+        def check(s: str, t: str) -> bool:
+            m, n = len(s), len(t)
+            i = j = 0
+            while i < m and j < n:
+                if s[i] == t[j]:
                     i += 1
                 j += 1
-            return cnt < 2 and i == len(w1)
+            return i == m
 
-        n = len(words)
-        dp = [1] * (n + 1)
-        words.sort(key=lambda x: len(x))
-        res = 1
-        for i in range(1, n):
-            for j in range(i):
-                if check(words[j], words[i]):
-                    dp[i] = max(dp[i], dp[j] + 1)
-            res = max(res, dp[i])
-        return res
+        words.sort(key=len)
+        f = [1] * len(words)
+        d = defaultdict(list)
+        for i, w in enumerate(words):
+            for j in d[len(w) - 1]:
+                if check(words[j], w):
+                    f[i] = max(f[i], f[j] + 1)
+            d[len(w)].append(i)
+        return max(f)
 ```
 
 ```python
 class Solution:
     def longestStrChain(self, words: List[str]) -> int:
-        words.sort(key= lambda x: len(x))
-        res = 0
-        mp = {}
-        for word in words:
+        words.sort(key=len)
+        d = defaultdict(int)
+        ans = 0
+        for s in words:
             x = 1
-            for i in range(len(word)):
-                pre = word[:i] + word[i + 1:]
-                x = max(x, mp.get(pre, 0) + 1)
-            mp[word] = x
-            res = max(res, x)
-        return res
+            for i in range(len(s)):
+                t = s[:i] + s[i + 1:]
+                x = max(x, d[t] + 1)
+            d[s] = x
+            ans = max(ans, x)
+        return ans
 ```
 
 ### **Java**
@@ -106,39 +102,56 @@ class Solution:
 class Solution {
     public int longestStrChain(String[] words) {
         Arrays.sort(words, Comparator.comparingInt(String::length));
-        int res = 0;
-        Map<String, Integer> map = new HashMap<>();
-        for (String word : words) {
-            int x = 1;
-            for (int i = 0; i < word.length(); ++i) {
-                String pre = word.substring(0, i) + word.substring(i + 1);
-                x = Math.max(x, map.getOrDefault(pre, 0) + 1);
+        int n = words.length;
+        int[] f = new int[n];
+        Arrays.fill(f, 1);
+        List<Integer>[] g = new List[17];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        int ans = 1;
+        for (int i = 0; i < n; ++i) {
+            String w = words[i];
+            for (int j : g[w.length() - 1]) {
+                if (check(words[j], w)) {
+                    f[i] = Math.max(f[i], f[j] + 1);
+                    ans = Math.max(ans, f[i]);
+                }
             }
-            map.put(word, x);
-            res = Math.max(res, x);
+            g[w.length()].add(i);
         }
-        return res;
+        return ans;
+    }
+
+    private boolean check(String s, String t) {
+        int m = s.length(), n = t.length();
+        int i = 0, j = 0;
+        while (i < m && j < n) {
+            if (s.charAt(i) == t.charAt(j)) {
+                ++i;
+            }
+            ++j;
+        }
+        return i == m;
     }
 }
 ```
 
-### **TypeScript**
-
-```ts
-function longestStrChain(words: string[]): number {
-    words.sort((a, b) => a.length - b.length);
-    let ans = 0;
-    let hashTable = new Map();
-    for (let word of words) {
-        let c = 1;
-        for (let i = 0; i < word.length; i++) {
-            let pre = word.substring(0, i) + word.substring(i + 1);
-            c = Math.max(c, (hashTable.get(pre) || 0) + 1);
+```java
+class Solution {
+    public int longestStrChain(String[] words) {
+        Arrays.sort(words, Comparator.comparingInt(String::length));
+        Map<String, Integer> d = new HashMap<>();
+        int ans = 0;
+        for (String s : words) {
+            int x = 0;
+            for (int i = 0; i < s.length(); ++i) {
+                String t = s.substring(0, i) + s.substring(i + 1);
+                x = Math.max(x, d.getOrDefault(t, 0) + 1);
+            }
+            d.put(s, x);
+            ans = Math.max(ans, x);
         }
-        hashTable.set(word, c);
-        ans = Math.max(ans, c);
+        return ans;
     }
-    return ans;
 }
 ```
 
@@ -148,19 +161,55 @@ function longestStrChain(words: string[]): number {
 class Solution {
 public:
     int longestStrChain(vector<string>& words) {
-        sort(words.begin(), words.end(), [&](string a, string b) { return a.size() < b.size(); });
-        int res = 0;
-        unordered_map<string, int> map;
-        for (auto word : words) {
-            int x = 1;
-            for (int i = 0; i < word.size(); ++i) {
-                string pre = word.substr(0, i) + word.substr(i + 1);
-                x = max(x, map[pre] + 1);
+        sort(words.begin(), words.end(), [](auto& a, auto& b) { return a.size() < b.size(); });
+        int n = words.size();
+        int f[n];
+        vector<int> g[17];
+        int ans = 1;
+        auto check = [](string& s, string& t) -> bool {
+            int m = s.size(), n = t.size();
+            int i = 0, j = 0;
+            while (i < m && j < n) {
+                if (s[i] == t[j]) {
+                    ++i;
+                }
+                ++j;
             }
-            map[word] = x;
-            res = max(res, x);
+            return i == m;
+        };
+        for (int i = 0; i < n; ++i) {
+            f[i] = 1;
+            auto w = words[i];
+            for (int j : g[w.size() - 1]) {
+                if (check(words[j], w)) {
+                    f[i] = max(f[i], f[j] + 1);
+                    ans = max(ans, f[i]);
+                }
+            }
+            g[w.size()].push_back(i);
         }
-        return res;
+        return ans;
+    }
+};
+```
+
+```cpp
+class Solution {
+public:
+    int longestStrChain(vector<string>& words) {
+        sort(words.begin(), words.end(), [](auto& a, auto& b) { return a.size() < b.size(); });
+        int ans = 0;
+        unordered_map<string, int> d;
+        for (auto& s : words) {
+            int x = 1;
+            for (int i = 0; i < s.size(); ++i) {
+                string t = s.substr(0, i) + s.substr(i + 1);
+                x = max(x, d[t] + 1);
+            }
+            d[s] = x;
+            ans = max(ans, x);
+        }
+        return ans;
     }
 };
 ```
@@ -170,18 +219,32 @@ public:
 ```go
 func longestStrChain(words []string) int {
 	sort.Slice(words, func(i, j int) bool { return len(words[i]) < len(words[j]) })
-	res := 0
-	mp := make(map[string]int)
-	for _, word := range words {
-		x := 1
-		for i := 0; i < len(word); i++ {
-			pre := word[0:i] + word[i+1:len(word)]
-			x = max(x, mp[pre]+1)
+	n := len(words)
+	f := make([]int, n)
+	g := [17][]int{}
+	ans := 1
+	check := func(s, t string) bool {
+		m, n := len(s), len(t)
+		i, j := 0, 0
+		for i < m && j < n {
+			if s[i] == t[j] {
+				i++
+			}
+			j++
 		}
-		mp[word] = x
-		res = max(res, x)
+		return i == m
 	}
-	return res
+	for i, w := range words {
+		f[i] = 1
+		for _, j := range g[len(w)-1] {
+			if check(words[j], w) {
+				f[i] = max(f[i], f[j]+1)
+				ans = max(ans, f[i])
+			}
+		}
+		g[len(w)] = append(g[len(w)], i)
+	}
+	return ans
 }
 
 func max(a, b int) int {
@@ -189,6 +252,84 @@ func max(a, b int) int {
 		return a
 	}
 	return b
+}
+```
+
+```go
+func longestStrChain(words []string) (ans int) {
+	sort.Slice(words, func(i, j int) bool { return len(words[i]) < len(words[j]) })
+	d := map[string]int{}
+	for _, s := range words {
+		x := 1
+		for i := 0; i < len(s); i++ {
+			t := s[:i] + s[i+1:]
+			x = max(x, d[t]+1)
+		}
+		d[s] = x
+		ans = max(ans, x)
+	}
+	return
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+```
+
+### **TypeScript**
+
+```ts
+function longestStrChain(words: string[]): number {
+    words.sort((a, b) => a.length - b.length);
+    let ans = 1;
+    const n = words.length;
+    const f: number[] = new Array(n).fill(1);
+    const g: number[][] = new Array(17).fill(0).map(() => []);
+    const check = (s: string, t: string): boolean => {
+        const m = s.length;
+        const n = t.length;
+        let i = 0;
+        let j = 0;
+        while (i < m && j < n) {
+            if (s[i] === t[j]) {
+                ++i;
+            }
+            ++j;
+        }
+        return i === m;
+    };
+    for (let i = 0; i < n; ++i) {
+        const w = words[i];
+        for (const j of g[w.length - 1]) {
+            if (check(words[j], w)) {
+                f[i] = Math.max(f[i], f[j] + 1);
+                ans = Math.max(ans, f[i]);
+            }
+        }
+        g[w.length].push(i);
+    }
+    return ans;
+}
+```
+
+```ts
+function longestStrChain(words: string[]): number {
+    words.sort((a, b) => a.length - b.length);
+    let ans = 0;
+    const d: Map<string, number> = new Map();
+    for (const s of words) {
+        let x = 1;
+        for (let i = 0; i < s.length; ++i) {
+            const t = s.slice(0, i) + s.slice(i + 1);
+            x = Math.max(x, (d.get(t) || 0) + 1);
+        }
+        d.set(s, x);
+        ans = Math.max(ans, x);
+    }
+    return ans;
 }
 ```
 

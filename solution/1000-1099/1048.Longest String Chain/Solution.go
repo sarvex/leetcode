@@ -1,17 +1,16 @@
-func longestStrChain(words []string) int {
+func longestStrChain(words []string) (ans int) {
 	sort.Slice(words, func(i, j int) bool { return len(words[i]) < len(words[j]) })
-	res := 0
-	mp := make(map[string]int)
-	for _, word := range words {
+	d := map[string]int{}
+	for _, s := range words {
 		x := 1
-		for i := 0; i < len(word); i++ {
-			pre := word[0:i] + word[i+1:len(word)]
-			x = max(x, mp[pre]+1)
+		for i := 0; i < len(s); i++ {
+			t := s[:i] + s[i+1:]
+			x = max(x, d[t]+1)
 		}
-		mp[word] = x
-		res = max(res, x)
+		d[s] = x
+		ans = max(ans, x)
 	}
-	return res
+	return
 }
 
 func max(a, b int) int {
