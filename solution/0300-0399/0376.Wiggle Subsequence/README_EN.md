@@ -62,13 +62,32 @@ Dynamic programming.
 ```python
 class Solution:
     def wiggleMaxLength(self, nums: List[int]) -> int:
-        up = down = 1
-        for i in range(1, len(nums)):
-            if nums[i] > nums[i - 1]:
-                up = max(up, down + 1)
-            elif nums[i] < nums[i - 1]:
-                down = max(down, up + 1)
-        return max(up, down)
+        n = len(nums)
+        f = [[1] * 2 for _ in range(n)]
+        ans = 1
+        for i in range(1, n):
+            for j in range(i):
+                d = nums[i] - nums[j]
+                if d == 0:
+                    continue
+                if d < 0:
+                    f[i][0] = max(f[i][0], f[j][1] + 1)
+                if d > 0:
+                    f[i][1] = max(f[i][1], f[j][0] + 1)
+            ans = max(ans, *f[i])
+        return ans
+```
+
+```python
+class Solution:
+    def wiggleMaxLength(self, nums: List[int]) -> int:
+        f = g = 1
+        for a, b in pairwise(nums):
+            if a < b:
+                f = max(f, g + 1)
+            if a > b:
+                g = max(g, f + 1)
+        return max(f, g)
 ```
 
 ### **Java**
@@ -76,16 +95,151 @@ class Solution:
 ```java
 class Solution {
     public int wiggleMaxLength(int[] nums) {
-        int up = 1, down = 1;
+        int n = nums.length;
+        int[][] f = new int[n][2];
+        int ans = 1;
+        f[0][0] = 1;
+        f[0][1] = 1;
+        for (int i = 1; i < n; ++i) {
+            for (int j = 0; j < i; ++j) {
+                int d = nums[i] - nums[j];
+                if (d == 0) {
+                    continue;
+                }
+                if (d < 0) {
+                    f[i][0] = Math.max(f[i][0], f[j][1] + 1);
+                }
+                if (d > 0) {
+                    f[i][1] = Math.max(f[i][1], f[j][0] + 1);
+                }
+            }
+            ans = Math.max(ans, Math.max(f[i][0], f[i][1]));
+        }
+        return ans;
+    }
+}
+```
+
+```java
+class Solution {
+    public int wiggleMaxLength(int[] nums) {
+        int f = 1, g = 1;
         for (int i = 1; i < nums.length; ++i) {
-            if (nums[i] > nums[i - 1]) {
-                up = Math.max(up, down + 1);
-            } else if (nums[i] < nums[i - 1]) {
-                down = Math.max(down, up + 1);
+            int d = nums[i] - nums[i - 1];
+            if (d < 0) {
+                f = Math.max(f, g + 1);
+            }
+            if (d > 0) {
+                g = Math.max(g, f + 1);
             }
         }
-        return Math.max(up, down);
+        return Math.max(f, g);
     }
+}
+```
+
+### **C++**
+
+```cpp
+class Solution {
+public:
+    int wiggleMaxLength(vector<int>& nums) {
+        int n = nums.size();
+        int f[n][2];
+        memset(f, 0, sizeof(f));
+        int ans = 1;
+        f[0][0] = 1;
+        f[0][1] = 1;
+        for (int i = 1; i < n; ++i) {
+            for (int j = 0; j < i; ++j) {
+                int d = nums[i] - nums[j];
+                if (d == 0) {
+                    continue;
+                }
+                if (d < 0) {
+                    f[i][0] = max(f[i][0], f[j][1] + 1);
+                }
+                if (d > 0) {
+                    f[i][1] = max(f[i][1], f[j][0] + 1);
+                }
+            }
+            ans = max({ans, f[i][0], f[i][1]});
+        }
+        return ans;
+    }
+};
+```
+
+```cpp
+class Solution {
+public:
+    int wiggleMaxLength(vector<int>& nums) {
+        int f = 1, g = 1;
+        for (int i = 1; i < nums.size(); ++i) {
+            int d = nums[i] - nums[i - 1];
+            if (d < 0) {
+                f = max(f, g + 1);
+            }
+            if (d > 0) {
+                g = max(g, f + 1);
+            }
+        }
+        return max(f, g);
+    }
+};
+```
+
+### **Go**
+
+```go
+func wiggleMaxLength(nums []int) int {
+	n := len(nums)
+	f := make([][2]int, n)
+	f[0][0], f[0][1] = 1, 1
+	ans := 1
+	for i := 1; i < n; i++ {
+		for j := 0; j < i; j++ {
+			d := nums[i] - nums[j]
+			if d < 0 {
+				f[i][0] = max(f[i][0], f[j][1]+1)
+			}
+			if d > 0 {
+				f[i][1] = max(f[i][1], f[j][0]+1)
+			}
+		}
+		ans = max(ans, max(f[i][0], f[i][1]))
+	}
+	return ans
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+```
+
+```go
+func wiggleMaxLength(nums []int) int {
+	f, g := 1, 1
+	for i, x := range nums[1:] {
+		d := x - nums[i]
+		if d < 0 {
+			f = max(f, g+1)
+		}
+		if d > 0 {
+			g = max(g, f+1)
+		}
+	}
+	return max(f, g)
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
 ```
 
@@ -105,48 +259,6 @@ function wiggleMaxLength(nums: number[]): number {
         }
     }
     return Math.max(up, down);
-}
-```
-
-### **C++**
-
-```cpp
-class Solution {
-public:
-    int wiggleMaxLength(vector<int>& nums) {
-        int up = 1, down = 1;
-        for (int i = 1; i < nums.size(); ++i) {
-            if (nums[i] > nums[i - 1]) {
-                up = max(up, down + 1);
-            } else if (nums[i] < nums[i - 1]) {
-                down = max(down, up + 1);
-            }
-        }
-        return max(up, down);
-    }
-};
-```
-
-### **Go**
-
-```go
-func wiggleMaxLength(nums []int) int {
-	up, down := 1, 1
-	for i := 1; i < len(nums); i++ {
-		if nums[i] > nums[i-1] {
-			up = max(up, down+1)
-		} else if nums[i] < nums[i-1] {
-			down = max(down, up+1)
-		}
-	}
-	return max(up, down)
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
 }
 ```
 

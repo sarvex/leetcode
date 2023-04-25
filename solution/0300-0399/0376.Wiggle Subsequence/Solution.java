@@ -1,13 +1,15 @@
 class Solution {
     public int wiggleMaxLength(int[] nums) {
-        int up = 1, down = 1;
+        int f = 1, g = 1;
         for (int i = 1; i < nums.length; ++i) {
-            if (nums[i] > nums[i - 1]) {
-                up = Math.max(up, down + 1);
-            } else if (nums[i] < nums[i - 1]) {
-                down = Math.max(down, up + 1);
+            int d = nums[i] - nums[i - 1];
+            if (d < 0) {
+                f = Math.max(f, g + 1);
+            }
+            if (d > 0) {
+                g = Math.max(g, f + 1);
             }
         }
-        return Math.max(up, down);
+        return Math.max(f, g);
     }
 }
