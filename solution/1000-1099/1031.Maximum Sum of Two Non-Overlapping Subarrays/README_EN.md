@@ -47,6 +47,20 @@
 
 ## Solutions
 
+**Approach 1: Prefix Sum + Enumeration**
+
+First, we preprocess the prefix sum array $s$ of the array `nums`, where $s[i]$ indicates the sum of the first $i$ elements in `nums`.
+
+Then, we enumerate in two cases:
+
+Suppose $firstLen$ elements of the subarray are on the left side of the $secondLen$ elements of the subarray, then we can enumerate the left endpoint $i$ of the $secondLen$ elements of the subarray, use the variable $t$ to maintain the maximum sum of the left $firstLen$ elements of the subarray, then the current maximum sum is $t + s[i + secondLen] - s[i]$. Where $s[i + secondLen] - s[i]$ represents the sum of the $secondLen$ elements of the subarray. After enumerating all $i$, we get the maximum sum of the first case.
+
+Suppose the $secondLen$ elements of the subarray are on the left side of the $firstLen$ elements of the subarray, then we can enumerate the left endpoint $i$ of the $firstLen$ elements of the subarray, use the variable $t$ to maintain the maximum sum of the left $secondLen$ elements of the subarray, then the current maximum sum is $t + s[i + firstLen] - s[i]$. Where $s[i + firstLen] - s[i]$ represents the sum of the $firstLen$ elements of the subarray. After enumerating all $i$, we get the maximum sum of the second case.
+
+Take the maximum value of the two cases as the answer.
+
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array `nums`.
+
 <!-- tabs:start -->
 
 ### **Python3**
@@ -145,6 +159,32 @@ func max(a, b int) int {
 		return a
 	}
 	return b
+}
+```
+
+### **TypeScript**
+
+```ts
+function maxSumTwoNoOverlap(
+    nums: number[],
+    firstLen: number,
+    secondLen: number,
+): number {
+    const n = nums.length;
+    const s: number[] = new Array(n + 1).fill(0);
+    for (let i = 0; i < n; ++i) {
+        s[i + 1] = s[i] + nums[i];
+    }
+    let ans = 0;
+    for (let i = firstLen, t = 0; i + secondLen - 1 < n; ++i) {
+        t = Math.max(t, s[i] - s[i - firstLen]);
+        ans = Math.max(ans, t + s[i + secondLen] - s[i]);
+    }
+    for (let i = secondLen, t = 0; i + firstLen - 1 < n; ++i) {
+        t = Math.max(t, s[i] - s[i - secondLen]);
+        ans = Math.max(ans, t + s[i + firstLen] - s[i]);
+    }
+    return ans;
 }
 ```
 

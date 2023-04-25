@@ -59,11 +59,11 @@
 
 接下来，我们分两种情况枚举：
 
-假设 $firstLen$ 个元素的子数组在 $secondLen$ 个元素的子数组的左边，那么我们可以枚举 $secondLen$ 个元素的子数组的左端点 $i$，用变量 $t$ 维护左边 $firstLen$ 个元素的子数组的最大和，那么答案就是 $t + s[i + secondLen] - s[i]$。枚举完所有的 $i$，就可以得到候选答案。
+假设 $firstLen$ 个元素的子数组在 $secondLen$ 个元素的子数组的左边，那么我们可以枚举 $secondLen$ 个元素的子数组的左端点 $i$，用变量 $t$ 维护左边 $firstLen$ 个元素的子数组的最大和，那么当前最大和就是 $t + s[i + secondLen] - s[i]$。其中 $s[i + secondLen] - s[i]$ 表示 $secondLen$ 个元素的子数组的和。枚举完所有的 $i$，就得到了第一种情况下的最大和。
 
-假设 $secondLen$ 个元素的子数组在 $firstLen$ 个元素的子数组的左边，那么我们可以枚举 $firstLen$ 个元素的子数组的左端点 $i$，用变量 $t$ 维护左边 $secondLen$ 个元素的子数组的最大和，那么答案就是 $t + s[i + firstLen] - s[i]$。枚举完所有的 $i$，就可以得到候选答案。
+假设 $secondLen$ 个元素的子数组在 $firstLen$ 个元素的子数组的左边，那么我们可以枚举 $firstLen$ 个元素的子数组的左端点 $i$，用变量 $t$ 维护左边 $secondLen$ 个元素的子数组的最大和，那么当前最大和就是 $t + s[i + firstLen] - s[i]$。其中 $s[i + firstLen] - s[i]$ 表示 $firstLen$ 个元素的子数组的和。枚举完所有的 $i$，就得到了第二种情况下的最大和。
 
-最后，我们取两种情况下的候选答案的最大值即可。
+取两种情况下的最大值作为答案即可。
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 `nums` 的长度。
 
@@ -169,6 +169,32 @@ func max(a, b int) int {
 		return a
 	}
 	return b
+}
+```
+
+### **TypeScript**
+
+```ts
+function maxSumTwoNoOverlap(
+    nums: number[],
+    firstLen: number,
+    secondLen: number,
+): number {
+    const n = nums.length;
+    const s: number[] = new Array(n + 1).fill(0);
+    for (let i = 0; i < n; ++i) {
+        s[i + 1] = s[i] + nums[i];
+    }
+    let ans = 0;
+    for (let i = firstLen, t = 0; i + secondLen - 1 < n; ++i) {
+        t = Math.max(t, s[i] - s[i - firstLen]);
+        ans = Math.max(ans, t + s[i + secondLen] - s[i]);
+    }
+    for (let i = secondLen, t = 0; i + firstLen - 1 < n; ++i) {
+        t = Math.max(t, s[i] - s[i - secondLen]);
+        ans = Math.max(ans, t + s[i + firstLen] - s[i]);
+    }
+    return ans;
 }
 ```
 
