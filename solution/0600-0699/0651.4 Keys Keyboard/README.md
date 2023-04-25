@@ -53,14 +53,33 @@ A, A, A, Ctrl A, Ctrl C, Ctrl V, Ctrl V
 
 **方法一：动态规划**
 
-定义 $dp[i]$ 表示前 $i$ 个按键可以显示的最大个数。
+我们定义 $f[i][k]$ 表示前 $n+1$ 次按键后，且最后一次为第 $k$ 种按键时，屏幕上最多可以显示的 A 的个数。其中 $k$ 的取值为 $0, 1, 2, 3$，分别表示最后一次按键为 A、Ctrl+A、Ctrl+C、Ctrl+V。初始时 $f[0][0]=1$，表示第一次按键为 A，屏幕上显示一个 A。答案为 $\max(f[n-1][0], f[n-1][3])$。
 
-我们可以发现，要显示最多的 `A`，要么一直按 `A`，要么以 `Ctrl-V` 结束。
+考虑 $f[i][k]$，其中 $i \in [1, n-1]$：
 
--   一直按 `A` 的情况，满足 $dp[i] = i$。
--   以 `Ctrl-V` 结束的情况，我们枚举对应的 `Ctrl-A` 的位置 $j$，可以得到 $dp[i]=max(dp[i], dp[j-1] \times (i - j))$。
+-   当 $k=0$ 时，表示最后一次按键为 A，那么上一次按键可以为 A、Ctrl+V 中的任意一种，因此 $f[i][0]=\max(f[i-1][0], f[i-1][3]) + 1$；
+-   当 $k=1$ 时，表示最后一次按键为 Ctrl+A，那么上一次按键可以为 A、Ctrl+V 中的任意一种，因此 $f[i][1]=\max(f[i-1][0], f[i-1][3])$；
+-   当 $k=2$ 时，表示最后一次按键为 Ctrl+C，那么上一次按键只能为 Ctrl+A，因此 $f[i][2]=f[i-1][1]$；
+-   当 $k=3$ 时，表示最后一次按键为 Ctrl+V，那么我们需要枚举上一次按 Ctrl+C 的位置 $j$，即 $f[i][3]=\max_{0 \leq j \leq i-1} f[j][2] \times (i-k+1)$。
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。
+最终答案为 $\max(f[n-1][0], f[n-1][3])$。
+
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 为按键次数。
+
+**方法二：动态规划（优化）**
+
+我们可以优化方法一中的状态定义。
+
+我们定义 $f[i]$ 表示前 $i$ 次按键后，且最后一次按键为 A 或者 Ctrl+V 时，屏幕上最多可以显示的 A 的个数。
+
+考虑 $f[i]$，其中 $i \in [1, n]$：
+
+-   当最后一次按键为 A 时，有 $f[i]=f[i-1]+1$。
+-   当最后一次按键为 Ctrl+V 时，我们需要枚举上一次按 Ctrl+C 的位置 $j$，即 $f[i]=\max_{0 \leq j \leq i-1} f[j] \times (i-j-1)$。
+
+最终答案为 $f[n]$。
+
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 为按键次数。
 
 <!-- tabs:start -->
 
@@ -71,11 +90,26 @@ A, A, A, Ctrl A, Ctrl C, Ctrl V, Ctrl V
 ```python
 class Solution:
     def maxA(self, n: int) -> int:
-        dp = list(range(n + 1))
-        for i in range(3, n + 1):
-            for j in range(2, i - 1):
-                dp[i] = max(dp[i], dp[j - 1] * (i - j))
-        return dp[-1]
+        f = [[0] * 4 for _ in range(n)]
+        f[0][0] = 1
+        for i in range(1, n):
+            f[i][0] = max(f[i - 1][0], f[i - 1][3]) + 1
+            f[i][1] = max(f[i - 1][0], f[i - 1][3])
+            f[i][2] = f[i - 1][1]
+            for j in range(i):
+                f[i][3] = max(f[i][3], f[j][2] * (i - j + 1))
+        return max(f[-1][0], f[-1][3])
+```
+
+```python
+class Solution:
+    def maxA(self, n: int) -> int:
+        f = [0] * (n + 1)
+        for i in range(1, n + 1):
+            f[i] = f[i - 1] + 1
+            for j in range(2, i):
+                f[i] = max(f[i], f[j - 2] * (i - j + 1))
+        return f[n]
 ```
 
 ### **Java**
@@ -85,16 +119,32 @@ class Solution:
 ```java
 class Solution {
     public int maxA(int n) {
-        int[] dp = new int[n + 1];
-        for (int i = 0; i < n + 1; ++i) {
-            dp[i] = i;
-        }
-        for (int i = 3; i < n + 1; ++i) {
-            for (int j = 2; j < i - 1; ++j) {
-                dp[i] = Math.max(dp[i], dp[j - 1] * (i - j));
+        int[][] f = new int[n][4];
+        f[0][0] = 1;
+        for (int i = 1; i < n; ++i) {
+            f[i][0] = Math.max(f[i - 1][0], f[i - 1][3]) + 1;
+            f[i][1] = Math.max(f[i - 1][0], f[i - 1][3]);
+            f[i][2] = f[i - 1][1];
+            for (int j = 0; j < i; ++j) {
+                f[i][3] = Math.max(f[i][3], f[j][2] * (i - j + 1));
             }
         }
-        return dp[n];
+        return Math.max(f[n - 1][0], f[n - 1][3]);
+    }
+}
+```
+
+```java
+class Solution {
+    public int maxA(int n) {
+        int[] f = new int[n + 1];
+        for (int i = 1; i <= n; ++i) {
+            f[i] = f[i - 1] + 1;
+            for (int j = 2; j < i; ++j) {
+                f[i] = Math.max(f[i], f[j - 2] * (i - j + 1));
+            }
+        }
+        return f[n];
     }
 }
 ```
@@ -105,14 +155,35 @@ class Solution {
 class Solution {
 public:
     int maxA(int n) {
-        vector<int> dp(n + 1);
-        iota(dp.begin(), dp.end(), 0);
-        for (int i = 3; i < n + 1; ++i) {
-            for (int j = 2; j < i - 1; ++j) {
-                dp[i] = max(dp[i], dp[j - 1] * (i - j));
+        int f[n][4];
+        memset(f, 0, sizeof(f));
+        f[0][0] = 1;
+        for (int i = 1; i < n; ++i) {
+            f[i][0] = max(f[i - 1][0], f[i - 1][3]) + 1;
+            f[i][1] = max(f[i - 1][0], f[i - 1][3]);
+            f[i][2] = f[i - 1][1];
+            for (int j = 0; j < i; ++j) {
+                f[i][3] = max(f[i][3], f[j][2] * (i - j + 1));
             }
         }
-        return dp[n];
+        return max(f[n - 1][0], f[n - 1][3]);
+    }
+};
+```
+
+```cpp
+class Solution {
+public:
+    int maxA(int n) {
+        int f[n + 1];
+        memset(f, 0, sizeof(f));
+        for (int i = 1; i <= n; ++i) {
+            f[i] = f[i - 1] + 1;
+            for (int j = 2; j < i; ++j) {
+                f[i] = max(f[i], f[j - 2] * (i - j + 1));
+            }
+        }
+        return f[n];
     }
 };
 ```
@@ -121,16 +192,37 @@ public:
 
 ```go
 func maxA(n int) int {
-	dp := make([]int, n+1)
-	for i := range dp {
-		dp[i] = i
-	}
-	for i := 3; i < n+1; i++ {
-		for j := 2; j < i-1; j++ {
-			dp[i] = max(dp[i], dp[j-1]*(i-j))
+	f := make([][4]int, n)
+	f[0][0] = 1
+	for i := 1; i < n; i++ {
+		f[i][0] = max(f[i-1][0], f[i-1][3]) + 1
+		f[i][1] = max(f[i-1][0], f[i-1][3])
+		f[i][2] = f[i-1][1]
+		for j := 0; j < i; j++ {
+			f[i][3] = max(f[i][3], f[j][2]*(i-j+1))
 		}
 	}
-	return dp[n]
+	return max(max(f[n-1][0], f[n-1][1]), max(f[n-1][2], f[n-1][3]))
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+```
+
+```go
+func maxA(n int) int {
+	f := make([]int, n+1)
+	for i := 1; i <= n; i++ {
+		f[i] = f[i-1] + 1
+		for j := 2; j < i; j++ {
+			f[i] = max(f[i], f[j-2]*(i-j+1))
+		}
+	}
+	return f[n]
 }
 
 func max(a, b int) int {

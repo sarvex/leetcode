@@ -50,11 +50,26 @@ A, A, A, Ctrl A, Ctrl C, Ctrl V, Ctrl V
 ```python
 class Solution:
     def maxA(self, n: int) -> int:
-        dp = list(range(n + 1))
-        for i in range(3, n + 1):
-            for j in range(2, i - 1):
-                dp[i] = max(dp[i], dp[j - 1] * (i - j))
-        return dp[-1]
+        f = [[0] * 4 for _ in range(n)]
+        f[0][0] = 1
+        for i in range(1, n):
+            f[i][0] = max(f[i - 1][0], f[i - 1][3]) + 1
+            f[i][1] = max(f[i - 1][0], f[i - 1][3])
+            f[i][2] = f[i - 1][1]
+            for j in range(i):
+                f[i][3] = max(f[i][3], f[j][2] * (i - j + 1))
+        return max(f[-1][0], f[-1][3])
+```
+
+```python
+class Solution:
+    def maxA(self, n: int) -> int:
+        f = [0] * (n + 1)
+        for i in range(1, n + 1):
+            f[i] = f[i - 1] + 1
+            for j in range(2, i):
+                f[i] = max(f[i], f[j - 2] * (i - j + 1))
+        return f[n]
 ```
 
 ### **Java**
@@ -62,16 +77,32 @@ class Solution:
 ```java
 class Solution {
     public int maxA(int n) {
-        int[] dp = new int[n + 1];
-        for (int i = 0; i < n + 1; ++i) {
-            dp[i] = i;
-        }
-        for (int i = 3; i < n + 1; ++i) {
-            for (int j = 2; j < i - 1; ++j) {
-                dp[i] = Math.max(dp[i], dp[j - 1] * (i - j));
+        int[][] f = new int[n][4];
+        f[0][0] = 1;
+        for (int i = 1; i < n; ++i) {
+            f[i][0] = Math.max(f[i - 1][0], f[i - 1][3]) + 1;
+            f[i][1] = Math.max(f[i - 1][0], f[i - 1][3]);
+            f[i][2] = f[i - 1][1];
+            for (int j = 0; j < i; ++j) {
+                f[i][3] = Math.max(f[i][3], f[j][2] * (i - j + 1));
             }
         }
-        return dp[n];
+        return Math.max(f[n - 1][0], f[n - 1][3]);
+    }
+}
+```
+
+```java
+class Solution {
+    public int maxA(int n) {
+        int[] f = new int[n + 1];
+        for (int i = 1; i <= n; ++i) {
+            f[i] = f[i - 1] + 1;
+            for (int j = 2; j < i; ++j) {
+                f[i] = Math.max(f[i], f[j - 2] * (i - j + 1));
+            }
+        }
+        return f[n];
     }
 }
 ```
@@ -82,14 +113,35 @@ class Solution {
 class Solution {
 public:
     int maxA(int n) {
-        vector<int> dp(n + 1);
-        iota(dp.begin(), dp.end(), 0);
-        for (int i = 3; i < n + 1; ++i) {
-            for (int j = 2; j < i - 1; ++j) {
-                dp[i] = max(dp[i], dp[j - 1] * (i - j));
+        int f[n][4];
+        memset(f, 0, sizeof(f));
+        f[0][0] = 1;
+        for (int i = 1; i < n; ++i) {
+            f[i][0] = max(f[i - 1][0], f[i - 1][3]) + 1;
+            f[i][1] = max(f[i - 1][0], f[i - 1][3]);
+            f[i][2] = f[i - 1][1];
+            for (int j = 0; j < i; ++j) {
+                f[i][3] = max(f[i][3], f[j][2] * (i - j + 1));
             }
         }
-        return dp[n];
+        return max(f[n - 1][0], f[n - 1][3]);
+    }
+};
+```
+
+```cpp
+class Solution {
+public:
+    int maxA(int n) {
+        int f[n + 1];
+        memset(f, 0, sizeof(f));
+        for (int i = 1; i <= n; ++i) {
+            f[i] = f[i - 1] + 1;
+            for (int j = 2; j < i; ++j) {
+                f[i] = max(f[i], f[j - 2] * (i - j + 1));
+            }
+        }
+        return f[n];
     }
 };
 ```
@@ -98,16 +150,37 @@ public:
 
 ```go
 func maxA(n int) int {
-	dp := make([]int, n+1)
-	for i := range dp {
-		dp[i] = i
-	}
-	for i := 3; i < n+1; i++ {
-		for j := 2; j < i-1; j++ {
-			dp[i] = max(dp[i], dp[j-1]*(i-j))
+	f := make([][4]int, n)
+	f[0][0] = 1
+	for i := 1; i < n; i++ {
+		f[i][0] = max(f[i-1][0], f[i-1][3]) + 1
+		f[i][1] = max(f[i-1][0], f[i-1][3])
+		f[i][2] = f[i-1][1]
+		for j := 0; j < i; j++ {
+			f[i][3] = max(f[i][3], f[j][2]*(i-j+1))
 		}
 	}
-	return dp[n]
+	return max(max(f[n-1][0], f[n-1][1]), max(f[n-1][2], f[n-1][3]))
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+```
+
+```go
+func maxA(n int) int {
+	f := make([]int, n+1)
+	for i := 1; i <= n; i++ {
+		f[i] = f[i-1] + 1
+		for j := 2; j < i; j++ {
+			f[i] = max(f[i], f[j-2]*(i-j+1))
+		}
+	}
+	return f[n]
 }
 
 func max(a, b int) int {
