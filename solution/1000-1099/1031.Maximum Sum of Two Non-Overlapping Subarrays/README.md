@@ -55,7 +55,7 @@
 
 **方法一：前缀和 + 枚举**
 
-我们先预处理得到数组 `nums` 的前缀和数组 $s$，其中 $s[i]$ 表示 $nums$ 中前 $i$ 个元素的和。
+我们先预处理得到数组 $nums$ 的前缀和数组 $s$，其中 $s[i]$ 表示 $nums$ 中前 $i$ 个元素的和。
 
 接下来，我们分两种情况枚举：
 
@@ -65,7 +65,9 @@
 
 取两种情况下的最大值作为答案即可。
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 `nums` 的长度。
+我们也可以将上面两个情况抽取成一个函数 $f(a, b)$，那么答案就是 $\max(f(firstLen, secondLen), f(secondLen, firstLen))$。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -93,6 +95,23 @@ class Solution:
         return ans
 ```
 
+```python
+class Solution:
+    def maxSumTwoNoOverlap(self, nums: List[int], firstLen: int, secondLen: int) -> int:
+        def f(a: int, b: int) -> int:
+            ans = t = 0
+            i = a
+            while i + b - 1 < n:
+                t = max(t, s[i] - s[i - a])
+                ans = max(ans, t + s[i + b] - s[i])
+                i += 1
+            return ans
+
+        n = len(nums)
+        s = list(accumulate(nums, initial=0))
+        return max(f(firstLen, secondLen), f(secondLen, firstLen))
+```
+
 ### **Java**
 
 <!-- 这里可写当前语言的特殊实现逻辑 -->
@@ -113,6 +132,31 @@ class Solution {
         for (int i = secondLen, t = 0; i + firstLen - 1 < n; ++i) {
             t = Math.max(t, s[i] - s[i - secondLen]);
             ans = Math.max(ans, t + s[i + firstLen] - s[i]);
+        }
+        return ans;
+    }
+}
+```
+
+```java
+class Solution {
+    private int[] s;
+    private int n;
+
+    public int maxSumTwoNoOverlap(int[] nums, int firstLen, int secondLen) {
+        n = nums.length;
+        s = new int[n + 1];
+        for (int i = 0; i < n; ++i) {
+            s[i + 1] = s[i] + nums[i];
+        }
+        return Math.max(f(firstLen, secondLen), f(secondLen, firstLen));
+    }
+
+    private int f(int a, int b) {
+        int ans = 0;
+        for (int i = a, t = 0; i + b - 1 < n; ++i) {
+            t = Math.max(t, s[i] - s[i - a]);
+            ans = Math.max(ans, t + s[i + b] - s[i]);
         }
         return ans;
     }
@@ -144,6 +188,28 @@ public:
 };
 ```
 
+```cpp
+class Solution {
+public:
+    int maxSumTwoNoOverlap(vector<int>& nums, int firstLen, int secondLen) {
+        int n = nums.size();
+        vector<int> s(n + 1);
+        for (int i = 0; i < n; ++i) {
+            s[i + 1] = s[i] + nums[i];
+        }
+        auto f = [&](int a, int b) -> int {
+            int ans = 0;
+            for (int i = a, t = 0; i + b - 1 < n; ++i) {
+                t = max(t, s[i] - s[i - a]);
+                ans = max(ans, t + s[i + b] - s[i]);
+            }
+            return ans;
+        };
+        return max(f(firstLen, secondLen), f(secondLen, firstLen));
+    }
+};
+```
+
 ### **Go**
 
 ```go
@@ -162,6 +228,31 @@ func maxSumTwoNoOverlap(nums []int, firstLen int, secondLen int) (ans int) {
 		ans = max(ans, t+s[i+firstLen]-s[i])
 	}
 	return
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+```
+
+```go
+func maxSumTwoNoOverlap(nums []int, firstLen int, secondLen int) (ans int) {
+	n := len(nums)
+	s := make([]int, n+1)
+	for i, x := range nums {
+		s[i+1] = s[i] + x
+	}
+	f := func(a, b int) (ans int) {
+		for i, t := a, 0; i+b-1 < n; i++ {
+			t = max(t, s[i]-s[i-a])
+			ans = max(ans, t+s[i+b]-s[i])
+		}
+		return
+	}
+	return max(f(firstLen, secondLen), f(secondLen, firstLen))
 }
 
 func max(a, b int) int {
@@ -195,6 +286,29 @@ function maxSumTwoNoOverlap(
         ans = Math.max(ans, t + s[i + firstLen] - s[i]);
     }
     return ans;
+}
+```
+
+```ts
+function maxSumTwoNoOverlap(
+    nums: number[],
+    firstLen: number,
+    secondLen: number,
+): number {
+    const n = nums.length;
+    const s: number[] = new Array(n + 1).fill(0);
+    for (let i = 0; i < n; ++i) {
+        s[i + 1] = s[i] + nums[i];
+    }
+    const f = (a: number, b: number): number => {
+        let ans = 0;
+        for (let i = a, t = 0; i + b - 1 < n; ++i) {
+            t = Math.max(t, s[i] - s[i - a]);
+            ans = Math.max(ans, t + s[i + b] - s[i]);
+        }
+        return ans;
+    };
+    return Math.max(f(firstLen, secondLen), f(secondLen, firstLen));
 }
 ```
 
