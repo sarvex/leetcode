@@ -53,6 +53,18 @@
 
 ## Solutions
 
+**Solution 1: Sorting + Hash Table**
+
+According to the description of the problem, the words in the string chain must be sorted in order of increasing length. Therefore, we first sort the strings in the array `words` in ascending order by length. In the sorted array, if string $a$ is the predecessor of string $b$, then the length of string $a$ must be the length of string $b$ minus $1$.
+
+We can use the hash table $d$ to store the longest string chain length of each string in the sorted array.
+
+Next, traverse each string $s$ in the array `words` and calculate all predecessor strings $t$. Each predecessor string $t$ is obtained by deleting one character from string $s$. If string $t$ exists in the hash table, then we can update $d[s]$ with $d[t] + 1$, that is, $d[s] = \max(d[s], d[t] + 1)$. Then we update the answer to the maximum value of all $d[s]$.
+
+After the traversal is over, return the answer.
+
+The time complexity is $(n \times (\log n + m^2))$, and the space complexity is $O(n)$. Where $n$ and $m$ are the length of the word array `words` and the maximum length of the word respectively. In this question, $n \leq 1000$, $m \leq 16$.
+
 <!-- tabs:start -->
 
 ### **Python3**

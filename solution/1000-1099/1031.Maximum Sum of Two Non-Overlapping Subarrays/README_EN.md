@@ -47,7 +47,7 @@
 
 ## Solutions
 
-**Approach 1: Prefix Sum + Enumeration**
+**Solution 1: Prefix Sum + Enumeration**
 
 First, we preprocess the prefix sum array $s$ of the array `nums`, where $s[i]$ indicates the sum of the first $i$ elements in `nums`.
 

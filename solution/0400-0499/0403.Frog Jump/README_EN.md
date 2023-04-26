@@ -39,13 +39,13 @@
 
 ## Solutions
 
-**Approach 1: Dynamic Programming**
+**Solution 1: Dynamic Programming**
 
 DP, use `dp[i][k]` to indicate whether `i` can be reached when the last jump was `k` units, and define the base case as `dp[0][0] = True` (starting point is at index 0).
 
 Because "the frog's last jump was `k` units, its next jump must be either `k - 1`, `k`, or `k + 1` units", so if any of `dp[j][k-1], dp[j][k], dp[j][k + 1]` is true, frog can jump from `j` to `i`.
 
-**Approach 2: Backtracking**
+**Solution 2: Backtracking**
 
 <!-- tabs:start -->
 
