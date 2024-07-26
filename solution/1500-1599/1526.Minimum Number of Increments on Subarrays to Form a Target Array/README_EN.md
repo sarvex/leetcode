@@ -1,10 +1,26 @@
+---
+comments: true
+difficulty: Hard
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1526.Minimum%20Number%20of%20Increments%20on%20Subarrays%20to%20Form%20a%20Target%20Array/README_EN.md
+rating: 1872
+source: Biweekly Contest 31 Q4
+tags:
+    - Stack
+    - Greedy
+    - Array
+    - Dynamic Programming
+    - Monotonic Stack
+---
+
+<!-- problem:start -->
+
 # [1526. Minimum Number of Increments on Subarrays to Form a Target Array](https://leetcode.com/problems/minimum-number-of-increments-on-subarrays-to-form-a-target-array)
 
 [中文文档](/solution/1500-1599/1526.Minimum%20Number%20of%20Increments%20on%20Subarrays%20to%20Form%20a%20Target%20Array/README.md)
 
-<!-- tags:Stack,Greedy,Array,Dynamic Programming,Monotonic Stack -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>You are given an integer array <code>target</code>. You have an integer array <code>initial</code> of the same size as <code>target</code> with all elements initially zeros.</p>
 
@@ -51,17 +67,39 @@
 	<li><code>1 &lt;= target[i] &lt;= 10<sup>5</sup></code></li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
 
-### Solution 1
+<!-- solution:start -->
+
+### Solution 1: Dynamic Programming
+
+We define $f[i]$ as the minimum number of operations required to obtain $target[0,..i]$, initially setting $f[0] = target[0]$.
+
+For $target[i]$, if $target[i] \leq target[i-1]$, then $f[i] = f[i-1]$; otherwise, $f[i] = f[i-1] + target[i] - target[i-1]$.
+
+The final answer is $f[n-1]$.
+
+We notice that $f[i]$ only depends on $f[i-1]$, so we can maintain the operation count using just one variable.
+
+The time complexity is $O(n)$, where $n$ is the length of the array $target$. The space complexity is $O(1)$.
+
+Similar problems:
+
+-   [3229. Minimum Operations to Make Array Equal to Target](https://github.com/doocs/leetcode/blob/main/solution/3200-3299/3229.Minimum%20Operations%20to%20Make%20Array%20Equal%20to%20Target/README_EN.md)
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
     def minNumberOperations(self, target: List[int]) -> int:
         return target[0] + sum(max(0, b - a) for a, b in pairwise(target))
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -76,6 +114,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 class Solution {
@@ -92,6 +132,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func minNumberOperations(target []int) int {
 	f := target[0]
@@ -103,6 +145,8 @@ func minNumberOperations(target []int) int {
 	return f
 }
 ```
+
+#### TypeScript
 
 ```ts
 function minNumberOperations(target: number[]): number {
@@ -118,4 +162,6 @@ function minNumberOperations(target: number[]): number {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

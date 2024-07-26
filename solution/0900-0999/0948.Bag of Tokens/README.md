@@ -1,12 +1,23 @@
+---
+comments: true
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0948.Bag%20of%20Tokens/README.md
+tags:
+    - 贪心
+    - 数组
+    - 双指针
+    - 排序
+---
+
+<!-- problem:start -->
+
 # [948. 令牌放置](https://leetcode.cn/problems/bag-of-tokens)
 
 [English Version](/solution/0900-0999/0948.Bag%20of%20Tokens/README_EN.md)
 
-<!-- tags:贪心,数组,双指针,排序 -->
-
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
 
 <p>你的初始 <strong>能量</strong> 为 <code>power</code>，初始 <strong>分数</strong> 为&nbsp;<code>0</code>，只有一包令牌以整数数组&nbsp;<code>tokens</code>&nbsp;给出。其中 <code>tokens[i]</code> 是第 <code>i</code> 个令牌的值（下标从 0 开始）。</p>
 
@@ -62,7 +73,11 @@
 	<li><code>0 &lt;= tokens[i],&nbsp;power &lt; 10<sup>4</sup></code></li>
 </ul>
 
+<!-- description:end -->
+
 ## 解法
+
+<!-- solution:start -->
 
 ### 方法一：贪心 + 排序 + 双指针
 
@@ -70,43 +85,45 @@
 
 因此，我们可以将令牌按照消耗能量的多少进行排序，然后使用双指针，一个指针从左向右遍历，一个指针从右向左遍历，每次遍历都尽可能地消耗能量得到分数，然后更新最大分数。如果当前能量不足以消耗当前令牌，那么我们就尝试使用分数来消耗当前令牌，如果分数不足以消耗当前令牌，那么我们就停止遍历。
 
-时间复杂度 $O(n\log n)$，空间复杂度 $O(n)$。其中 $n$ 为令牌的数量。
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是令牌的数量。
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
     def bagOfTokensScore(self, tokens: List[int], power: int) -> int:
         tokens.sort()
+        ans = score = 0
         i, j = 0, len(tokens) - 1
-        ans = t = 0
         while i <= j:
             if power >= tokens[i]:
                 power -= tokens[i]
-                i, t = i + 1, t + 1
-                ans = max(ans, t)
-            elif t:
+                score, i = score + 1, i + 1
+                ans = max(ans, score)
+            elif score:
                 power += tokens[j]
-                j, t = j - 1, t - 1
+                score, j = score - 1, j - 1
             else:
                 break
         return ans
 ```
 
+#### Java
+
 ```java
 class Solution {
     public int bagOfTokensScore(int[] tokens, int power) {
         Arrays.sort(tokens);
-        int i = 0, j = tokens.length - 1;
-        int ans = 0, t = 0;
-        while (i <= j) {
+        int ans = 0, score = 0;
+        for (int i = 0, j = tokens.length - 1; i <= j;) {
             if (power >= tokens[i]) {
                 power -= tokens[i++];
-                ++t;
-                ans = Math.max(ans, t);
-            } else if (t > 0) {
+                ans = Math.max(ans, ++score);
+            } else if (score > 0) {
                 power += tokens[j--];
-                --t;
+                --score;
             } else {
                 break;
             }
@@ -116,20 +133,21 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 class Solution {
 public:
     int bagOfTokensScore(vector<int>& tokens, int power) {
         sort(tokens.begin(), tokens.end());
-        int i = 0, j = tokens.size() - 1;
-        int ans = 0, t = 0;
-        while (i <= j) {
+        int ans = 0, score = 0;
+        for (int i = 0, j = tokens.size() - 1; i <= j;) {
             if (power >= tokens[i]) {
                 power -= tokens[i++];
-                ans = max(ans, ++t);
-            } else if (t) {
+                ans = max(ans, ++score);
+            } else if (score > 0) {
                 power += tokens[j--];
-                --t;
+                --score;
             } else {
                 break;
             }
@@ -139,27 +157,55 @@ public:
 };
 ```
 
+#### Go
+
 ```go
-func bagOfTokensScore(tokens []int, power int) int {
+func bagOfTokensScore(tokens []int, power int) (ans int) {
 	sort.Ints(tokens)
 	i, j := 0, len(tokens)-1
-	ans, t := 0, 0
+	score := 0
 	for i <= j {
 		if power >= tokens[i] {
 			power -= tokens[i]
-			i, t = i+1, t+1
-			ans = max(ans, t)
-		} else if t > 0 {
+			i++
+			score++
+			ans = max(ans, score)
+		} else if score > 0 {
 			power += tokens[j]
-			j, t = j-1, t-1
+			j--
+			score--
 		} else {
 			break
 		}
 	}
-	return ans
+	return
+}
+```
+
+#### TypeScript
+
+```ts
+function bagOfTokensScore(tokens: number[], power: number): number {
+    tokens.sort((a, b) => a - b);
+    let [i, j] = [0, tokens.length - 1];
+    let [ans, score] = [0, 0];
+    while (i <= j) {
+        if (power >= tokens[i]) {
+            power -= tokens[i++];
+            ans = Math.max(ans, ++score);
+        } else if (score) {
+            power += tokens[j--];
+            score--;
+        } else {
+            break;
+        }
+    }
+    return ans;
 }
 ```
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

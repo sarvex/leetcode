@@ -1,10 +1,19 @@
+---
+comments: true
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/lcci/05.07.Exchange/README.md
+---
+
+<!-- problem:start -->
+
 # [面试题 05.07. 配对交换](https://leetcode.cn/problems/exchange-lcci)
 
 [English Version](/lcci/05.07.Exchange/README_EN.md)
 
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
+
 <p>配对交换。编写程序，交换某个整数的奇数位和偶数位，尽量使用较少的指令（也就是说，位0与位1交换，位2与位3交换，以此类推）。</p>
 
 <p> <strong>示例1:</strong></p>
@@ -27,21 +36,29 @@
 <li><code>num</code>的范围在[0, 2^30 - 1]之间，不会发生整数溢出。</li>
 </ol>
 
+<!-- description:end -->
+
 ## 解法
+
+<!-- solution:start -->
 
 ### 方法一：位运算
 
-我们可以将 $\text{num}$ 与 $\text{0x55555555}$ 进行与运算，得到的结果是 $\text{num}$ 的偶数位，然后将其左移一位。再将 $\text{num}$ 与 $\text{0xaaaaaaaa}$ 进行与运算，得到的结果是 $\text{num}$ 的奇数位，然后将其右移一位。最后将两个结果进行或运算，即可得到答案。
+我们可以将 $\textit{num}$ 与 $\textit{0x55555555}$ 进行与运算，得到的结果是 $\textit{num}$ 的偶数位，然后将其左移一位。再将 $\textit{num}$ 与 $\textit{0xaaaaaaaa}$ 进行与运算，得到的结果是 $\textit{num}$ 的奇数位，然后将其右移一位。最后将两个结果进行或运算，即可得到答案。
 
 时间复杂度 $O(1)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
     def exchangeBits(self, num: int) -> int:
         return ((num & 0x55555555) << 1) | ((num & 0xAAAAAAAA) >> 1)
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -50,6 +67,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 class Solution {
@@ -60,17 +79,23 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func exchangeBits(num int) int {
 	return ((num & 0x55555555) << 1) | (num&0xaaaaaaaa)>>1
 }
 ```
 
+#### TypeScript
+
 ```ts
 function exchangeBits(num: number): number {
     return ((num & 0x55555555) << 1) | ((num & 0xaaaaaaaa) >>> 1);
 }
 ```
+
+#### Rust
 
 ```rust
 impl Solution {
@@ -80,6 +105,8 @@ impl Solution {
     }
 }
 ```
+
+#### Swift
 
 ```swift
 class Solution {
@@ -95,4 +122,6 @@ class Solution {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

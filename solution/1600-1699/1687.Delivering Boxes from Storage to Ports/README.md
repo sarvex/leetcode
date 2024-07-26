@@ -1,12 +1,28 @@
+---
+comments: true
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1687.Delivering%20Boxes%20from%20Storage%20to%20Ports/README.md
+rating: 2610
+source: 第 41 场双周赛 Q4
+tags:
+    - 线段树
+    - 队列
+    - 数组
+    - 动态规划
+    - 前缀和
+    - 单调队列
+    - 堆（优先队列）
+---
+
+<!-- problem:start -->
+
 # [1687. 从仓库到码头运输箱子](https://leetcode.cn/problems/delivering-boxes-from-storage-to-ports)
 
 [English Version](/solution/1600-1699/1687.Delivering%20Boxes%20from%20Storage%20to%20Ports/README_EN.md)
 
-<!-- tags:线段树,队列,数组,动态规划,前缀和,单调队列,堆（优先队列） -->
-
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
 
 <p>你有一辆货运卡车，你需要用这一辆车把一些箱子从仓库运送到码头。这辆卡车每次运输有&nbsp;<strong>箱子数目的限制</strong>&nbsp;和 <strong>总重量的限制</strong>&nbsp;。</p>
 
@@ -93,7 +109,11 @@
 	<li><code>1 &lt;= weights<sub>i</sub> &lt;= maxWeight</code></li>
 </ul>
 
+<!-- description:end -->
+
 ## 解法
+
+<!-- solution:start -->
 
 ### 方法一：动态规划 + 单调队列优化
 
@@ -109,16 +129,18 @@
 状态转移方程为：
 
 $$
-f[i] = \min_{j \in [i - maxBoxes, i - 1]} \left(f[j] + \sum_{k = j + 1}^i \text{cost}(k)\right)
+f[i] = \min_{j \in [i - maxBoxes, i - 1]} \left(f[j] + \sum_{k = j + 1}^i \textit{cost}(k)\right)
 $$
 
-其中 $\sum_{k = j + 1}^i \text{cost}(k)$ 表示通过一次运输，把 $[j+1,..i]$ 这些箱子送往对应的码头所需要的行程数。这部分行程数可以通过前缀和快速计算出来。
+其中 $\sum_{k = j + 1}^i \textit{cost}(k)$ 表示通过一次运输，把 $[j+1,..i]$ 这些箱子送往对应的码头所需要的行程数。这部分行程数可以通过前缀和快速计算出来。
 
 简单举个例子，假设我们取出了 $1, 2, 3$ 这三个箱子，需要送往 $4, 4, 5$ 这三个码头，那么我们首先要从仓库到 $4$ 号码头，然后再从 $4$ 号码头到 $5$ 号码头，最后再从 $5$ 号码头回到仓库。可以发现，从仓库到码头，以及从码头到仓库，需要花费 $2$ 趟行程，而从码头到码头的行程数，取决于相邻两个码头是否相同，如果不相同，那么行程数会增加 $1$，否则不变。因此，我们可以通过前缀和，计算出码头之间的行程数，再加上首尾两趟行程，就能把 $[j+1,..i]$ 这些箱子送往对应的码头所需要的行程数计算出来。
 
 代码实现如下：
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 # 33/39 个通过测试用例，超出时间限制
@@ -138,6 +160,8 @@ class Solution:
                     f[i] = min(f[i], f[j] + cs[i - 1] - cs[j] + 2)
         return f[n]
 ```
+
+#### Java
 
 ```java
 // 35/39 个通过测试用例，超出时间限制
@@ -168,6 +192,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 // 35/39 个通过测试用例，超出时间限制
 class Solution {
@@ -196,6 +222,8 @@ public:
     }
 };
 ```
+
+#### Go
 
 ```go
 // 35/39 个通过测试用例，超出时间限制
@@ -241,6 +269,8 @@ $$
 
 <!-- tabs:start -->
 
+#### Python3
+
 ```python
 class Solution:
     def boxDelivering(
@@ -263,6 +293,8 @@ class Solution:
                 q.append(i)
         return f[n]
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -300,6 +332,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 class Solution {
 public:
@@ -327,6 +361,8 @@ public:
     }
 };
 ```
+
+#### Go
 
 ```go
 func boxDelivering(boxes [][]int, portsCount int, maxBoxes int, maxWeight int) int {
@@ -366,4 +402,6 @@ func boxDelivering(boxes [][]int, portsCount int, maxBoxes int, maxWeight int) i
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

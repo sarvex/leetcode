@@ -1,12 +1,25 @@
+---
+comments: true
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2897.Apply%20Operations%20on%20Array%20to%20Maximize%20Sum%20of%20Squares/README.md
+rating: 2301
+source: 第 366 场周赛 Q4
+tags:
+    - 贪心
+    - 位运算
+    - 数组
+    - 哈希表
+---
+
+<!-- problem:start -->
+
 # [2897. 对数组执行操作使平方和最大](https://leetcode.cn/problems/apply-operations-on-array-to-maximize-sum-of-squares)
 
 [English Version](/solution/2800-2899/2897.Apply%20Operations%20on%20Array%20to%20Maximize%20Sum%20of%20Squares/README_EN.md)
 
-<!-- tags:贪心,位运算,数组,哈希表 -->
-
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
 
 <p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;和一个 <strong>正</strong>&nbsp;整数&nbsp;<code>k</code>&nbsp;。</p>
 
@@ -55,17 +68,23 @@
 	<li><code>1 &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
 </ul>
 
+<!-- description:end -->
+
 ## 解法
+
+<!-- solution:start -->
 
 ### 方法一：位运算 + 贪心
 
-根据题目描述，对于一个操作，我们可以将 $nums[i]$ 变为 $nums[i] \text{ AND } nums[j]$，将 $nums[j]$ 变为 $nums[i] \text{ OR } nums[j]$。我们不妨按位考虑，两个 $1$ 或两个 $0$ 进行这样的操作，结果都不会改变，如果是 $1$ 和 $0$ 进行这样的操作，结果会变成 $0$ 和 $1$，也即是说，我们可以将 $1$ 转移到 $0$ 上，而 $0$ 不会转移到 $1$ 上。
+根据题目描述，对于一个操作，我们可以将 $nums[i]$ 变为 $nums[i] \textit{ AND } nums[j]$，将 $nums[j]$ 变为 $nums[i] \textit{ OR } nums[j]$。我们不妨按位考虑，两个 $1$ 或两个 $0$ 进行这样的操作，结果都不会改变，如果是 $1$ 和 $0$ 进行这样的操作，结果会变成 $0$ 和 $1$，也即是说，我们可以将 $1$ 转移到 $0$ 上，而 $0$ 不会转移到 $1$ 上。
 
 因此，我们可以用一个数组 $cnt$ 统计每个位置上 $1$ 的个数，然后从中选择 $k$ 个数。由于要使得平方和最大，每次选择的数要尽可能大。这是因为，假设两个数的平方和为 $a^2 + b^2$（其中 $a \gt b$），将两个数平方和变成 $(a + c)^2 + (b - c)^2 = a^2 + b^2 + 2c(a - b) + 2c^2 \gt a^2 + b^2$。因此，为了最大化平方和，我们应该让一个数字尽可能大。
 
 时间复杂度 $O(n \times \log M)$，空间复杂度 $O(\log M)$，其中 $M$ 是数组中的最大值。
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -86,6 +105,8 @@ class Solution:
             ans = (ans + x * x) % mod
         return ans
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -114,6 +135,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 class Solution {
@@ -144,6 +167,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func maxSum(nums []int, k int) (ans int) {
 	cnt := [31]int{}
@@ -168,6 +193,8 @@ func maxSum(nums []int, k int) (ans int) {
 	return
 }
 ```
+
+#### TypeScript
 
 ```ts
 function maxSum(nums: number[], k: number): number {
@@ -197,4 +224,6 @@ function maxSum(nums: number[], k: number): number {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

@@ -1,10 +1,25 @@
+---
+comments: true
+difficulty: Easy
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2154.Keep%20Multiplying%20Found%20Values%20by%20Two/README_EN.md
+rating: 1235
+source: Weekly Contest 278 Q1
+tags:
+    - Array
+    - Hash Table
+    - Sorting
+    - Simulation
+---
+
+<!-- problem:start -->
+
 # [2154. Keep Multiplying Found Values by Two](https://leetcode.com/problems/keep-multiplying-found-values-by-two)
 
 [中文文档](/solution/2100-2199/2154.Keep%20Multiplying%20Found%20Values%20by%20Two/README.md)
 
-<!-- tags:Array,Hash Table,Sorting,Simulation -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>You are given an array of integers <code>nums</code>. You are also given an integer <code>original</code> which is the first number that needs to be searched for in <code>nums</code>.</p>
 
@@ -48,11 +63,23 @@
 	<li><code>1 &lt;= nums[i], original &lt;= 1000</code></li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
 
-### Solution 1
+<!-- solution:start -->
+
+### Solution 1: Hash Table
+
+We use a hash table $\textit{s}$ to record all the numbers in the array $\textit{nums}$.
+
+Next, starting from $\textit{original}$, if $\textit{original}$ is in $\textit{s}$, we multiply $\textit{original}$ by $2$ until $\textit{original}$ is not in $\textit{s}$ anymore, then return $\textit{original}$.
+
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -62,6 +89,8 @@ class Solution:
             original <<= 1
         return original
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -79,23 +108,28 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 class Solution {
 public:
     int findFinalValue(vector<int>& nums, int original) {
-        unordered_set<int> s;
-        for (int num : nums) s.insert(num);
-        while (s.count(original)) original <<= 1;
+        unordered_set<int> s(nums.begin(), nums.end());
+        while (s.contains(original)) {
+            original <<= 1;
+        }
         return original;
     }
 };
 ```
 
+#### Go
+
 ```go
 func findFinalValue(nums []int, original int) int {
-	s := make(map[int]bool)
-	for _, num := range nums {
-		s[num] = true
+	s := map[int]bool{}
+	for _, x := range nums {
+		s[x] = true
 	}
 	for s[original] {
 		original <<= 1
@@ -104,11 +138,13 @@ func findFinalValue(nums []int, original int) int {
 }
 ```
 
+#### TypeScript
+
 ```ts
 function findFinalValue(nums: number[], original: number): number {
-    let set: Set<number> = new Set(nums);
-    while (set.has(original)) {
-        original *= 2;
+    const s: Set<number> = new Set([...nums]);
+    while (s.has(original)) {
+        original <<= 1;
     }
     return original;
 }
@@ -116,4 +152,6 @@ function findFinalValue(nums: number[], original: number): number {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

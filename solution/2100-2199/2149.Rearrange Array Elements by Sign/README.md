@@ -1,12 +1,24 @@
+---
+comments: true
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2149.Rearrange%20Array%20Elements%20by%20Sign/README.md
+rating: 1235
+source: 第 277 场周赛 Q2
+tags:
+    - 数组
+    - 双指针
+    - 模拟
+---
+
+<!-- problem:start -->
+
 # [2149. 按符号重排数组](https://leetcode.cn/problems/rearrange-array-elements-by-sign)
 
 [English Version](/solution/2100-2199/2149.Rearrange%20Array%20Elements%20by%20Sign/README_EN.md)
 
-<!-- tags:数组,双指针,模拟 -->
-
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
 
 <p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> ，数组长度为 <strong>偶数</strong> ，由数目 <strong>相等</strong> 的正整数和负整数组成。</p>
 
@@ -58,39 +70,54 @@ nums 中的正整数是 [3,1,2] ，负整数是 [-2,-5,-4] 。
 
 <p>不需要原地进行修改。</p>
 
+<!-- description:end -->
+
 ## 解法
 
-### 方法一
+<!-- solution:start -->
+
+### 方法一：双指针
+
+我们先创建一个长度为 $n$ 的数组 $\textit{ans}$，然后使用两个指针 $i$ 和 $j$ 分别指向 $\textit{ans}$ 的偶数下标和奇数下标，初始时 $i = 0$, $j = 1$。
+
+遍历数组 $\textit{nums}$，如果当前元素 $x$ 为正整数，则将 $x$ 放入 $\textit{ans}[i]$，并将 $i$ 增加 $2$；否则将 $x$ 放入 $\textit{ans}[j]$，并将 $j$ 增加 $2$。
+
+最后返回 $\textit{ans}$ 即可。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
     def rearrangeArray(self, nums: List[int]) -> List[int]:
         ans = [0] * len(nums)
         i, j = 0, 1
-        for num in nums:
-            if num > 0:
-                ans[i] = num
+        for x in nums:
+            if x > 0:
+                ans[i] = x
                 i += 2
             else:
-                ans[j] = num
+                ans[j] = x
                 j += 2
         return ans
 ```
 
+#### Java
+
 ```java
 class Solution {
-
     public int[] rearrangeArray(int[] nums) {
         int[] ans = new int[nums.length];
         int i = 0, j = 1;
-        for (int num : nums) {
-            if (num > 0) {
-                ans[i] = num;
+        for (int x : nums) {
+            if (x > 0) {
+                ans[i] = x;
                 i += 2;
             } else {
-                ans[j] = num;
+                ans[j] = x;
                 j += 2;
             }
         }
@@ -99,18 +126,20 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 class Solution {
 public:
     vector<int> rearrangeArray(vector<int>& nums) {
         vector<int> ans(nums.size());
         int i = 0, j = 1;
-        for (int num : nums) {
-            if (num > 0) {
-                ans[i] = num;
+        for (int x : nums) {
+            if (x > 0) {
+                ans[i] = x;
                 i += 2;
             } else {
-                ans[j] = num;
+                ans[j] = x;
                 j += 2;
             }
         }
@@ -119,16 +148,18 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func rearrangeArray(nums []int) []int {
 	ans := make([]int, len(nums))
 	i, j := 0, 1
-	for _, num := range nums {
-		if num > 0 {
-			ans[i] = num
+	for _, x := range nums {
+		if x > 0 {
+			ans[i] = x
 			i += 2
 		} else {
-			ans[j] = num
+			ans[j] = x
 			j += 2
 		}
 	}
@@ -136,17 +167,18 @@ func rearrangeArray(nums []int) []int {
 }
 ```
 
+#### TypeScript
+
 ```ts
 function rearrangeArray(nums: number[]): number[] {
-    let ans = [];
-    let i = 0,
-        j = 1;
-    for (let num of nums) {
-        if (num > 0) {
-            ans[i] = num;
+    const ans: number[] = Array(nums.length);
+    let [i, j] = [0, 1];
+    for (const x of nums) {
+        if (x > 0) {
+            ans[i] = x;
             i += 2;
         } else {
-            ans[j] = num;
+            ans[j] = x;
             j += 2;
         }
     }
@@ -156,4 +188,6 @@ function rearrangeArray(nums: number[]): number[] {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

@@ -1,10 +1,22 @@
+---
+comments: true
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3125.Maximum%20Number%20That%20Makes%20Result%20of%20Bitwise%20AND%20Zero/README_EN.md
+tags:
+    - Greedy
+    - String
+    - Sorting
+---
+
+<!-- problem:start -->
+
 # [3125. Maximum Number That Makes Result of Bitwise AND Zero 🔒](https://leetcode.com/problems/maximum-number-that-makes-result-of-bitwise-and-zero)
 
 [中文文档](/solution/3100-3199/3125.Maximum%20Number%20That%20Makes%20Result%20of%20Bitwise%20AND%20Zero/README.md)
 
-<!-- tags:Greedy,String,Sorting -->
-
 ## Description
+
+<!-- description:start -->
 
 Given an integer <code>n</code>, return the <strong>maximum</strong> integer <code>x</code> such that <code>x &lt;= n</code>, and the bitwise <code>AND</code> of all the numbers in the range <code>[x, n]</code> is 0.
 
@@ -55,21 +67,29 @@ The bitwise <code>AND</code> of <code>[3, 4, 5, 6, 7]</code> is 0.</p>
 	<li><code>1 &lt;= n &lt;= 10<sup>15</sup></code></li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: Bit Manipulation
 
-We can find the highest bit of $1$ in the binary representation of $n$. The maximum $x$ must be less than $n$ and this bit is $0$, and all other lower bits are $1$, i.e., $x = 2^{\text{number of the highest bit}} - 1$. This is because $x \text{ and } (x + 1) = 0$ must hold.
+We can find the highest bit of $1$ in the binary representation of $n$. The maximum $x$ must be less than $n$ and this bit is $0$, and all other lower bits are $1$, i.e., $x = 2^{\textit{number of the highest bit}} - 1$. This is because $x \textit{ and } (x + 1) = 0$ must hold.
 
 The time complexity is $O(\log n)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
     def maxNumber(self, n: int) -> int:
         return (1 << (n.bit_length() - 1)) - 1
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -78,6 +98,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 class Solution {
@@ -88,6 +110,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func maxNumber(n int64) int64 {
 	return int64(1<<(bits.Len64(uint64(n))-1)) - 1
@@ -96,4 +120,6 @@ func maxNumber(n int64) int64 {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

@@ -1,14 +1,24 @@
+---
+comments: true
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3125.Maximum%20Number%20That%20Makes%20Result%20of%20Bitwise%20AND%20Zero/README.md
+tags:
+    - 贪心
+    - 字符串
+    - 排序
+---
+
+<!-- problem:start -->
+
 # [3125. 使得按位与结果为 0 的最大数字 🔒](https://leetcode.cn/problems/maximum-number-that-makes-result-of-bitwise-and-zero)
 
 [English Version](/solution/3100-3199/3125.Maximum%20Number%20That%20Makes%20Result%20of%20Bitwise%20AND%20Zero/README_EN.md)
 
-<!-- tags:贪心,字符串,排序 -->
-
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
 
-给定一个整数&nbsp;<code>n</code>，返回&nbsp;<strong>最大的</strong>&nbsp;整数&nbsp;<code>x</code> 使得&nbsp;<code>x &lt;= n</code>，并且所有在范围 <code>[x, n]</code>&nbsp;内的数组的按位&nbsp;<code>AND</code>&nbsp;为 0。
+给定一个整数&nbsp;<code>n</code>，返回&nbsp;<strong>最大的</strong>&nbsp;整数&nbsp;<code>x</code> 使得&nbsp;<code>x &lt;= n</code>，并且所有在范围 <code>[x, n]</code>&nbsp;内的数字的按位&nbsp;<code>AND</code>&nbsp;为 0。
 
 <p>&nbsp;</p>
 
@@ -62,21 +72,29 @@
 	<li><code>1 &lt;= n &lt;= 10<sup>15</sup></code></li>
 </ul>
 
+<!-- description:end -->
+
 ## 解法
+
+<!-- solution:start -->
 
 ### 方法一：位运算
 
-我们可以找到 $n$ 的二进制表示中最高位的 $1$，那么最大的 $x$ 一定小于 $n$ 且该位为 $0$，其他低位均为 $1$，即 $x = 2^{\text{最高位的位数} - 1} - 1$。这是因为 $x \text{ and } (x + 1) = 0$ 一定成立。
+我们可以找到 $n$ 的二进制表示中最高位的 $1$，那么最大的 $x$ 一定小于 $n$ 且该位为 $0$，其他低位均为 $1$，即 $x = 2^{\textit{最高位的位数} - 1} - 1$。这是因为 $x \textit{ and } (x + 1) = 0$ 一定成立。
 
 时间复杂度 $O(\log n)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
     def maxNumber(self, n: int) -> int:
         return (1 << (n.bit_length() - 1)) - 1
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -85,6 +103,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 class Solution {
@@ -95,6 +115,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func maxNumber(n int64) int64 {
 	return int64(1<<(bits.Len64(uint64(n))-1)) - 1
@@ -103,4 +125,6 @@ func maxNumber(n int64) int64 {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

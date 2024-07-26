@@ -1,12 +1,22 @@
+---
+comments: true
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1931.Painting%20a%20Grid%20With%20Three%20Different%20Colors/README.md
+rating: 2170
+source: 第 249 场周赛 Q3
+tags:
+    - 动态规划
+---
+
+<!-- problem:start -->
+
 # [1931. 用三种不同颜色为网格涂色](https://leetcode.cn/problems/painting-a-grid-with-three-different-colors)
 
 [English Version](/solution/1900-1999/1931.Painting%20a%20Grid%20With%20Three%20Different%20Colors/README_EN.md)
 
-<!-- tags:动态规划 -->
-
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
 
 <p>给你两个整数 <code>m</code> 和 <code>n</code> 。构造一个 <code>m x n</code> 的网格，其中每个单元格最开始是白色。请你用 <strong>红、绿、蓝</strong> 三种颜色为每个单元格涂色。所有单元格都需要被涂色。</p>
 
@@ -46,7 +56,11 @@
 	<li><code>1 <= n <= 1000</code></li>
 </ul>
 
+<!-- description:end -->
+
 ## 解法
+
+<!-- solution:start -->
 
 ### 方法一：状态压缩 + 动态规划
 
@@ -55,10 +69,10 @@
 因此，我们定义 $f[i][j]$ 表示前 $i$ 列中，第 $i$ 列的涂色状态为 $j$ 的方案数。状态 $f[i][j]$ 由 $f[i - 1][k]$ 转移而来，其中 $k$ 是第 $i - 1$ 列的涂色状态，且 $k$ 和 $j$ 满足不同颜色相邻的要求。即：
 
 $$
-f[i][j] = \sum_{k \in \text{valid}(j)} f[i - 1][k]
+f[i][j] = \sum_{k \in \textit{valid}(j)} f[i - 1][k]
 $$
 
-其中 $\text{valid}(j)$ 表示状态 $j$ 的所有合法前驱状态。
+其中 $\textit{valid}(j)$ 表示状态 $j$ 的所有合法前驱状态。
 
 最终的答案即为 $f[n][j]$ 的总和，其中 $j$ 是任意合法的状态。
 
@@ -67,6 +81,8 @@ $$
 时间复杂度 $O((m + n) \times 3^{2m})$，空间复杂度 $O(3^m)$。其中 $m$ 和 $n$ 分别是网格的行数和列数。
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -104,6 +120,8 @@ class Solution:
             f = g
         return sum(f) % mod
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -170,6 +188,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 class Solution {
 public:
@@ -232,6 +252,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func colorTheGrid(m int, n int) (ans int) {
 	f1 := func(x int) bool {
@@ -288,6 +310,8 @@ func colorTheGrid(m int, n int) (ans int) {
 	return
 }
 ```
+
+#### TypeScript
 
 ```ts
 function colorTheGrid(m: number, n: number): number {
@@ -349,4 +373,6 @@ function colorTheGrid(m: number, n: number): number {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

@@ -1,10 +1,24 @@
+---
+comments: true
+difficulty: Easy
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2864.Maximum%20Odd%20Binary%20Number/README_EN.md
+rating: 1237
+source: Weekly Contest 364 Q1
+tags:
+    - Greedy
+    - Math
+    - String
+---
+
+<!-- problem:start -->
+
 # [2864. Maximum Odd Binary Number](https://leetcode.com/problems/maximum-odd-binary-number)
 
 [中文文档](/solution/2800-2899/2864.Maximum%20Odd%20Binary%20Number/README.md)
 
-<!-- tags:Greedy,Math,String -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>You are given a <strong>binary</strong> string <code>s</code> that contains at least one <code>&#39;1&#39;</code>.</p>
 
@@ -40,7 +54,11 @@
 	<li><code>s</code> contains at least one <code>&#39;1&#39;</code>.</li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: Greedy
 
@@ -50,12 +68,16 @@ The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is 
 
 <!-- tabs:start -->
 
+#### Python3
+
 ```python
 class Solution:
     def maximumOddBinaryNumber(self, s: str) -> str:
         cnt = s.count("1")
         return "1" * (cnt - 1) + (len(s) - cnt) * "0" + "1"
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -65,6 +87,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 class Solution {
@@ -76,12 +100,16 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func maximumOddBinaryNumber(s string) string {
 	cnt := strings.Count(s, "1")
 	return strings.Repeat("1", cnt-1) + strings.Repeat("0", len(s)-cnt) + "1"
 }
 ```
+
+#### TypeScript
 
 ```ts
 function maximumOddBinaryNumber(s: string): string {
@@ -90,13 +118,12 @@ function maximumOddBinaryNumber(s: string): string {
 }
 ```
 
+#### Rust
+
 ```rust
 impl Solution {
     pub fn maximum_odd_binary_number(s: String) -> String {
-        let cnt = s
-            .chars()
-            .filter(|&c| c == '1')
-            .count();
+        let cnt = s.chars().filter(|&c| c == '1').count();
         "1".repeat(cnt - 1) + &"0".repeat(s.len() - cnt) + "1"
     }
 }
@@ -104,4 +131,6 @@ impl Solution {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

@@ -1,10 +1,21 @@
+---
+comments: true
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0072.Edit%20Distance/README_EN.md
+tags:
+    - String
+    - Dynamic Programming
+---
+
+<!-- problem:start -->
+
 # [72. Edit Distance](https://leetcode.com/problems/edit-distance)
 
 [中文文档](/solution/0000-0099/0072.Edit%20Distance/README.md)
 
-<!-- tags:String,Dynamic Programming -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>Given two strings <code>word1</code> and <code>word2</code>, return <em>the minimum number of operations required to convert <code>word1</code> to <code>word2</code></em>.</p>
 
@@ -49,7 +60,11 @@ exection -&gt; execution (insert &#39;u&#39;)
 	<li><code>word1</code> and <code>word2</code> consist of lowercase English letters.</li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: Dynamic Programming
 
@@ -64,10 +79,10 @@ Finally, we can get the state transition equation:
 
 $$
 f[i][j] = \begin{cases}
-i, & \text{if } j = 0 \\
-j, & \text{if } i = 0 \\
-f[i - 1][j - 1], & \text{if } word1[i - 1] = word2[j - 1] \\
-\min(f[i - 1][j], f[i][j - 1], f[i - 1][j - 1]) + 1, & \text{otherwise}
+i, & \textit{if } j = 0 \\
+j, & \textit{if } i = 0 \\
+f[i - 1][j - 1], & \textit{if } word1[i - 1] = word2[j - 1] \\
+\min(f[i - 1][j], f[i][j - 1], f[i - 1][j - 1]) + 1, & \textit{otherwise}
 \end{cases}
 $$
 
@@ -76,6 +91,8 @@ Finally, we return $f[m][n]$.
 The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. $m$ and $n$ are the lengths of $word1$ and $word2$ respectively.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -93,6 +110,8 @@ class Solution:
                     f[i][j] = min(f[i - 1][j], f[i][j - 1], f[i - 1][j - 1]) + 1
         return f[m][n]
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -116,6 +135,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 class Solution {
@@ -141,6 +162,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func minDistance(word1 string, word2 string) int {
 	m, n := len(word1), len(word2)
@@ -165,6 +188,8 @@ func minDistance(word1 string, word2 string) int {
 }
 ```
 
+#### TypeScript
+
 ```ts
 function minDistance(word1: string, word2: string): number {
     const m = word1.length;
@@ -188,6 +213,8 @@ function minDistance(word1: string, word2: string): number {
     return f[m][n];
 }
 ```
+
+#### JavaScript
 
 ```js
 /**
@@ -220,4 +247,6 @@ var minDistance = function (word1, word2) {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

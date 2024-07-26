@@ -1,10 +1,23 @@
+---
+comments: true
+difficulty: Hard
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0044.Wildcard%20Matching/README_EN.md
+tags:
+    - Greedy
+    - Recursion
+    - String
+    - Dynamic Programming
+---
+
+<!-- problem:start -->
+
 # [44. Wildcard Matching](https://leetcode.com/problems/wildcard-matching)
 
 [中文文档](/solution/0000-0099/0044.Wildcard%20Matching/README.md)
 
-<!-- tags:Greedy,Recursion,String,Dynamic Programming -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>Given an input string (<code>s</code>) and a pattern (<code>p</code>), implement wildcard pattern matching with support for <code>&#39;?&#39;</code> and <code>&#39;*&#39;</code> where:</p>
 
@@ -49,7 +62,11 @@
 	<li><code>p</code> contains only lowercase English letters, <code>&#39;?&#39;</code> or <code>&#39;*&#39;</code>.</li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: Memoization Search
 
@@ -57,8 +74,8 @@ We design a function $dfs(i, j)$, which represents whether the string $s$ starti
 
 The execution process of the function $dfs(i, j)$ is as follows:
 
--   If $i \geq \text{len}(s)$, then $dfs(i, j)$ is true only when $j \geq \text{len}(p)$ or $p[j] = '*'$ and $dfs(i, j + 1)$ is true.
--   If $j \geq \text{len}(p)$, then $dfs(i, j)$ is false.
+-   If $i \geq \textit{len}(s)$, then $dfs(i, j)$ is true only when $j \geq \textit{len}(p)$ or $p[j] = '*'$ and $dfs(i, j + 1)$ is true.
+-   If $j \geq \textit{len}(p)$, then $dfs(i, j)$ is false.
 -   If $p[j] = '*'$, then $dfs(i, j)$ is true if and only if $dfs(i + 1, j)$ or $dfs(i + 1, j + 1)$ or $dfs(i, j + 1)$ is true.
 -   Otherwise, $dfs(i, j)$ is true if and only if $p[j] = '?'$ or $s[i] = p[j]$ and $dfs(i + 1, j + 1)$ is true.
 
@@ -67,6 +84,8 @@ To avoid repeated calculations, we use the method of memoization search and stor
 The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are the lengths of the strings $s$ and $p$, respectively.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -83,6 +102,8 @@ class Solution:
 
         return dfs(0, 0)
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -121,6 +142,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 class Solution {
 public:
@@ -149,6 +172,8 @@ public:
     }
 };
 ```
+
+#### Go
 
 ```go
 func isMatch(s string, p string) bool {
@@ -184,6 +209,8 @@ func isMatch(s string, p string) bool {
 }
 ```
 
+#### TypeScript
+
 ```ts
 function isMatch(s: string, p: string): boolean {
     const m = s.length;
@@ -211,6 +238,8 @@ function isMatch(s: string, p: string): boolean {
     return dfs(0, 0);
 }
 ```
+
+#### C#
 
 ```cs
 public class Solution {
@@ -251,11 +280,15 @@ public class Solution {
 
 <!-- tabs:end -->
 
+<!-- solution:end -->
+
+<!-- solution:start -->
+
 ### Solution 2: Dynamic Programming
 
 We can convert the memoization search in Solution 1 into dynamic programming.
 
-Define $f[i][j]$ to represent whether the first $i$ characters of string $s$ match the first $j$ characters of string $p$. Initially, $f[0][0] = \text{true}$, indicating that two empty strings are matching. For $j \in [1, n]$, if $p[j-1] = '*'$, then $f[0][j] = f[0][j-1]$.
+Define $f[i][j]$ to represent whether the first $i$ characters of string $s$ match the first $j$ characters of string $p$. Initially, $f[0][0] = \textit{true}$, indicating that two empty strings are matching. For $j \in [1, n]$, if $p[j-1] = '*'$, then $f[0][j] = f[0][j-1]$.
 
 Next, we consider the case of $i \in [1, m]$ and $j \in [1, n]$:
 
@@ -267,6 +300,8 @@ The final answer is $f[m][n]$.
 The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are the lengths of the strings $s$ and $p$, respectively.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -287,6 +322,8 @@ class Solution:
                     )
         return f[m][n]
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -313,6 +350,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 class Solution {
@@ -341,6 +380,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func isMatch(s string, p string) bool {
 	m, n := len(s), len(p)
@@ -367,6 +408,8 @@ func isMatch(s string, p string) bool {
 }
 ```
 
+#### TypeScript
+
 ```ts
 function isMatch(s: string, p: string): boolean {
     const m: number = s.length;
@@ -392,6 +435,8 @@ function isMatch(s: string, p: string): boolean {
     return f[m][n];
 }
 ```
+
+#### PHP
 
 ```php
 class Solution {
@@ -431,4 +476,6 @@ class Solution {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

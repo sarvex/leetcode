@@ -1,27 +1,42 @@
+---
+comments: true
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/lcci/04.02.Minimum%20Height%20Tree/README.md
+---
+
+<!-- problem:start -->
+
 # [面试题 04.02. 最小高度树](https://leetcode.cn/problems/minimum-height-tree-lcci)
 
 [English Version](/lcci/04.02.Minimum%20Height%20Tree/README_EN.md)
 
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
+
 <p>给定一个有序整数数组，元素各不相同且按升序排列，编写一个算法，创建一棵高度最小的二叉搜索树。</p><strong>示例:</strong><pre>给定有序数组: [-10,-3,0,5,9],<br><br>一个可能的答案是：[0,-3,9,-10,null,5]，它可以表示下面这个高度平衡二叉搜索树：<br><br>          0 <br>         / &#92 <br>       -3   9 <br>       /   / <br>     -10  5 <br></pre>
+
+<!-- description:end -->
 
 ## 解法
 
+<!-- solution:start -->
+
 ### 方法一：递归
 
-我们设计一个函数 $\text{dfs}(l, r)$，表示构造出从 $l$ 到 $r$ 的子树，那么答案就是 $\text{dfs}(0, \text{len}(nums) - 1)$。
+我们设计一个函数 $\textit{dfs}(l, r)$，表示构造出从 $l$ 到 $r$ 的子树，那么答案就是 $\textit{dfs}(0, \textit{len}(nums) - 1)$。
 
-函数 $\text{dfs}(l, r)$ 的执行过程如下：
+函数 $\textit{dfs}(l, r)$ 的执行过程如下：
 
-1. 如果 $l > r$，返回 $\text{None}$。
-2. 否则，我们计算出中间位置 $mid = \frac{l + r}{2}$，然后构造出根节点，左子树为 $\text{dfs}(l, mid - 1)$，右子树为 $\text{dfs}(mid + 1, r)$。
+1. 如果 $l > r$，返回 $\textit{None}$。
+2. 否则，我们计算出中间位置 $mid = \frac{l + r}{2}$，然后构造出根节点，左子树为 $\textit{dfs}(l, mid - 1)$，右子树为 $\textit{dfs}(mid + 1, r)$。
 3. 最后返回根节点。
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 # Definition for a binary tree node.
@@ -42,6 +57,8 @@ class Solution:
 
         return dfs(0, len(nums) - 1)
 ```
+
+#### Java
 
 ```java
 /**
@@ -71,6 +88,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 /**
  * Definition for a binary tree node.
@@ -96,6 +115,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 /**
  * Definition for a binary tree node.
@@ -118,6 +139,8 @@ func sortedArrayToBST(nums []int) *TreeNode {
 	return dfs(0, len(nums)-1)
 }
 ```
+
+#### TypeScript
 
 ```ts
 /**
@@ -146,6 +169,8 @@ function sortedArrayToBST(nums: number[]): TreeNode | null {
 }
 ```
 
+#### Rust
+
 ```rust
 // Definition for a binary tree node.
 // #[derive(Debug, PartialEq, Eq)]
@@ -165,29 +190,27 @@ function sortedArrayToBST(nums: number[]): TreeNode | null {
 //     }
 //   }
 // }
-use std::rc::Rc;
 use std::cell::RefCell;
+use std::rc::Rc;
 impl Solution {
     fn dfs(nums: &Vec<i32>, l: usize, r: usize) -> Option<Rc<RefCell<TreeNode>>> {
         if l >= r {
             return None;
         }
         let mid = (l + r) >> 1;
-        Some(
-            Rc::new(
-                RefCell::new(TreeNode {
-                    val: nums[mid],
-                    left: Self::dfs(nums, l, mid),
-                    right: Self::dfs(nums, mid + 1, r),
-                })
-            )
-        )
+        Some(Rc::new(RefCell::new(TreeNode {
+            val: nums[mid],
+            left: Self::dfs(nums, l, mid),
+            right: Self::dfs(nums, mid + 1, r),
+        })))
     }
     pub fn sorted_array_to_bst(nums: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
         Self::dfs(&nums, 0, nums.len())
     }
 }
 ```
+
+#### JavaScript
 
 ```js
 /**
@@ -213,6 +236,8 @@ var sortedArrayToBST = function (nums) {
     return dfs(0, nums.length - 1);
 };
 ```
+
+#### Swift
 
 ```swift
 /**
@@ -249,4 +274,6 @@ class Solution {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

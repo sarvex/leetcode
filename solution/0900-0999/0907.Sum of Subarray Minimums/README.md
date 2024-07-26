@@ -1,12 +1,23 @@
+---
+comments: true
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0907.Sum%20of%20Subarray%20Minimums/README.md
+tags:
+    - 栈
+    - 数组
+    - 动态规划
+    - 单调栈
+---
+
+<!-- problem:start -->
+
 # [907. 子数组的最小值之和](https://leetcode.cn/problems/sum-of-subarray-minimums)
 
 [English Version](/solution/0900-0999/0907.Sum%20of%20Subarray%20Minimums/README_EN.md)
 
-<!-- tags:栈,数组,动态规划,单调栈 -->
-
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
 
 <p>给定一个整数数组 <code>arr</code>，找到 <code>min(b)</code> 的总和，其中 <code>b</code> 的范围为 <code>arr</code> 的每个（连续）子数组。</p>
 
@@ -41,7 +52,11 @@
 
 <p> </p>
 
+<!-- description:end -->
+
 ## 解法
+
+<!-- solution:start -->
 
 ### 方法一：单调栈
 
@@ -77,6 +92,8 @@
 
 <!-- tabs:start -->
 
+#### Python3
+
 ```python
 class Solution:
     def sumSubarrayMins(self, arr: List[int]) -> int:
@@ -101,6 +118,8 @@ class Solution:
         mod = 10**9 + 7
         return sum((i - left[i]) * (right[i] - i) * v for i, v in enumerate(arr)) % mod
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -141,6 +160,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 class Solution {
 public:
@@ -178,6 +199,8 @@ public:
     }
 };
 ```
+
+#### Go
 
 ```go
 func sumSubarrayMins(arr []int) (ans int) {
@@ -217,6 +240,8 @@ func sumSubarrayMins(arr []int) (ans int) {
 }
 ```
 
+#### TypeScript
+
 ```ts
 function sumSubarrayMins(arr: number[]): number {
     const n: number = arr.length;
@@ -254,6 +279,8 @@ function sumSubarrayMins(arr: number[]): number {
 }
 ```
 
+#### Rust
+
 ```rust
 use std::collections::VecDeque;
 
@@ -288,9 +315,8 @@ impl Solution {
         let MOD = 1_000_000_007;
         let mut ans: i64 = 0;
         for i in 0..n {
-            ans +=
-                ((((right[i] - (i as i32)) * ((i as i32) - left[i])) as i64) * (arr[i] as i64)) %
-                MOD;
+            ans += ((((right[i] - (i as i32)) * ((i as i32) - left[i])) as i64) * (arr[i] as i64))
+                % MOD;
             ans %= MOD;
         }
         ans as i32
@@ -300,4 +326,6 @@ impl Solution {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

@@ -1,10 +1,21 @@
+---
+comments: true
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1143.Longest%20Common%20Subsequence/README_EN.md
+tags:
+    - String
+    - Dynamic Programming
+---
+
+<!-- problem:start -->
+
 # [1143. Longest Common Subsequence](https://leetcode.com/problems/longest-common-subsequence)
 
 [中文文档](/solution/1100-1199/1143.Longest%20Common%20Subsequence/README.md)
 
-<!-- tags:String,Dynamic Programming -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>Given two strings <code>text1</code> and <code>text2</code>, return <em>the length of their longest <strong>common subsequence</strong>. </em>If there is no <strong>common subsequence</strong>, return <code>0</code>.</p>
 
@@ -49,7 +60,11 @@
 	<li><code>text1</code> and <code>text2</code> consist of only lowercase English characters.</li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: Dynamic Programming
 
@@ -60,14 +75,16 @@ If the $i$th character of $text1$ and the $j$th character of $text2$ are the sam
 $$
 f[i][j] =
 \begin{cases}
-f[i - 1][j - 1] + 1, & \text{if } text1[i - 1] = text2[j - 1] \\
-\max(f[i - 1][j], f[i][j - 1]), & \text{if } text1[i - 1] \neq text2[j - 1]
+f[i - 1][j - 1] + 1, & \textit{if } text1[i - 1] = text2[j - 1] \\
+\max(f[i - 1][j], f[i][j - 1]), & \textit{if } text1[i - 1] \neq text2[j - 1]
 \end{cases}
 $$
 
 The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the lengths of $text1$ and $text2$, respectively.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -82,6 +99,8 @@ class Solution:
                     f[i][j] = max(f[i - 1][j], f[i][j - 1])
         return f[m][n]
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -101,6 +120,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 class Solution {
@@ -123,6 +144,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func longestCommonSubsequence(text1 string, text2 string) int {
 	m, n := len(text1), len(text2)
@@ -143,6 +166,8 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 }
 ```
 
+#### TypeScript
+
 ```ts
 function longestCommonSubsequence(text1: string, text2: string): number {
     const m = text1.length;
@@ -160,6 +185,8 @@ function longestCommonSubsequence(text1: string, text2: string): number {
     return f[m][n];
 }
 ```
+
+#### Rust
 
 ```rust
 impl Solution {
@@ -180,6 +207,8 @@ impl Solution {
     }
 }
 ```
+
+#### JavaScript
 
 ```js
 /**
@@ -204,6 +233,8 @@ var longestCommonSubsequence = function (text1, text2) {
 };
 ```
 
+#### C#
+
 ```cs
 public class Solution {
     public int LongestCommonSubsequence(string text1, string text2) {
@@ -222,6 +253,8 @@ public class Solution {
     }
 }
 ```
+
+#### Kotlin
 
 ```kotlin
 class Solution {
@@ -245,4 +278,6 @@ class Solution {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

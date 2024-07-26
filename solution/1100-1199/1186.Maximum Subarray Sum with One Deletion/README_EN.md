@@ -1,10 +1,23 @@
+---
+comments: true
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1186.Maximum%20Subarray%20Sum%20with%20One%20Deletion/README_EN.md
+rating: 1799
+source: Weekly Contest 153 Q3
+tags:
+    - Array
+    - Dynamic Programming
+---
+
+<!-- problem:start -->
+
 # [1186. Maximum Subarray Sum with One Deletion](https://leetcode.com/problems/maximum-subarray-sum-with-one-deletion)
 
 [中文文档](/solution/1100-1199/1186.Maximum%20Subarray%20Sum%20with%20One%20Deletion/README.md)
 
-<!-- tags:Array,Dynamic Programming -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>Given an array of integers, return the maximum sum for a <strong>non-empty</strong>&nbsp;subarray (contiguous elements) with at most one element deletion.&nbsp;In other words, you want to choose a subarray and optionally delete one element from it so that there is still at least one element left and the&nbsp;sum of the remaining elements is maximum possible.</p>
 
@@ -42,17 +55,23 @@
 	<li><code>-10<sup>4</sup> &lt;= arr[i] &lt;= 10<sup>4</sup></code></li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: Preprocessing + Enumeration
 
-We can first preprocess the array $arr$ to find the maximum subarray sum ending at and starting from each element, and store them in the arrays $left$ and $right$ respectively.
+We can preprocess the array $\textit{arr}$ to find the maximum subarray sum ending and starting with each element, storing them in arrays $\textit{left}$ and $\textit{right}$, respectively.
 
-If we do not delete any element, then the maximum subarray sum is the maximum value in $left[i]$ or $right[i]$. If we delete one element, we can enumerate each position $i$ in $[1..n-2]$, calculate the value of $left[i-1] + right[i+1]$, and take the maximum value.
+If we do not delete any element, then the maximum subarray sum is the maximum value in $\textit{left}[i]$ or $\textit{right}[i]$; if we delete an element, we can enumerate each position $i$ in $[1..n-2]$, calculate the value of $\textit{left}[i-1] + \textit{right}[i+1]$, and take the maximum value.
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $arr$.
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{arr}$.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -73,6 +92,8 @@ class Solution:
             ans = max(ans, left[i - 1] + right[i + 1])
         return ans
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -98,6 +119,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 class Solution {
 public:
@@ -122,6 +145,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func maximumSum(arr []int) int {
 	n := len(arr)
@@ -142,6 +167,8 @@ func maximumSum(arr []int) int {
 	return ans
 }
 ```
+
+#### TypeScript
 
 ```ts
 function maximumSum(arr: number[]): number {
@@ -164,6 +191,35 @@ function maximumSum(arr: number[]): number {
 }
 ```
 
+#### Rust
+
+```rust
+impl Solution {
+    pub fn maximum_sum(arr: Vec<i32>) -> i32 {
+        let n = arr.len();
+        let mut left = vec![0; n];
+        let mut right = vec![0; n];
+        let mut s = 0;
+        for i in 0..n {
+            s = (s.max(0)) + arr[i];
+            left[i] = s;
+        }
+        s = 0;
+        for i in (0..n).rev() {
+            s = (s.max(0)) + arr[i];
+            right[i] = s;
+        }
+        let mut ans = *left.iter().max().unwrap();
+        for i in 1..n - 1 {
+            ans = ans.max(left[i - 1] + right[i + 1]);
+        }
+        ans
+    }
+}
+```
+
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

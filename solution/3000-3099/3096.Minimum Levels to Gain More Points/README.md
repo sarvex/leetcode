@@ -1,16 +1,27 @@
+---
+comments: true
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3096.Minimum%20Levels%20to%20Gain%20More%20Points/README.md
+rating: 1500
+source: 第 127 场双周赛 Q2
+tags:
+    - 数组
+    - 前缀和
+---
+
+<!-- problem:start -->
+
 # [3096. 得到更多分数的最少关卡数目](https://leetcode.cn/problems/minimum-levels-to-gain-more-points)
 
 [English Version](/solution/3000-3099/3096.Minimum%20Levels%20to%20Gain%20More%20Points/README_EN.md)
 
-<!-- tags:数组,前缀和 -->
-
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
 
 <p>给你一个长度为 <code>n</code>&nbsp;的二进制数组&nbsp;<code>possible</code>&nbsp;。</p>
 
-<p>Alice 和 Bob 正在玩一个有 <code>n</code> 个关卡的游戏，游戏中有一些关卡是 <strong>困难</strong>&nbsp;模式，其他的关卡是 <strong>简单</strong>&nbsp;模式。如果&nbsp;<code>possible[i] == 0</code>&nbsp;，那么第&nbsp;<code>i</code> 个关卡是 <strong>困难</strong>&nbsp;模式。一个玩家通过一个简单模式的关卡可以获得 <code>1</code>&nbsp;分，通过困难模式的关卡将失去 <code>1</code>&nbsp;分。</p>
+<p>Alice 和 Bob 正在玩一个有 <code>n</code> 个关卡的游戏，游戏中有一些关卡是 <strong>困难</strong>&nbsp;模式，其他的关卡是 <strong>简单</strong>&nbsp;模式。如果&nbsp;<code>possible[i] == 0</code>&nbsp;，那么第&nbsp;<code>i</code> 个关卡是 <strong>困难</strong>&nbsp;模式，两个玩家&nbsp;<strong>都不可能</strong> 通过。一个玩家通过一个简单模式的关卡可以获得 <code>1</code>&nbsp;分，遇到困难模式的关卡将失去 <code>1</code>&nbsp;分。</p>
 
 <p>游戏的一开始，Alice 将从第 <code>0</code>&nbsp;级开始 <strong>按顺序</strong> 完成一些关卡，然后 Bob 会完成剩下的所有关卡。</p>
 
@@ -84,7 +95,11 @@
 	<li><code>possible[i]</code>&nbsp;要么是&nbsp;<code>0</code>&nbsp;要么是&nbsp;<code>1</code> 。</li>
 </ul>
 
+<!-- description:end -->
+
 ## 解法
+
+<!-- solution:start -->
 
 ### 方法一：枚举
 
@@ -98,6 +113,8 @@
 
 <!-- tabs:start -->
 
+#### Python3
+
 ```python
 class Solution:
     def minimumLevels(self, possible: List[int]) -> int:
@@ -109,6 +126,8 @@ class Solution:
                 return i
         return -1
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -129,6 +148,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 class Solution {
 public:
@@ -148,6 +169,8 @@ public:
     }
 };
 ```
+
+#### Go
 
 ```go
 func minimumLevels(possible []int) int {
@@ -172,6 +195,8 @@ func minimumLevels(possible []int) int {
 }
 ```
 
+#### TypeScript
+
 ```ts
 function minimumLevels(possible: number[]): number {
     const s = possible.reduce((acc, x) => acc + (x === 0 ? -1 : 1), 0);
@@ -188,4 +213,6 @@ function minimumLevels(possible: number[]): number {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

@@ -1,8 +1,18 @@
+---
+comments: true
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/lcci/04.10.Check%20SubTree/README_EN.md
+---
+
+<!-- problem:start -->
+
 # [04.10. Check SubTree](https://leetcode.cn/problems/check-subtree-lcci)
 
 [中文文档](/lcci/04.10.Check%20SubTree/README.md)
 
 ## Description
+
+<!-- description:start -->
 
 <p>T1&nbsp;and T2 are two very large binary trees, with T1&nbsp;much bigger than T2. Create an algorithm to determine if T2 is a subtree of T1.</p>
 
@@ -34,7 +44,11 @@
 	<li>The node numbers of both tree are in [0, 20000].</li>
 </ol>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: Recursion
 
@@ -47,6 +61,8 @@ Next, we check if $t_1$ and $t_2$ are equal. If they are, then $t_2$ is a subtre
 The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Where $n$ is the number of nodes in $t_1$.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 # Definition for a binary tree node.
@@ -74,6 +90,8 @@ class Solution:
             return True
         return self.checkSubTree(t1.left, t2) or self.checkSubTree(t1.right, t2)
 ```
+
+#### Java
 
 ```java
 /**
@@ -110,6 +128,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 /**
@@ -148,6 +168,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 /**
  * Definition for a binary tree node.
@@ -180,6 +202,8 @@ func checkSubTree(t1 *TreeNode, t2 *TreeNode) bool {
 	return checkSubTree(t1.Left, t2) || checkSubTree(t1.Right, t2)
 }
 ```
+
+#### TypeScript
 
 ```ts
 /**
@@ -219,6 +243,8 @@ function checkSubTree(t1: TreeNode | null, t2: TreeNode | null): boolean {
 }
 ```
 
+#### Rust
+
 ```rust
 // Definition for a binary tree node.
 // #[derive(Debug, PartialEq, Eq)]
@@ -238,17 +264,17 @@ function checkSubTree(t1: TreeNode | null, t2: TreeNode | null): boolean {
 //     }
 //   }
 // }
-use std::rc::Rc;
 use std::cell::RefCell;
+use std::rc::Rc;
 impl Solution {
     fn dfs(t1: &Option<Rc<RefCell<TreeNode>>>, t2: &Option<Rc<RefCell<TreeNode>>>) -> bool {
         match (t1, t2) {
             (Some(node1), Some(node2)) => {
                 let n1 = node1.borrow();
                 let n2 = node2.borrow();
-                n1.val == n2.val &&
-                    Solution::dfs(&n1.left, &n2.left) &&
-                    Solution::dfs(&n1.right, &n2.right)
+                n1.val == n2.val
+                    && Solution::dfs(&n1.left, &n2.left)
+                    && Solution::dfs(&n1.right, &n2.right)
             }
             (None, Some(_)) => false,
             (Some(_), None) => false,
@@ -258,15 +284,15 @@ impl Solution {
 
     pub fn check_sub_tree(
         t1: Option<Rc<RefCell<TreeNode>>>,
-        t2: Option<Rc<RefCell<TreeNode>>>
+        t2: Option<Rc<RefCell<TreeNode>>>,
     ) -> bool {
         match (t1, t2) {
             (Some(node1), Some(node2)) => {
                 let n1 = node1.borrow();
                 let n2 = node2.borrow();
-                Solution::dfs(&Some(Rc::clone(&node1)), &Some(Rc::clone(&node2))) ||
-                    Solution::check_sub_tree(n1.left.clone(), Some(Rc::clone(&node2))) ||
-                    Solution::check_sub_tree(n1.right.clone(), Some(Rc::clone(&node2)))
+                Solution::dfs(&Some(Rc::clone(&node1)), &Some(Rc::clone(&node2)))
+                    || Solution::check_sub_tree(n1.left.clone(), Some(Rc::clone(&node2)))
+                    || Solution::check_sub_tree(n1.right.clone(), Some(Rc::clone(&node2)))
             }
             (Some(_), None) => true,
             (None, Some(_)) => false,
@@ -275,6 +301,8 @@ impl Solution {
     }
 }
 ```
+
+#### Swift
 
 ```swift
 /* class TreeNode {
@@ -321,4 +349,6 @@ class Solution {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

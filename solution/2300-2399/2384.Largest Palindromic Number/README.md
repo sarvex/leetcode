@@ -1,12 +1,25 @@
+---
+comments: true
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2384.Largest%20Palindromic%20Number/README.md
+rating: 1636
+source: 第 307 场周赛 Q2
+tags:
+    - 贪心
+    - 哈希表
+    - 字符串
+    - 计数
+---
+
+<!-- problem:start -->
+
 # [2384. 最大回文数字](https://leetcode.cn/problems/largest-palindromic-number)
 
 [English Version](/solution/2300-2399/2384.Largest%20Palindromic%20Number/README_EN.md)
 
-<!-- tags:贪心,哈希表,字符串 -->
-
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
 
 <p>给你一个仅由数字（<code>0 - 9</code>）组成的字符串 <code>num</code> 。</p>
 
@@ -50,7 +63,11 @@
 	<li><code>num</code> 由数字（<code>0 - 9</code>）组成</li>
 </ul>
 
+<!-- description:end -->
+
 ## 解法
+
+<!-- solution:start -->
 
 ### 方法一：统计 + 贪心
 
@@ -65,6 +82,8 @@
 时间复杂度 $O(n)$，其中 $n$ 为 $num$ 的长度。
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -85,6 +104,8 @@ class Solution:
                 ans = s + ans + s
         return ans.strip('0') or '0'
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -117,6 +138,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 class Solution {
@@ -152,6 +175,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func largestPalindromic(num string) string {
 	cnt := make([]int, 10)
@@ -180,6 +205,8 @@ func largestPalindromic(num string) string {
 	return ans
 }
 ```
+
+#### TypeScript
 
 ```ts
 function largestPalindromic(num: string): string {
@@ -227,4 +254,6 @@ function largestPalindromic(num: string): string {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

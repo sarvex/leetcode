@@ -1,12 +1,25 @@
+---
+comments: true
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2844.Minimum%20Operations%20to%20Make%20a%20Special%20Number/README.md
+rating: 1588
+source: 第 361 场周赛 Q2
+tags:
+    - 贪心
+    - 数学
+    - 字符串
+    - 枚举
+---
+
+<!-- problem:start -->
+
 # [2844. 生成特殊数字的最少操作](https://leetcode.cn/problems/minimum-operations-to-make-a-special-number)
 
 [English Version](/solution/2800-2899/2844.Minimum%20Operations%20to%20Make%20a%20Special%20Number/README_EN.md)
 
-<!-- tags:贪心,数学,字符串,枚举 -->
-
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
 
 <p>给你一个下标从 <strong>0</strong> 开始的字符串 <code>num</code> ，表示一个非负整数。</p>
 
@@ -55,7 +68,11 @@
 	<li><code>num</code> 不含任何前导零</li>
 </ul>
 
+<!-- description:end -->
+
 ## 解法
+
+<!-- solution:start -->
 
 ### 方法一：记忆化搜索
 
@@ -72,6 +89,8 @@
 
 <!-- tabs:start -->
 
+#### Python3
+
 ```python
 class Solution:
     def minimumOperations(self, num: str) -> int:
@@ -86,6 +105,8 @@ class Solution:
         n = len(num)
         return dfs(0, 0)
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -114,6 +135,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 class Solution {
 public:
@@ -121,21 +144,23 @@ public:
         int n = num.size();
         int f[n][25];
         memset(f, -1, sizeof(f));
-        function<int(int, int)> dfs = [&](int i, int k) -> int {
+        auto dfs = [&](auto&& dfs, int i, int k) -> int {
             if (i == n) {
                 return k == 0 ? 0 : n;
             }
             if (f[i][k] != -1) {
                 return f[i][k];
             }
-            f[i][k] = dfs(i + 1, k) + 1;
-            f[i][k] = min(f[i][k], dfs(i + 1, (k * 10 + num[i] - '0') % 25));
+            f[i][k] = dfs(dfs, i + 1, k) + 1;
+            f[i][k] = min(f[i][k], dfs(dfs, i + 1, (k * 10 + num[i] - '0') % 25));
             return f[i][k];
         };
-        return dfs(0, 0);
+        return dfs(dfs, 0, 0);
     }
 };
 ```
+
+#### Go
 
 ```go
 func minimumOperations(num string) int {
@@ -165,6 +190,8 @@ func minimumOperations(num string) int {
 }
 ```
 
+#### TypeScript
+
 ```ts
 function minimumOperations(num: string): number {
     const n = num.length;
@@ -186,4 +213,6 @@ function minimumOperations(num: string): number {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

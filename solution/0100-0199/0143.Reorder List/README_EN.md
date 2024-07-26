@@ -1,10 +1,23 @@
+---
+comments: true
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0143.Reorder%20List/README_EN.md
+tags:
+    - Stack
+    - Recursion
+    - Linked List
+    - Two Pointers
+---
+
+<!-- problem:start -->
+
 # [143. Reorder List](https://leetcode.com/problems/reorder-list)
 
 [中文文档](/solution/0100-0199/0143.Reorder%20List/README.md)
 
-<!-- tags:Stack,Recursion,Linked List,Two Pointers -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>You are given the head of a singly linked-list. The list can be represented as:</p>
 
@@ -43,7 +56,11 @@ L<sub>0</sub> &rarr; L<sub>n</sub> &rarr; L<sub>1</sub> &rarr; L<sub>n - 1</sub>
 	<li><code>1 &lt;= Node.val &lt;= 1000</code></li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: Fast and Slow Pointers + Reverse List + Merge Lists
 
@@ -52,6 +69,8 @@ We first use fast and slow pointers to find the midpoint of the linked list, the
 The time complexity is $O(n)$, where $n$ is the length of the linked list. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 # Definition for singly-linked list.
@@ -82,6 +101,8 @@ class Solution:
             cur.next = pre
             cur, pre = pre.next, t
 ```
+
+#### Java
 
 ```java
 /**
@@ -124,6 +145,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 /**
@@ -169,6 +192,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 /**
  * Definition for singly-linked list.
@@ -202,6 +227,8 @@ func reorderList(head *ListNode) {
 	}
 }
 ```
+
+#### TypeScript
 
 ```ts
 /**
@@ -245,6 +272,8 @@ function reorderList(head: ListNode | null): void {
 }
 ```
 
+#### Rust
+
 ```rust
 // Definition for singly-linked list.
 // #[derive(PartialEq, Eq, Clone, Debug)]
@@ -275,13 +304,19 @@ impl Solution {
         }
         let mut flag = false;
         while !deque.is_empty() {
-            *tail = if flag { deque.pop_front().unwrap() } else { deque.pop_back().unwrap() };
+            *tail = if flag {
+                deque.pop_front().unwrap()
+            } else {
+                deque.pop_back().unwrap()
+            };
             tail = &mut tail.as_mut().unwrap().next;
             flag = !flag;
         }
     }
 }
 ```
+
+#### JavaScript
 
 ```js
 /**
@@ -324,6 +359,8 @@ var reorderList = function (head) {
     }
 };
 ```
+
+#### C#
 
 ```cs
 /**
@@ -371,4 +408,6 @@ public class Solution {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

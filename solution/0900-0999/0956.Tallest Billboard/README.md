@@ -1,12 +1,21 @@
+---
+comments: true
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0956.Tallest%20Billboard/README.md
+tags:
+    - 数组
+    - 动态规划
+---
+
+<!-- problem:start -->
+
 # [956. 最高的广告牌](https://leetcode.cn/problems/tallest-billboard)
 
 [English Version](/solution/0900-0999/0956.Tallest%20Billboard/README_EN.md)
 
-<!-- tags:数组,动态规划 -->
-
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
 
 <p>你正在安装一个广告牌，并希望它高度最大。这块广告牌将有两个钢制支架，两边各一个。每个钢支架的高度必须相等。</p>
 
@@ -48,7 +57,11 @@
 	<li><code>sum(rods[i]) &lt;= 5000</code></li>
 </ol>
 
+<!-- description:end -->
+
 ## 解法
+
+<!-- solution:start -->
 
 ### 方法一：记忆化搜索
 
@@ -72,6 +85,8 @@
 
 <!-- tabs:start -->
 
+#### Python3
+
 ```python
 class Solution:
     def tallestBillboard(self, rods: List[int]) -> int:
@@ -85,6 +100,8 @@ class Solution:
 
         return dfs(0, 0)
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -117,6 +134,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 class Solution {
 public:
@@ -140,6 +159,8 @@ public:
     }
 };
 ```
+
+#### Go
 
 ```go
 func tallestBillboard(rods []int) int {
@@ -182,6 +203,8 @@ func abs(x int) int {
 }
 ```
 
+#### TypeScript
+
 ```ts
 function tallestBillboard(rods: number[]): number {
     const s = rods.reduce((a, b) => a + b, 0);
@@ -204,6 +227,10 @@ function tallestBillboard(rods: number[]): number {
 
 <!-- tabs:end -->
 
+<!-- solution:end -->
+
+<!-- solution:start -->
+
 ### 方法二：动态规划
 
 我们定义 $f[i][j]$ 表示前 $i$ 根钢筋，两边高度差为 $j$ 时的最大共同高度。初始时 $f[0][0]=0$，其余 $f[i][j]=-\infty$。我们求出所有 $rods[i]$ 的和，记为 $s$，那么 $j$ 的取值范围为 $[0,..s]$。
@@ -218,9 +245,9 @@ function tallestBillboard(rods: number[]): number {
 $$
 \begin{aligned}
 f[i][j] &= f[i-1][j] \\
-f[i][j] &= max(f[i][j], f[i-1][j-rods[i-1]]) & \text{if } j \geq rods[i-1] \\
-f[i][j] &= max(f[i][j], f[i-1][j+rods[i-1]] + rods[i-1]) & \text{if } j + rods[i-1] \leq s \\
-f[i][j] &= max(f[i][j], f[i-1][rods[i-1]-j] + rods[i-1]-j) & \text{if } j \lt rods[i-1]
+f[i][j] &= max(f[i][j], f[i-1][j-rods[i-1]]) & \textit{if } j \geq rods[i-1] \\
+f[i][j] &= max(f[i][j], f[i-1][j+rods[i-1]] + rods[i-1]) & \textit{if } j + rods[i-1] \leq s \\
+f[i][j] &= max(f[i][j], f[i-1][rods[i-1]-j] + rods[i-1]-j) & \textit{if } j \lt rods[i-1]
 \end{aligned}
 $$
 
@@ -229,6 +256,8 @@ $$
 时间复杂度 $O(n \times S)$，空间复杂度 $O(n \times S)$。其中 $n$ 和 $S$ 分别为 $rods$ 的长度和 $rods$ 中所有元素的和。
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -250,6 +279,8 @@ class Solution:
                     f[i][j] = max(f[i][j], f[i - 1][x - j] + x - j)
         return f[n][0]
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -285,6 +316,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 class Solution {
 public:
@@ -314,6 +347,8 @@ public:
     }
 };
 ```
+
+#### Go
 
 ```go
 func tallestBillboard(rods []int) int {
@@ -352,4 +387,6 @@ func tallestBillboard(rods []int) int {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

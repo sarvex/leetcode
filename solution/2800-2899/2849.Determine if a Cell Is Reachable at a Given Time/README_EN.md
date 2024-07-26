@@ -1,10 +1,22 @@
+---
+comments: true
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2849.Determine%20if%20a%20Cell%20Is%20Reachable%20at%20a%20Given%20Time/README_EN.md
+rating: 1515
+source: Weekly Contest 362 Q2
+tags:
+    - Math
+---
+
+<!-- problem:start -->
+
 # [2849. Determine if a Cell Is Reachable at a Given Time](https://leetcode.com/problems/determine-if-a-cell-is-reachable-at-a-given-time)
 
 [中文文档](/solution/2800-2899/2849.Determine%20if%20a%20Cell%20Is%20Reachable%20at%20a%20Given%20Time/README.md)
 
-<!-- tags:Math -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>You are given four integers <code>sx</code>, <code>sy</code>, <code>fx</code>, <code>fy</code>, and a <strong>non-negative</strong> integer <code>t</code>.</p>
 
@@ -39,11 +51,23 @@
 	<li><code>0 &lt;= t &lt;= 10<sup>9</sup></code></li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
 
-### Solution 1
+<!-- solution:start -->
+
+### Solution 1: Case Discussion
+
+If the starting point and the destination are the same, then we can only reach the destination within the given time if $t \neq 1$.
+
+Otherwise, we can calculate the difference in the x and y coordinates between the starting point and the destination, and then take the maximum value. If the maximum value is less than or equal to the given time, then we can reach the destination within the given time.
+
+The time complexity is $O(1)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -54,6 +78,8 @@ class Solution:
         dy = abs(sy - fy)
         return max(dx, dy) <= t
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -68,6 +94,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 class Solution {
 public:
@@ -80,6 +108,8 @@ public:
     }
 };
 ```
+
+#### Go
 
 ```go
 func isReachableAtTime(sx int, sy int, fx int, fy int, t int) bool {
@@ -99,6 +129,8 @@ func abs(x int) int {
 }
 ```
 
+#### TypeScript
+
 ```ts
 function isReachableAtTime(sx: number, sy: number, fx: number, fy: number, t: number): boolean {
     if (sx === fx && sy === fy) {
@@ -110,11 +142,14 @@ function isReachableAtTime(sx: number, sy: number, fx: number, fy: number, t: nu
 }
 ```
 
+#### C#
+
 ```cs
 public class Solution {
     public bool IsReachableAtTime(int sx, int sy, int fx, int fy, int t) {
-        if (sx == fx && sy == fy)
+        if (sx == fx && sy == fy) {
             return t != 1;
+        }
         return Math.Max(Math.Abs(sx - fx), Math.Abs(sy - fy)) <= t;
     }
 }
@@ -122,4 +157,6 @@ public class Solution {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

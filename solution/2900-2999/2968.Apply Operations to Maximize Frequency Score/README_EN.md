@@ -1,10 +1,26 @@
+---
+comments: true
+difficulty: Hard
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2968.Apply%20Operations%20to%20Maximize%20Frequency%20Score/README_EN.md
+rating: 2444
+source: Weekly Contest 376 Q4
+tags:
+    - Array
+    - Binary Search
+    - Prefix Sum
+    - Sorting
+    - Sliding Window
+---
+
+<!-- problem:start -->
+
 # [2968. Apply Operations to Maximize Frequency Score](https://leetcode.com/problems/apply-operations-to-maximize-frequency-score)
 
 [中文文档](/solution/2900-2999/2968.Apply%20Operations%20to%20Maximize%20Frequency%20Score/README.md)
 
-<!-- tags:Array,Binary Search,Prefix Sum,Sorting,Sliding Window -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> and an integer <code>k</code>.</p>
 
@@ -51,7 +67,11 @@ It can be shown that we cannot achieve a better score.
 	<li><code>0 &lt;= k &lt;= 10<sup>14</sup></code></li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: Sorting + Prefix Sum + Binary Search
 
@@ -67,14 +87,14 @@ To determine whether such a subarray exists, we can use prefix sum. We first def
 
 $$
 \begin{aligned}
-\text{left} &= \sum_{k = i}^{(i + j) / 2 - 1} (nums[(i + j) / 2] - nums[k]) \\
+\textit{left} &= \sum_{k = i}^{(i + j) / 2 - 1} (nums[(i + j) / 2] - nums[k]) \\
 &= ((i + j) / 2 - i) \times nums[(i + j) / 2] - \sum_{k = i}^{(i + j) / 2 - 1} nums[k]
 \end{aligned}
 $$
 
 $$
 \begin{aligned}
-\text{right} &= \sum_{k = (i + j) / 2 + 1}^{j} (nums[k] - nums[(i + j) / 2]) \\
+\textit{right} &= \sum_{k = (i + j) / 2 + 1}^{j} (nums[k] - nums[(i + j) / 2]) \\
 &= \sum_{k = (i + j) / 2 + 1}^{j} nums[k] - (j - (i + j) / 2) \times nums[(i + j) / 2]
 \end{aligned}
 $$
@@ -84,6 +104,8 @@ We can use the prefix sum array $s$ to calculate $\sum_{k = i}^{j} nums[k]$, so 
 The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -109,6 +131,8 @@ class Solution:
                 r = mid - 1
         return l
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -146,6 +170,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 class Solution {
@@ -187,6 +213,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func maxFrequencyScore(nums []int, k int64) int {
 	sort.Ints(nums)
@@ -223,6 +251,8 @@ func maxFrequencyScore(nums []int, k int64) int {
 	return l
 }
 ```
+
+#### TypeScript
 
 ```ts
 function maxFrequencyScore(nums: number[], k: number): number {
@@ -261,4 +291,6 @@ function maxFrequencyScore(nums: number[], k: number): number {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

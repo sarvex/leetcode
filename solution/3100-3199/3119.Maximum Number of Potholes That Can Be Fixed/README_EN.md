@@ -1,10 +1,22 @@
+---
+comments: true
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3119.Maximum%20Number%20of%20Potholes%20That%20Can%20Be%20Fixed/README_EN.md
+tags:
+    - Greedy
+    - String
+    - Sorting
+---
+
+<!-- problem:start -->
+
 # [3119. Maximum Number of Potholes That Can Be Fixed 🔒](https://leetcode.com/problems/maximum-number-of-potholes-that-can-be-fixed)
 
 [中文文档](/solution/3100-3199/3119.Maximum%20Number%20of%20Potholes%20That%20Can%20Be%20Fixed/README.md)
 
-<!-- tags:Greedy,String,Sorting -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>You are given a string <code>road</code>, consisting only of characters <code>&quot;x&quot;</code> and <code>&quot;.&quot;</code>, where each <code>&quot;x&quot;</code> denotes a <em>pothole</em> and each <code>&quot;.&quot;</code> denotes a smooth road, and an integer <code>budget</code>.</p>
 
@@ -58,7 +70,11 @@
 	<li><code>road</code> consists only of characters <code>&#39;.&#39;</code> and <code>&#39;x&#39;</code>.</li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: Counting + Greedy
 
@@ -66,11 +82,13 @@ First, we count the number of each continuous pothole, recorded in the array $cn
 
 Since we want to repair as many potholes as possible, and for a continuous pothole of length $k$, we need to spend a cost of $k + 1$, we should prioritize repairing longer potholes to minimize the cost.
 
-Therefore, we start repairing from the longest pothole. For a pothole of length $k$, the maximum number we can repair is $t = \min(\text{budget} / (k + 1), \text{cnt}[k])$. We add the number of repairs multiplied by the length $k$ to the answer, then update the remaining budget. For the remaining $cnt[k] - t$ potholes of length $k$, we merge them into the potholes of length $k - 1$. Continue this process until all potholes are traversed.
+Therefore, we start repairing from the longest pothole. For a pothole of length $k$, the maximum number we can repair is $t = \min(\textit{budget} / (k + 1), \textit{cnt}[k])$. We add the number of repairs multiplied by the length $k$ to the answer, then update the remaining budget. For the remaining $cnt[k] - t$ potholes of length $k$, we merge them into the potholes of length $k - 1$. Continue this process until all potholes are traversed.
 
 The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the string $road$.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -98,6 +116,8 @@ class Solution:
         return ans
 ```
 
+#### Java
+
 ```java
 class Solution {
     public int maxPotholes(String road, int budget) {
@@ -124,6 +144,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 class Solution {
@@ -153,6 +175,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func maxPotholes(road string, budget int) (ans int) {
 	road += "."
@@ -176,6 +200,8 @@ func maxPotholes(road string, budget int) (ans int) {
 	return
 }
 ```
+
+#### TypeScript
 
 ```ts
 function maxPotholes(road: string, budget: number): number {
@@ -201,6 +227,8 @@ function maxPotholes(road: string, budget: number): number {
     return ans;
 }
 ```
+
+#### Rust
 
 ```rust
 impl Solution {
@@ -238,6 +266,8 @@ impl Solution {
 }
 ```
 
+#### C#
+
 ```cs
 public class Solution {
     public int MaxPotholes(string road, int budget) {
@@ -267,4 +297,6 @@ public class Solution {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

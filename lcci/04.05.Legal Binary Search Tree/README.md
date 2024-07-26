@@ -1,23 +1,38 @@
+---
+comments: true
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/lcci/04.05.Legal%20Binary%20Search%20Tree/README.md
+---
+
+<!-- problem:start -->
+
 # [面试题 04.05. 合法二叉搜索树](https://leetcode.cn/problems/legal-binary-search-tree-lcci)
 
 [English Version](/lcci/04.05.Legal%20Binary%20Search%20Tree/README_EN.md)
 
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
+
 <p>实现一个函数，检查一棵二叉树是否为二叉搜索树。</p><strong>示例 1:</strong><pre><strong>输入:</strong><br>    2<br>   / &#92<br>  1   3<br><strong>输出:</strong> true<br></pre><strong>示例 2:</strong><pre><strong>输入:</strong><br>    5<br>   / &#92<br>  1   4<br>     / &#92<br>    3   6<br><strong>输出:</strong> false<br><strong>解释:</strong> 输入为: [5,1,4,null,null,3,6]。<br>     根节点的值为 5 ，但是其右子节点值为 4 。</pre>
 
+<!-- description:end -->
+
 ## 解法
+
+<!-- solution:start -->
 
 ### 方法一：递归
 
 我们可以对二叉树进行递归中序遍历，如果遍历到的结果是严格升序的，那么这棵树就是一个二叉搜索树。
 
-因此，我们使用一个变量 $\textit{prev}$ 来保存上一个遍历到的节点，初始时 $\textit{prev} = -\infty$，然后我们递归遍历左子树，如果左子树不是二叉搜索树，直接返回 $\text{False}$，否则判断当前节点的值是否大于 $\textit{prev}$，如果不是，返回 $\text{False}$，否则更新 $\textit{prev}$ 为当前节点的值，然后递归遍历右子树。
+因此，我们使用一个变量 $\textit{prev}$ 来保存上一个遍历到的节点，初始时 $\textit{prev} = -\infty$，然后我们递归遍历左子树，如果左子树不是二叉搜索树，直接返回 $\textit{False}$，否则判断当前节点的值是否大于 $\textit{prev}$，如果不是，返回 $\textit{False}$，否则更新 $\textit{prev}$ 为当前节点的值，然后递归遍历右子树。
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点个数。
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 # Definition for a binary tree node.
@@ -42,6 +57,8 @@ class Solution:
         prev = -inf
         return dfs(root)
 ```
+
+#### Java
 
 ```java
 /**
@@ -82,6 +99,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 /**
  * Definition for a binary tree node.
@@ -116,6 +135,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 /**
  * Definition for a binary tree node.
@@ -144,6 +165,8 @@ func isValidBST(root *TreeNode) bool {
 	return dfs(root)
 }
 ```
+
+#### TypeScript
 
 ```ts
 /**
@@ -179,6 +202,8 @@ function isValidBST(root: TreeNode | null): boolean {
 }
 ```
 
+#### Rust
+
 ```rust
 // Definition for a binary tree node.
 // #[derive(Debug, PartialEq, Eq)]
@@ -198,8 +223,8 @@ function isValidBST(root: TreeNode | null): boolean {
 //     }
 //   }
 // }
-use std::rc::Rc;
 use std::cell::RefCell;
+use std::rc::Rc;
 impl Solution {
     fn dfs(root: &Option<Rc<RefCell<TreeNode>>>, prev: &mut Option<i32>) -> bool {
         if root.is_none() {
@@ -221,6 +246,8 @@ impl Solution {
     }
 }
 ```
+
+#### JavaScript
 
 ```js
 /**
@@ -253,6 +280,8 @@ var isValidBST = function (root) {
     return dfs(root);
 };
 ```
+
+#### C#
 
 ```cs
 /**
@@ -290,6 +319,8 @@ public class Solution {
     }
 }
 ```
+
+#### Swift
 
 ```swift
 /* class TreeNode {
@@ -334,4 +365,6 @@ class Solution {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

@@ -1,10 +1,19 @@
+---
+comments: true
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/lcci/03.05.Sort%20of%20Stacks/README.md
+---
+
+<!-- problem:start -->
+
 # [面试题 03.05. 栈排序](https://leetcode.cn/problems/sort-of-stacks-lcci)
 
 [English Version](/lcci/03.05.Sort%20of%20Stacks/README_EN.md)
 
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
+
 <p>栈排序。 编写程序，对栈进行排序使最小元素位于栈顶。最多只能使用一个其他的临时栈存放数据，但不得将元素复制到别的数据结构（如数组）中。该栈支持如下操作：<code>push</code>、<code>pop</code>、<code>peek</code> 和 <code>isEmpty</code>。当栈为空时，<code>peek</code>&nbsp;返回 -1。</p>
 
 <p><strong>示例1:</strong></p>
@@ -31,7 +40,11 @@
 	<li>栈中的元素数目在[0, 5000]范围内。</li>
 </ol>
 
+<!-- description:end -->
+
 ## 解法
+
+<!-- solution:start -->
 
 ### 方法一：栈 + 辅助栈
 
@@ -48,6 +61,8 @@
 空间复杂度 $O(n)$，其中 $n$ 为栈中元素的个数。
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class SortedStack:
@@ -81,6 +96,8 @@ class SortedStack:
 # param_3 = obj.peek()
 # param_4 = obj.isEmpty()
 ```
+
+#### Java
 
 ```java
 class SortedStack {
@@ -124,6 +141,8 @@ class SortedStack {
  * boolean param_4 = obj.isEmpty();
  */
 ```
+
+#### C++
 
 ```cpp
 class SortedStack {
@@ -171,6 +190,8 @@ private:
  * bool param_4 = obj->isEmpty();
  */
 ```
+
+#### Go
 
 ```go
 type SortedStack struct {
@@ -220,6 +241,8 @@ func (this *SortedStack) IsEmpty() bool {
  */
 ```
 
+#### TypeScript
+
 ```ts
 class SortedStack {
     private stk: number[] = [];
@@ -261,6 +284,8 @@ class SortedStack {
  */
 ```
 
+#### Rust
+
 ```rust
 use std::collections::VecDeque;
 
@@ -298,21 +323,20 @@ impl SortedStack {
     }
 
     fn peek(&self) -> i32 {
-        if self.is_empty() { -1 } else { *self.stk.back().unwrap() }
+        if self.is_empty() {
+            -1
+        } else {
+            *self.stk.back().unwrap()
+        }
     }
 
     fn is_empty(&self) -> bool {
         self.stk.is_empty()
     }
-}/**
- * Your SortedStack object will be instantiated and called as such:
- * let obj = SortedStack::new();
- * obj.push(val);
- * obj.pop();
- * let ret_3: i32 = obj.peek();
- * let ret_4: bool = obj.is_empty();
- */
+}
 ```
+
+#### Swift
 
 ```swift
 class SortedStack {
@@ -359,4 +383,6 @@ class SortedStack {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

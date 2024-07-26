@@ -1,16 +1,28 @@
+---
+comments: true
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3098.Find%20the%20Sum%20of%20Subsequence%20Powers/README.md
+rating: 2552
+source: 第 127 场双周赛 Q4
+tags:
+    - 数组
+    - 动态规划
+    - 排序
+---
+
+<!-- problem:start -->
+
 # [3098. 求出所有子序列的能量和](https://leetcode.cn/problems/find-the-sum-of-subsequence-powers)
 
 [English Version](/solution/3000-3099/3098.Find%20the%20Sum%20of%20Subsequence%20Powers/README_EN.md)
 
-<!-- tags:数组,动态规划,排序 -->
-
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
 
 <p>给你一个长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>nums</code>&nbsp;和一个 <strong>正</strong>&nbsp;整数&nbsp;<code>k</code>&nbsp;。</p>
 
-<p>一个子序列的 <strong>能量</strong>&nbsp;定义为子序列中&nbsp;<strong>任意</strong>&nbsp;两个元素的差值绝对值的 <strong>最小值</strong>&nbsp;。</p>
+<p>一个 <span data-keyword="subsequence-array">子序列</span> 的 <strong>能量</strong>&nbsp;定义为子序列中&nbsp;<strong>任意</strong>&nbsp;两个元素的差值绝对值的 <strong>最小值</strong>&nbsp;。</p>
 
 <p>请你返回 <code>nums</code>&nbsp;中长度 <strong>等于</strong>&nbsp;<code>k</code>&nbsp;的 <strong>所有</strong>&nbsp;子序列的 <strong>能量和</strong>&nbsp;。</p>
 
@@ -64,24 +76,33 @@
 	<li><code>2 &lt;= k &lt;= n</code></li>
 </ul>
 
+<!-- description:end -->
+
 ## 解法
+
+<!-- solution:start -->
 
 ### 方法一：记忆化搜索
 
-我们设计一个函数 $dfs(i, j, k, mi)$，表示当前处理到第 $i$ 个元素，上一个选取的是第 $j$ 个元素，还需要选取 $k$ 个元素，当前的最小差值为 $mi$ 时，能量和的值。那么答案就是 $dfs(0, n, k, +\infty)$。
+由于题目涉及子序列元素的最小差值，我们不妨对数组 $\textit{nums}$ 进行排序，这样可以方便我们计算子序列元素的最小差值。
+
+接下来，我们设计一个函数 $dfs(i, j, k, mi)$，表示当前处理到第 $i$ 个元素，上一个选取的是第 $j$ 个元素，还需要选取 $k$ 个元素，当前的最小差值为 $mi$ 时，能量和的值。那么答案就是 $dfs(0, n, k, +\infty)$。（若上一个选取的是第 $n$ 个元素，表示之前没有选取过元素）
 
 函数 $dfs(i, j, k, mi)$ 的执行过程如下：
 
 -   如果 $i \geq n$，表示已经处理完了所有的元素，如果 $k = 0$，返回 $mi$，否则返回 $0$；
+-   如果剩余的元素个数 $n - i$ 不足 $k$ 个，返回 $0$；
 -   否则，我们可以选择不选取第 $i$ 个元素，可以获得的能量和为 $dfs(i + 1, j, k, mi)$；
--   也可以选择选取第 $i$ 个元素。如果 $j = n$，表示之前没有选取过元素，那么可以获得的能量和为 $dfs(i + 1, i, k - 1, mi)$；否则，可以获得的能量和为 $dfs(i + 1, i, k - 1, \min(mi, \text{nums}[i] - \text{nums}[j]))$。
+-   也可以选择选取第 $i$ 个元素。如果 $j = n$，表示之前没有选取过元素，那么可以获得的能量和为 $dfs(i + 1, i, k - 1, mi)$；否则，可以获得的能量和为 $dfs(i + 1, i, k - 1, \min(mi, \textit{nums}[i] - \textit{nums}[j]))$。
 -   我们累加上述结果，并对 $10^9 + 7$ 取模后返回。
 
 为了避免重复计算，我们可以使用记忆化搜索的方法，将已经计算过的结果保存起来。
 
-时间复杂度 $O(n^5)$，空间复杂度 $O(n^5)$。其中 $n$ 为数组的长度。
+时间复杂度 $O(n^4 \times k)$，空间复杂度 $O(n^4 \times k)$。其中 $n$ 为数组的长度。
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -90,6 +111,8 @@ class Solution:
         def dfs(i: int, j: int, k: int, mi: int) -> int:
             if i >= n:
                 return mi if k == 0 else 0
+            if n - i < k:
+                return 0
             ans = dfs(i + 1, j, k, mi)
             if j == n:
                 ans += dfs(i + 1, i, k - 1, mi)
@@ -103,6 +126,8 @@ class Solution:
         nums.sort()
         return dfs(0, n, k, inf)
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -119,6 +144,9 @@ class Solution {
     private int dfs(int i, int j, int k, int mi) {
         if (i >= nums.length) {
             return k == 0 ? mi : 0;
+        }
+        if (nums.length - i < k) {
+            return 0;
         }
         long key = (1L * mi) << 18 | (i << 12) | (j << 6) | k;
         if (f.containsKey(key)) {
@@ -137,6 +165,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 class Solution {
 public:
@@ -145,28 +175,33 @@ public:
         const int mod = 1e9 + 7;
         int n = nums.size();
         sort(nums.begin(), nums.end());
-        function<int(int, int, int, int)> dfs = [&](int i, int j, int k, int mi) {
+        auto dfs = [&](auto&& dfs, int i, int j, int k, int mi) -> int {
             if (i >= n) {
                 return k == 0 ? mi : 0;
+            }
+            if (n - i < k) {
+                return 0;
             }
             long long key = (1LL * mi) << 18 | (i << 12) | (j << 6) | k;
             if (f.contains(key)) {
                 return f[key];
             }
-            long long ans = dfs(i + 1, j, k, mi);
+            long long ans = dfs(dfs, i + 1, j, k, mi);
             if (j == n) {
-                ans += dfs(i + 1, i, k - 1, mi);
+                ans += dfs(dfs, i + 1, i, k - 1, mi);
             } else {
-                ans += dfs(i + 1, i, k - 1, min(mi, nums[i] - nums[j]));
+                ans += dfs(dfs, i + 1, i, k - 1, min(mi, nums[i] - nums[j]));
             }
             ans %= mod;
             f[key] = ans;
             return f[key];
         };
-        return dfs(0, n, k, INT_MAX);
+        return dfs(dfs, 0, n, k, INT_MAX);
     }
 };
 ```
+
+#### Go
 
 ```go
 func sumOfPowers(nums []int, k int) int {
@@ -180,6 +215,9 @@ func sumOfPowers(nums []int, k int) int {
 			if k == 0 {
 				return mi
 			}
+			return 0
+		}
+		if n-i < k {
 			return 0
 		}
 		key := mi<<18 | (i << 12) | (j << 6) | k
@@ -200,6 +238,49 @@ func sumOfPowers(nums []int, k int) int {
 }
 ```
 
+#### TypeScript
+
+```ts
+function sumOfPowers(nums: number[], k: number): number {
+    const mod = BigInt(1e9 + 7);
+    nums.sort((a, b) => a - b);
+    const n = nums.length;
+    const f: Map<bigint, bigint> = new Map();
+    function dfs(i: number, j: number, k: number, mi: number): bigint {
+        if (i >= n) {
+            if (k === 0) {
+                return BigInt(mi);
+            }
+            return BigInt(0);
+        }
+        if (n - i < k) {
+            return BigInt(0);
+        }
+        const key =
+            (BigInt(mi) << BigInt(18)) |
+            (BigInt(i) << BigInt(12)) |
+            (BigInt(j) << BigInt(6)) |
+            BigInt(k);
+        if (f.has(key)) {
+            return f.get(key)!;
+        }
+        let ans = dfs(i + 1, j, k, mi);
+        if (j === n) {
+            ans += dfs(i + 1, i, k - 1, mi);
+        } else {
+            ans += dfs(i + 1, i, k - 1, Math.min(mi, nums[i] - nums[j]));
+        }
+        ans %= mod;
+        f.set(key, ans);
+        return ans;
+    }
+
+    return Number(dfs(0, n, k, Number.MAX_SAFE_INTEGER));
+}
+```
+
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

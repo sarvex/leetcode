@@ -1,8 +1,18 @@
+---
+comments: true
+difficulty: Easy
+edit_url: https://github.com/doocs/leetcode/edit/main/lcci/03.04.Implement%20Queue%20using%20Stacks/README_EN.md
+---
+
+<!-- problem:start -->
+
 # [03.04. Implement Queue using Stacks](https://leetcode.cn/problems/implement-queue-using-stacks-lcci)
 
 [中文文档](/lcci/03.04.Implement%20Queue%20using%20Stacks/README.md)
 
 ## Description
+
+<!-- description:start -->
 
 <p>Implement a MyQueue class which implements a queue using two stacks.</p>
 
@@ -38,7 +48,11 @@ queue.empty(); // return false</pre>
 
 <p>&nbsp;</p>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: Double Stack
 
@@ -53,6 +67,8 @@ When getting the front element, we first check whether `stk2` is empty. If it is
 When checking whether the queue is empty, we only need to check whether both stacks are empty. The time complexity is $O(1)$.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class MyQueue:
@@ -87,6 +103,8 @@ class MyQueue:
 # param_3 = obj.peek()
 # param_4 = obj.empty()
 ```
+
+#### Java
 
 ```java
 class MyQueue {
@@ -132,6 +150,8 @@ class MyQueue {
  * boolean param_4 = obj.empty();
  */
 ```
+
+#### C++
 
 ```cpp
 class MyQueue {
@@ -183,6 +203,8 @@ private:
  */
 ```
 
+#### Go
+
 ```go
 type MyQueue struct {
 	stk1 []int
@@ -232,6 +254,8 @@ func (this *MyQueue) move() {
  */
 ```
 
+#### TypeScript
+
 ```ts
 class MyQueue {
     stk1: number[];
@@ -279,6 +303,8 @@ class MyQueue {
  */
 ```
 
+#### Rust
+
 ```rust
 use std::collections::VecDeque;
 
@@ -320,15 +346,10 @@ impl MyQueue {
             }
         }
     }
-}/**
- * Your MyQueue object will be instantiated and called as such:
- * let obj = MyQueue::new();
- * obj.push(x);
- * let ret_2: i32 = obj.pop();
- * let ret_3: i32 = obj.peek();
- * let ret_4: bool = obj.empty();
- */
+}
 ```
+
+#### Swift
 
 ```swift
 class MyQueue {
@@ -378,4 +399,6 @@ class MyQueue {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

@@ -1,10 +1,24 @@
+---
+comments: true
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0894.All%20Possible%20Full%20Binary%20Trees/README_EN.md
+tags:
+    - Tree
+    - Recursion
+    - Memoization
+    - Dynamic Programming
+    - Binary Tree
+---
+
+<!-- problem:start -->
+
 # [894. All Possible Full Binary Trees](https://leetcode.com/problems/all-possible-full-binary-trees)
 
 [中文文档](/solution/0800-0899/0894.All%20Possible%20Full%20Binary%20Trees/README.md)
 
-<!-- tags:Tree,Recursion,Memoization,Dynamic Programming,Binary Tree -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>Given an integer <code>n</code>, return <em>a list of all possible <strong>full binary trees</strong> with</em> <code>n</code> <em>nodes</em>. Each node of each tree in the answer must have <code>Node.val == 0</code>.</p>
 
@@ -34,7 +48,11 @@
 	<li><code>1 &lt;= n &lt;= 20</code></li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: Memoization Search
 
@@ -47,6 +65,8 @@ This process can be optimized with memoization search to avoid repeated calculat
 The time complexity is $O(\frac{2^n}{\sqrt{n}})$, and the space complexity is $O(\frac{2^n}{\sqrt{n}})$. Where $n$ is the number of nodes.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 # Definition for a binary tree node.
@@ -71,6 +91,8 @@ class Solution:
 
         return dfs(n)
 ```
+
+#### Java
 
 ```java
 /**
@@ -117,6 +139,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 /**
  * Definition for a binary tree node.
@@ -156,6 +180,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 /**
  * Definition for a binary tree node.
@@ -190,6 +216,8 @@ func allPossibleFBT(n int) []*TreeNode {
 	return dfs(n)
 }
 ```
+
+#### TypeScript
 
 ```ts
 /**
@@ -231,6 +259,8 @@ function allPossibleFBT(n: number): Array<TreeNode | null> {
 }
 ```
 
+#### Rust
+
 ```rust
 // Definition for a binary tree node.
 // #[derive(Debug, PartialEq, Eq)]
@@ -250,8 +280,8 @@ function allPossibleFBT(n: number): Array<TreeNode | null> {
 //     }
 //   }
 // }
-use std::rc::Rc;
 use std::cell::RefCell;
+use std::rc::Rc;
 impl Solution {
     pub fn all_possible_fbt(n: i32) -> Vec<Option<Rc<RefCell<TreeNode>>>> {
         let mut f: Vec<Option<Vec<Option<Rc<RefCell<TreeNode>>>>>> = vec![None; (n + 1) as usize];
@@ -260,7 +290,7 @@ impl Solution {
 
     fn dfs(
         n: i32,
-        f: &mut Vec<Option<Vec<Option<Rc<RefCell<TreeNode>>>>>>
+        f: &mut Vec<Option<Vec<Option<Rc<RefCell<TreeNode>>>>>>,
     ) -> Vec<Option<Rc<RefCell<TreeNode>>>> {
         if let Some(ref result) = f[n as usize] {
             return result.clone();
@@ -276,15 +306,11 @@ impl Solution {
             let j = n - 1 - i;
             for left in Self::dfs(i, f).iter() {
                 for right in Self::dfs(j, f).iter() {
-                    let new_node = Some(
-                        Rc::new(
-                            RefCell::new(TreeNode {
-                                val: 0,
-                                left: left.clone(),
-                                right: right.clone(),
-                            })
-                        )
-                    );
+                    let new_node = Some(Rc::new(RefCell::new(TreeNode {
+                        val: 0,
+                        left: left.clone(),
+                        right: right.clone(),
+                    })));
                     ans.push(new_node);
                 }
             }
@@ -294,6 +320,8 @@ impl Solution {
     }
 }
 ```
+
+#### C#
 
 ```cs
 /**
@@ -343,4 +371,6 @@ public class Solution {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

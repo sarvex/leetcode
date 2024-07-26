@@ -1,10 +1,24 @@
+---
+comments: true
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3135.Equalize%20Strings%20by%20Adding%20or%20Removing%20Characters%20at%20Ends/README_EN.md
+tags:
+    - String
+    - Binary Search
+    - Dynamic Programming
+    - Sliding Window
+    - Hash Function
+---
+
+<!-- problem:start -->
+
 # [3135. Equalize Strings by Adding or Removing Characters at Ends 🔒](https://leetcode.com/problems/equalize-strings-by-adding-or-removing-characters-at-ends)
 
 [中文文档](/solution/3100-3199/3135.Equalize%20Strings%20by%20Adding%20or%20Removing%20Characters%20at%20Ends/README.md)
 
-<!-- tags: -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>Given two strings <code>initial</code> and <code>target</code>, your task is to modify <code>initial</code> by performing a series of operations to make it equal to <code>target</code>.</p>
 
@@ -88,7 +102,11 @@
 	<li><code>initial</code> and <code>target</code> consist only of lowercase English letters.</li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: Dynamic Programming
 
@@ -100,8 +118,8 @@ We can use dynamic programming to find the length $mx$ of the longest common sub
 
 $$
 f[i][j] = \begin{cases}
-f[i - 1][j - 1] + 1, & \text{if } \text{initial}[i - 1] = \text{target}[j - 1], \\
-0, & \text{otherwise}.
+f[i - 1][j - 1] + 1, & \textit{if } \textit{initial}[i - 1] = \textit{target}[j - 1], \\
+0, & \textit{otherwise}.
 \end{cases}
 $$
 
@@ -110,6 +128,8 @@ Then $mx = \max f[i][j]$, and the final answer is $m + n - 2 \times mx$.
 The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are the lengths of the strings `initial` and `target`, respectively.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -124,6 +144,8 @@ class Solution:
                     mx = max(mx, f[i][j])
         return m + n - mx * 2
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -143,6 +165,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 class Solution {
@@ -165,6 +189,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func minOperations(initial string, target string) int {
 	m, n := len(initial), len(target)
@@ -184,6 +210,8 @@ func minOperations(initial string, target string) int {
 	return m + n - 2*mx
 }
 ```
+
+#### TypeScript
 
 ```ts
 function minOperations(initial: string, target: string): number {
@@ -205,4 +233,6 @@ function minOperations(initial: string, target: string): number {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

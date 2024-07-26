@@ -1,12 +1,21 @@
+---
+comments: true
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0875.Koko%20Eating%20Bananas/README.md
+tags:
+    - 数组
+    - 二分查找
+---
+
+<!-- problem:start -->
+
 # [875. 爱吃香蕉的珂珂](https://leetcode.cn/problems/koko-eating-bananas)
 
 [English Version](/solution/0800-0899/0875.Koko%20Eating%20Bananas/README_EN.md)
 
-<!-- tags:数组,二分查找 -->
-
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
 
 <p>珂珂喜欢吃香蕉。这里有 <code>n</code> 堆香蕉，第 <code>i</code> 堆中有&nbsp;<code>piles[i]</code>&nbsp;根香蕉。警卫已经离开了，将在 <code>h</code> 小时后回来。</p>
 
@@ -52,17 +61,23 @@
 	<li><code>1 &lt;= piles[i] &lt;= 10<sup>9</sup></code></li>
 </ul>
 
+<!-- description:end -->
+
 ## 解法
+
+<!-- solution:start -->
 
 ### 方法一：二分查找
 
 我们注意到，如果珂珂能够以 $k$ 的速度在 $h$ 小时内吃完所有香蕉，那么她也可以以 $k' > k$ 的速度在 $h$ 小时内吃完所有香蕉。这存在着单调性，因此我们可以使用二分查找，找到最小的满足条件的 $k$。
 
-我们定义二分查找的左边界 $l = 1$，右边界 $r = \max(\text{piles})$。每一次二分，我们取中间值 $mid = \frac{l + r}{2}$，然后计算以 $mid$ 的速度吃香蕉需要的时间 $s$。如果 $s \leq h$，说明 $mid$ 的速度可以满足条件，我们将右边界 $r$ 更新为 $mid$；否则，我们将左边界 $l$ 更新为 $mid + 1$。最终，当 $l = r$ 时，我们找到了最小的满足条件的 $k$。
+我们定义二分查找的左边界 $l = 1$，右边界 $r = \max(\textit{piles})$。每一次二分，我们取中间值 $mid = \frac{l + r}{2}$，然后计算以 $mid$ 的速度吃香蕉需要的时间 $s$。如果 $s \leq h$，说明 $mid$ 的速度可以满足条件，我们将右边界 $r$ 更新为 $mid$；否则，我们将左边界 $l$ 更新为 $mid + 1$。最终，当 $l = r$ 时，我们找到了最小的满足条件的 $k$。
 
 时间复杂度 $O(n \times \log M)$，其中 $n$ 和 $M$ 分别是数组 `piles` 的长度和最大值。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -72,6 +87,8 @@ class Solution:
 
         return 1 + bisect_left(range(1, max(piles) + 1), True, key=check)
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -93,6 +110,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 class Solution {
@@ -116,6 +135,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func minEatingSpeed(piles []int, h int) int {
 	return 1 + sort.Search(slices.Max(piles), func(k int) bool {
@@ -128,6 +149,8 @@ func minEatingSpeed(piles []int, h int) int {
 	})
 }
 ```
+
+#### TypeScript
 
 ```ts
 function minEatingSpeed(piles: number[], h: number): number {
@@ -144,6 +167,8 @@ function minEatingSpeed(piles: number[], h: number): number {
     return l;
 }
 ```
+
+#### Rust
 
 ```rust
 impl Solution {
@@ -166,6 +191,8 @@ impl Solution {
     }
 }
 ```
+
+#### C#
 
 ```cs
 public class Solution {
@@ -190,4 +217,6 @@ public class Solution {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

@@ -1,10 +1,25 @@
+---
+comments: true
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3112.Minimum%20Time%20to%20Visit%20Disappearing%20Nodes/README_EN.md
+rating: 1756
+source: Biweekly Contest 128 Q3
+tags:
+    - Graph
+    - Array
+    - Shortest Path
+    - Heap (Priority Queue)
+---
+
+<!-- problem:start -->
+
 # [3112. Minimum Time to Visit Disappearing Nodes](https://leetcode.com/problems/minimum-time-to-visit-disappearing-nodes)
 
 [中文文档](/solution/3100-3199/3112.Minimum%20Time%20to%20Visit%20Disappearing%20Nodes/README.md)
 
-<!-- tags:Graph,Array,Shortest Path,Heap (Priority Queue) -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>There is an undirected graph of <code>n</code> nodes. You are given a 2D array <code>edges</code>, where <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>, length<sub>i</sub>]</code> describes an edge between node <code>u<sub>i</sub></code> and node <code>v<sub>i</sub></code> with a traversal time of <code>length<sub>i</sub></code> units.</p>
 
@@ -80,24 +95,30 @@
 	<li><code>1 &lt;= disappear[i] &lt;= 10<sup>5</sup></code></li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
 
-### Solution 1: Heap Optimized Dijkstra
+<!-- solution:start -->
 
-First, we create an adjacency list $g$ to store the edges of the graph. Then we create an array $dist$ to store the shortest distance from node $0$ to other nodes. We initialize $dist[0] = 0$ and the distance of other nodes is initialized to infinity.
+### Solution 1: Heap-Optimized Dijkstra
 
-Then, we use Dijkstra's algorithm to calculate the shortest distance from node $0$ to other nodes. The specific steps are as follows:
+First, we create an adjacency list $\textit{g}$ to store the edges of the graph. Then, we create an array $\textit{dist}$ to store the shortest distances from node $0$ to other nodes. Initialize $\textit{dist}[0] = 0$, and the distances for the rest of the nodes are initialized to infinity.
 
-1. Create a priority queue $q$ to store the distance and node number of nodes. Initially, add node $0$ to the queue with a distance of $0$.
-2. Take out a node $u$ from the queue. If the distance $du$ of $u$ is greater than $dist[u]$, it means that $u$ has been updated, so skip it directly.
-3. Traverse all neighbor nodes $v$ of node $u$. If $dist[v] > dist[u] + w$ and $dist[u] + w < disappear[v]$, then update $dist[v] = dist[u] + w$ and add node $v$ to the queue.
+Next, we use the Dijkstra algorithm to calculate the shortest distances from node $0$ to other nodes. The specific steps are as follows:
+
+1. Create a priority queue $\textit{pq}$ to store the distances and node numbers. Initially, add node $0$ to the queue with a distance of $0$.
+2. Remove a node $u$ from the queue. If the distance $du$ of $u$ is greater than $\textit{dist}[u]$, it means $u$ has already been updated, so we skip it directly.
+3. Iterate through all neighbor nodes $v$ of node $u$. If $\textit{dist}[v] > \textit{dist}[u] + w$ and $\textit{dist}[u] + w < \textit{disappear}[v]$, then update $\textit{dist}[v] = \textit{dist}[u] + w$ and add node $v$ to the queue.
 4. Repeat steps 2 and 3 until the queue is empty.
 
-Finally, we traverse the $dist$ array. If $dist[i] < disappear[i]$, then $answer[i] = dist[i]$, otherwise $answer[i] = -1$.
+Finally, we iterate through the $\textit{dist}$ array. If $\textit{dist}[i] < \textit{disappear}[i]$, then $\textit{answer}[i] = \textit{dist}[i]$; otherwise, $\textit{answer}[i] = -1$.
 
-The time complexity is $O(m \times \log m)$, and the space complexity is $O(m)$, where $m$ is the number of edges.
+The time complexity is $O(m \times \log m)$, and the space complexity is $O(m)$. Here, $m$ is the number of edges.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -110,17 +131,19 @@ class Solution:
             g[v].append((u, w))
         dist = [inf] * n
         dist[0] = 0
-        q = [(0, 0)]
-        while q:
-            du, u = heappop(q)
+        pq = [(0, 0)]
+        while pq:
+            du, u = heappop(pq)
             if du > dist[u]:
                 continue
             for v, w in g[u]:
                 if dist[v] > dist[u] + w and dist[u] + w < disappear[v]:
                     dist[v] = dist[u] + w
-                    heappush(q, (dist[v], v))
+                    heappush(pq, (dist[v], v))
         return [a if a < b else -1 for a, b in zip(dist, disappear)]
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -159,6 +182,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 class Solution {
@@ -203,6 +228,8 @@ public:
     }
 };
 ```
+
+#### Go
 
 ```go
 func minimumTime(n int, edges [][]int, disappear []int) []int {
@@ -260,6 +287,39 @@ func (h *hp) Push(v any)        { *h = append(*h, v.(pair)) }
 func (h *hp) Pop() any          { a := *h; v := a[len(a)-1]; *h = a[:len(a)-1]; return v }
 ```
 
+#### TypeScript
+
+```ts
+function minimumTime(n: number, edges: number[][], disappear: number[]): number[] {
+    const g: [number, number][][] = Array.from({ length: n }, () => []);
+    for (const [u, v, w] of edges) {
+        g[u].push([v, w]);
+        g[v].push([u, w]);
+    }
+    const dist = Array.from({ length: n }, () => Infinity);
+    dist[0] = 0;
+    const pq = new PriorityQueue({
+        compare: (a, b) => (a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]),
+    });
+    pq.enqueue([0, 0]);
+    while (pq.size() > 0) {
+        const [du, u] = pq.dequeue()!;
+        if (du > dist[u]) {
+            continue;
+        }
+        for (const [v, w] of g[u]) {
+            if (dist[v] > dist[u] + w && dist[u] + w < disappear[v]) {
+                dist[v] = dist[u] + w;
+                pq.enqueue([dist[v], v]);
+            }
+        }
+    }
+    return dist.map((a, i) => (a < disappear[i] ? a : -1));
+}
+```
+
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

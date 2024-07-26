@@ -1,12 +1,24 @@
+---
+comments: true
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1493.Longest%20Subarray%20of%201%27s%20After%20Deleting%20One%20Element/README.md
+rating: 1423
+source: 第 29 场双周赛 Q3
+tags:
+    - 数组
+    - 动态规划
+    - 滑动窗口
+---
+
+<!-- problem:start -->
+
 # [1493. 删掉一个元素以后全为 1 的最长子数组](https://leetcode.cn/problems/longest-subarray-of-1s-after-deleting-one-element)
 
 [English Version](/solution/1400-1499/1493.Longest%20Subarray%20of%201%27s%20After%20Deleting%20One%20Element/README_EN.md)
 
-<!-- tags:数组,动态规划,滑动窗口 -->
-
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
 
 <p>给你一个二进制数组&nbsp;<code>nums</code>&nbsp;，你需要从中删掉一个元素。</p>
 
@@ -46,7 +58,11 @@
 	<li><code>nums[i]</code>&nbsp;要么是&nbsp;<code>0</code>&nbsp;要么是&nbsp;<code>1</code> 。</li>
 </ul>
 
+<!-- description:end -->
+
 ## 解法
+
+<!-- solution:start -->
 
 ### 方法一：枚举
 
@@ -59,6 +75,8 @@
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -74,6 +92,8 @@ class Solution:
                 right[i] = right[i + 1] + 1
         return max(left[i] + right[i + 1] for i in range(n))
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -99,6 +119,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 class Solution {
@@ -126,6 +148,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func longestSubarray(nums []int) (ans int) {
 	n := len(nums)
@@ -147,6 +171,8 @@ func longestSubarray(nums []int) (ans int) {
 	return
 }
 ```
+
+#### TypeScript
 
 ```ts
 function longestSubarray(nums: number[]): number {
@@ -173,6 +199,10 @@ function longestSubarray(nums: number[]): number {
 
 <!-- tabs:end -->
 
+<!-- solution:end -->
+
+<!-- solution:start -->
+
 ### 方法二：双指针
 
 题目实际上是让我们找出一个最长的子数组，该子数组中最多只包含一个 $0$，删掉该子数组中的其中一个元素后，剩余的长度即为答案。
@@ -184,6 +214,8 @@ function longestSubarray(nums: number[]): number {
 时间复杂度 $O(n)$，其中 $n$ 为数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -198,6 +230,8 @@ class Solution:
             ans = max(ans, i - j)
         return ans
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -214,6 +248,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 class Solution {
@@ -232,6 +268,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func longestSubarray(nums []int) (ans int) {
 	cnt, j := 0, 0
@@ -245,6 +283,8 @@ func longestSubarray(nums []int) (ans int) {
 	return
 }
 ```
+
+#### TypeScript
 
 ```ts
 function longestSubarray(nums: number[]): number {
@@ -262,4 +302,102 @@ function longestSubarray(nums: number[]): number {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- solution:start -->
+
+### 方法三：双指针（优化）
+
+方法二中，我们每次会循环移动左指针，直到 $cnt \leq 1$。由于题目求的是最长子数组，意味着我们不需要缩小子数组的长度，因此，如果 $\textit{cnt} \gt 1$，我们只移动左指针一次，右指针也继续向右移动。这样可以保证子数组的长度不会减小。
+
+最后，我们返回的答案即为 $n - l - 1$，其中 $l$ 为左指针的位置。
+
+时间复杂度 $O(n)$，其中 $n$ 为数组 $nums$ 的长度。空间复杂度 $O(1)$。
+
+<!-- tabs:start -->
+
+#### Python3
+
+```python
+class Solution:
+    def longestSubarray(self, nums: List[int]) -> int:
+        cnt = l = 0
+        for x in nums:
+            cnt += x ^ 1
+            if cnt > 1:
+                cnt -= nums[l] ^ 1
+                l += 1
+        return len(nums) - l - 1
+```
+
+#### Java
+
+```java
+class Solution {
+    public int longestSubarray(int[] nums) {
+        int ans = 0, cnt = 0, l = 0;
+        for (int x : nums) {
+            cnt += x ^ 1;
+            if (cnt > 1) {
+                cnt -= nums[l++] ^ 1;
+            }
+        }
+        return nums.length - l - 1;
+    }
+}
+```
+
+#### C++
+
+```cpp
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums) {
+        int ans = 0, cnt = 0, l = 0;
+        for (int x : nums) {
+            cnt += x ^ 1;
+            if (cnt > 1) {
+                cnt -= nums[l++] ^ 1;
+            }
+        }
+        return nums.size() - l - 1;
+    }
+};
+```
+
+#### Go
+
+```go
+func longestSubarray(nums []int) (ans int) {
+	cnt, l := 0, 0
+	for _, x := range nums {
+		cnt += x ^ 1
+		if cnt > 1 {
+			cnt -= nums[l] ^ 1
+			l++
+		}
+	}
+	return len(nums) - l - 1
+}
+```
+
+#### TypeScript
+
+```ts
+function longestSubarray(nums: number[]): number {
+    let [cnt, l] = [0, 0];
+    for (const x of nums) {
+        cnt += x ^ 1;
+        if (cnt > 1) {
+            cnt -= nums[l++] ^ 1;
+        }
+    }
+    return nums.length - l - 1;
+}
+```
+
+<!-- tabs:end -->
+
+<!-- solution:end -->
+
+<!-- problem:end -->

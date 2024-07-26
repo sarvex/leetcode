@@ -1,10 +1,22 @@
+---
+comments: true
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0012.Integer%20to%20Roman/README_EN.md
+tags:
+    - Hash Table
+    - Math
+    - String
+---
+
+<!-- problem:start -->
+
 # [12. Integer to Roman](https://leetcode.com/problems/integer-to-roman)
 
 [中文文档](/solution/0000-0099/0012.Integer%20to%20Roman/README.md)
 
-<!-- tags:Hash Table,Math,String -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>Seven different symbols represent Roman numerals with the following values:</p>
 
@@ -115,7 +127,11 @@ Note: 49 is not 1 (I) less of 50 (L) because the conversion is based on decimal 
 	<li><code>1 &lt;= num &lt;= 3999</code></li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: Greedy
 
@@ -124,6 +140,8 @@ We can first list all possible symbols $cs$ and their corresponding values $vs$,
 The time complexity is $O(m)$, and the space complexity is $O(m)$. Here, $m$ is the number of symbols.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -137,6 +155,8 @@ class Solution:
                 ans.append(c)
         return ''.join(ans)
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -156,6 +176,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 class Solution {
 public:
@@ -174,6 +196,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func intToRoman(num int) string {
 	cs := []string{"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"}
@@ -189,6 +213,8 @@ func intToRoman(num int) string {
 }
 ```
 
+#### TypeScript
+
 ```ts
 function intToRoman(num: number): string {
     const cs: string[] = ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I'];
@@ -203,6 +229,32 @@ function intToRoman(num: number): string {
     return ans.join('');
 }
 ```
+
+#### Rust
+
+```rust
+impl Solution {
+    pub fn int_to_roman(num: i32) -> String {
+        let cs = [
+            "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I",
+        ];
+        let vs = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
+        let mut num = num;
+        let mut ans = String::new();
+
+        for (i, &v) in vs.iter().enumerate() {
+            while num >= v {
+                num -= v;
+                ans.push_str(cs[i]);
+            }
+        }
+
+        ans
+    }
+}
+```
+
+#### C#
 
 ```cs
 public class Solution {
@@ -221,44 +273,33 @@ public class Solution {
 }
 ```
 
+#### PHP
+
 ```php
 class Solution {
     /**
-     * @param int $num
-     * @return string
+     * @param Integer $num
+     * @return String
      */
-
     function intToRoman($num) {
-        $values = [
-            'M' => 1000,
-            'CM' => 900,
-            'D' => 500,
-            'CD' => 400,
-            'C' => 100,
-            'XC' => 90,
-            'L' => 50,
-            'XL' => 40,
-            'X' => 10,
-            'IX' => 9,
-            'V' => 5,
-            'IV' => 4,
-            'I' => 1,
-        ];
+        $cs = ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I'];
+        $vs = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
+        $ans = '';
 
-        $result = '';
-
-        foreach ($values as $roman => $value) {
-            while ($num >= $value) {
-                $result .= $roman;
-                $num -= $value;
+        foreach ($vs as $i => $v) {
+            while ($num >= $v) {
+                $num -= $v;
+                $ans .= $cs[$i];
             }
         }
 
-        return $result;
+        return $ans;
     }
 }
 ```
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

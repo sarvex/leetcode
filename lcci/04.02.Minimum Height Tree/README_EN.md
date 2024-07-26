@@ -1,8 +1,18 @@
+---
+comments: true
+difficulty: Easy
+edit_url: https://github.com/doocs/leetcode/edit/main/lcci/04.02.Minimum%20Height%20Tree/README_EN.md
+---
+
+<!-- problem:start -->
+
 # [04.02. Minimum Height Tree](https://leetcode.cn/problems/minimum-height-tree-lcci)
 
 [中文文档](/lcci/04.02.Minimum%20Height%20Tree/README.md)
 
 ## Description
+
+<!-- description:start -->
 
 <p>Given a sorted (increasing order) array with unique integer elements, write an algo&shy;rithm to create a binary search tree with minimal height.</p>
 
@@ -30,7 +40,11 @@ One possible answer is: [0,-3,9,-10,null,5]，which represents the following tre
 
 </pre>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: Recursion
 
@@ -45,6 +59,8 @@ The execution process of the function `dfs(l, r)` is as follows:
 The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the array.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 # Definition for a binary tree node.
@@ -65,6 +81,8 @@ class Solution:
 
         return dfs(0, len(nums) - 1)
 ```
+
+#### Java
 
 ```java
 /**
@@ -94,6 +112,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 /**
  * Definition for a binary tree node.
@@ -119,6 +139,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 /**
  * Definition for a binary tree node.
@@ -141,6 +163,8 @@ func sortedArrayToBST(nums []int) *TreeNode {
 	return dfs(0, len(nums)-1)
 }
 ```
+
+#### TypeScript
 
 ```ts
 /**
@@ -169,6 +193,8 @@ function sortedArrayToBST(nums: number[]): TreeNode | null {
 }
 ```
 
+#### Rust
+
 ```rust
 // Definition for a binary tree node.
 // #[derive(Debug, PartialEq, Eq)]
@@ -188,29 +214,27 @@ function sortedArrayToBST(nums: number[]): TreeNode | null {
 //     }
 //   }
 // }
-use std::rc::Rc;
 use std::cell::RefCell;
+use std::rc::Rc;
 impl Solution {
     fn dfs(nums: &Vec<i32>, l: usize, r: usize) -> Option<Rc<RefCell<TreeNode>>> {
         if l >= r {
             return None;
         }
         let mid = (l + r) >> 1;
-        Some(
-            Rc::new(
-                RefCell::new(TreeNode {
-                    val: nums[mid],
-                    left: Self::dfs(nums, l, mid),
-                    right: Self::dfs(nums, mid + 1, r),
-                })
-            )
-        )
+        Some(Rc::new(RefCell::new(TreeNode {
+            val: nums[mid],
+            left: Self::dfs(nums, l, mid),
+            right: Self::dfs(nums, mid + 1, r),
+        })))
     }
     pub fn sorted_array_to_bst(nums: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
         Self::dfs(&nums, 0, nums.len())
     }
 }
 ```
+
+#### JavaScript
 
 ```js
 /**
@@ -236,6 +260,8 @@ var sortedArrayToBST = function (nums) {
     return dfs(0, nums.length - 1);
 };
 ```
+
+#### Swift
 
 ```swift
 /**
@@ -272,4 +298,6 @@ class Solution {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

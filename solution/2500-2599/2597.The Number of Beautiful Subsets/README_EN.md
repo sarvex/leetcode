@@ -1,10 +1,28 @@
+---
+comments: true
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2597.The%20Number%20of%20Beautiful%20Subsets/README_EN.md
+rating: 2023
+source: Weekly Contest 337 Q3
+tags:
+    - Array
+    - Hash Table
+    - Math
+    - Dynamic Programming
+    - Backtracking
+    - Combinatorics
+    - Sorting
+---
+
+<!-- problem:start -->
+
 # [2597. The Number of Beautiful Subsets](https://leetcode.com/problems/the-number-of-beautiful-subsets)
 
 [中文文档](/solution/2500-2599/2597.The%20Number%20of%20Beautiful%20Subsets/README.md)
 
-<!-- tags:Array,Dynamic Programming,Backtracking,Sorting -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>You are given an array <code>nums</code> of positive integers and a <strong>positive</strong> integer <code>k</code>.</p>
 
@@ -41,7 +59,11 @@ It can be proved that there is only 1 beautiful subset in the array [1].
 	<li><code>1 &lt;= nums[i], k &lt;= 1000</code></li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: Counting + Backtracking
 
@@ -57,6 +79,8 @@ Finally, we return $ans$.
 Time complexity $O(2^n)$, space complexity $O(n)$, where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -77,6 +101,8 @@ class Solution:
         dfs(0)
         return ans
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -109,6 +135,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 class Solution {
 public:
@@ -137,6 +165,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func beautifulSubsets(nums []int, k int) int {
 	ans := -1
@@ -161,6 +191,8 @@ func beautifulSubsets(nums []int, k int) int {
 	return ans
 }
 ```
+
+#### TypeScript
 
 ```ts
 function beautifulSubsets(nums: number[], k: number): number {
@@ -188,4 +220,6 @@ function beautifulSubsets(nums: number[], k: number): number {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

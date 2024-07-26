@@ -1,12 +1,25 @@
+---
+comments: true
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2751.Robot%20Collisions/README.md
+rating: 2091
+source: 第 351 场周赛 Q4
+tags:
+    - 栈
+    - 数组
+    - 排序
+    - 模拟
+---
+
+<!-- problem:start -->
+
 # [2751. 机器人碰撞](https://leetcode.cn/problems/robot-collisions)
 
 [English Version](/solution/2700-2799/2751.Robot%20Collisions/README_EN.md)
 
-<!-- tags:栈,数组,排序,模拟 -->
-
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
 
 <p>现有 <code>n</code> 个机器人，编号从 <strong>1</strong> 开始，每个机器人包含在路线上的位置、健康度和移动方向。</p>
 
@@ -64,6 +77,203 @@
 	<li><code>positions</code> 中的所有值互不相同</li>
 </ul>
 
+<!-- description:end -->
+
 ## 解法
 
-<!-- end -->
+<!-- solution:start -->
+
+### 方法一
+
+<!-- tabs:start -->
+
+#### Python3
+
+```python
+class Solution:
+    def survivedRobotsHealths(
+        self, positions: List[int], healths: List[int], directions: str
+    ) -> List[int]:
+        n = len(positions)
+        indices = list(range(n))
+        stack = []
+
+        indices.sort(key=lambda i: positions[i])
+
+        for currentIndex in indices:
+            if directions[currentIndex] == "R":
+                stack.append(currentIndex)
+            else:
+                while stack and healths[currentIndex] > 0:
+                    topIndex = stack.pop()
+
+                    if healths[topIndex] > healths[currentIndex]:
+                        healths[topIndex] -= 1
+                        healths[currentIndex] = 0
+                        stack.append(topIndex)
+                    elif healths[topIndex] < healths[currentIndex]:
+                        healths[currentIndex] -= 1
+                        healths[topIndex] = 0
+                    else:
+                        healths[currentIndex] = 0
+                        healths[topIndex] = 0
+
+        result = [health for health in healths if health > 0]
+        return result
+
+```
+
+#### Java
+
+```java
+class Solution {
+    public List<Integer> survivedRobotsHealths(int[] positions, int[] healths, String directions) {
+        int n = positions.length;
+        Integer[] indices = new Integer[n];
+        for (int i = 0; i < n; i++) {
+            indices[i] = i;
+        }
+
+        Arrays.sort(indices, (i, j) -> Integer.compare(positions[i], positions[j]));
+
+        Stack<Integer> stack = new Stack<>();
+
+        for (int currentIndex : indices) {
+            if (directions.charAt(currentIndex) == 'R') {
+                stack.push(currentIndex);
+            } else {
+                while (!stack.isEmpty() && healths[currentIndex] > 0) {
+                    int topIndex = stack.pop();
+
+                    if (healths[topIndex] > healths[currentIndex]) {
+                        healths[topIndex] -= 1;
+                        healths[currentIndex] = 0;
+                        stack.push(topIndex);
+                    } else if (healths[topIndex] < healths[currentIndex]) {
+                        healths[currentIndex] -= 1;
+                        healths[topIndex] = 0;
+                    } else {
+                        healths[currentIndex] = 0;
+                        healths[topIndex] = 0;
+                    }
+                }
+            }
+        }
+
+        List<Integer> result = new ArrayList<>();
+        for (int health : healths) {
+            if (health > 0) {
+                result.add(health);
+            }
+        }
+
+        return result;
+    }
+}
+```
+
+#### C++
+
+```cpp
+class Solution {
+public:
+    vector<int> survivedRobotsHealths(vector<int>& positions, vector<int>& healths, string directions) {
+        int n = positions.size();
+        vector<int> indices(n);
+
+        iota(indices.begin(), indices.end(), 0);
+        stack<int> st;
+
+        auto lambda = [&](int i, int j) { return positions[i] < positions[j]; };
+
+        sort(begin(indices), end(indices), lambda);
+
+        vector<int> result;
+        for (int currentIndex : indices) {
+            if (directions[currentIndex] == 'R') {
+                st.push(currentIndex);
+            } else {
+                while (!st.empty() && healths[currentIndex] > 0) {
+                    int topIndex = st.top();
+                    st.pop();
+
+                    if (healths[topIndex] > healths[currentIndex]) {
+                        healths[topIndex] -= 1;
+                        healths[currentIndex] = 0;
+                        st.push(topIndex);
+                    } else if (healths[topIndex] < healths[currentIndex]) {
+                        healths[currentIndex] -= 1;
+                        healths[topIndex] = 0;
+                    } else {
+                        healths[currentIndex] = 0;
+                        healths[topIndex] = 0;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < n; ++i) {
+            if (healths[i] > 0) {
+                result.push_back(healths[i]);
+            }
+        }
+        return result;
+    }
+};
+```
+
+#### Go
+
+```go
+func survivedRobotsHealths(positions []int, healths []int, directions string) []int {
+	n := len(positions)
+	indices := make([]int, n)
+	for i := range indices {
+		indices[i] = i
+	}
+
+	sort.Slice(indices, func(i, j int) bool {
+		return positions[indices[i]] < positions[indices[j]]
+	})
+
+	stack := []int{}
+
+	for _, currentIndex := range indices {
+		if directions[currentIndex] == 'R' {
+			stack = append(stack, currentIndex)
+		} else {
+			for len(stack) > 0 && healths[currentIndex] > 0 {
+				topIndex := stack[len(stack)-1]
+				stack = stack[:len(stack)-1]
+
+				if healths[topIndex] > healths[currentIndex] {
+					healths[topIndex] -= 1
+					healths[currentIndex] = 0
+					stack = append(stack, topIndex)
+				} else if healths[topIndex] < healths[currentIndex] {
+					healths[currentIndex] -= 1
+					healths[topIndex] = 0
+				} else {
+					healths[currentIndex] = 0
+					healths[topIndex] = 0
+				}
+			}
+		}
+	}
+
+	result := []int{}
+	for _, health := range healths {
+		if health > 0 {
+			result = append(result, health)
+		}
+	}
+
+	return result
+}
+```
+
+<!-- tabs:end -->
+
+<!-- solution:end -->
+
+<!-- problem:end -->

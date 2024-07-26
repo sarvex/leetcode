@@ -1,8 +1,18 @@
+---
+comments: true
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/lcci/16.25.LRU%20Cache/README_EN.md
+---
+
+<!-- problem:start -->
+
 # [16.25. LRU Cache](https://leetcode.cn/problems/lru-cache-lcci)
 
 [中文文档](/lcci/16.25.LRU%20Cache/README.md)
 
 ## Description
+
+<!-- description:start -->
 
 <p>Design and build a &quot;least recently used&quot; cache, which evicts the least recently used item. The cache should map from keys to values (allowing you to insert and retrieve a value associ&shy;ated with a particular key) and be initialized with a max size. When it is full, it should evict the least recently used item.</p>
 
@@ -40,7 +50,11 @@ cache.get(4);       // returns 4
 
 </pre>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: Hash Table + Doubly Linked List
 
@@ -53,9 +67,11 @@ When accessing a node, if the node exists, we delete it from its original positi
 
 When inserting a node, if the node exists, we delete it from its original position and reinsert it at the head of the list. If it does not exist, we first check if the cache is full. If it is full, we delete the node at the tail of the list and insert the new node at the head of the list.
 
-The time complexity is $O(1)$, and the space complexity is $O(\text{capacity})$.
+The time complexity is $O(1)$, and the space complexity is $O(\textit{capacity})$.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Node:
@@ -123,6 +139,8 @@ class LRUCache:
 # param_1 = obj.get(key)
 # obj.put(key,value)
 ```
+
+#### Java
 
 ```java
 class Node {
@@ -211,6 +229,8 @@ class LRUCache {
  * obj.put(key,value);
  */
 ```
+
+#### C++
 
 ```cpp
 struct Node {
@@ -306,6 +326,8 @@ private:
  */
 ```
 
+#### Go
+
 ```go
 type node struct {
 	key, val   int
@@ -377,6 +399,8 @@ func (this *LRUCache) pushFront(n *node) {
 }
 ```
 
+#### TypeScript
+
 ```ts
 class LRUCache {
     capacity: number;
@@ -412,6 +436,8 @@ class LRUCache {
  * obj.put(key,value)
  */
 ```
+
+#### Rust
 
 ```rust
 use std::cell::RefCell;
@@ -536,13 +562,10 @@ impl LRUCache {
             None => None,
         }
     }
-}/**
- * Your LRUCache object will be instantiated and called as such:
- * let obj = LRUCache::new(capacity);
- * let ret_1: i32 = obj.get(key);
- * obj.put(key, value);
- */
+}
 ```
+
+#### C#
 
 ```cs
 public class LRUCache {
@@ -623,6 +646,89 @@ public class LRUCache {
  */
 ```
 
+#### Swift
+
+```swift
+class Node {
+    var key: Int
+    var val: Int
+    var prev: Node?
+    var next: Node?
+
+    init(_ key: Int = 0, _ val: Int = 0) {
+        self.key = key
+        self.val = val
+    }
+}
+
+class LRUCache {
+    private var cache: [Int: Node] = [:]
+    private let head: Node = Node()
+    private let tail: Node = Node()
+    private var capacity: Int
+    private var size: Int = 0
+
+    init(_ capacity: Int) {
+        self.capacity = capacity
+        head.next = tail
+        tail.prev = head
+    }
+
+    func get(_ key: Int) -> Int {
+        guard let node = cache[key] else {
+            return -1
+        }
+        moveToHead(node)
+        return node.val
+    }
+
+    func put(_ key: Int, _ value: Int) {
+        if let node = cache[key] {
+            node.val = value
+            moveToHead(node)
+        } else {
+            let newNode = Node(key, value)
+            cache[key] = newNode
+            addToHead(newNode)
+            size += 1
+            if size > capacity {
+                if let tailNode = removeTail() {
+                    cache.removeValue(forKey: tailNode.key)
+                    size -= 1
+                }
+            }
+        }
+    }
+
+    private func moveToHead(_ node: Node) {
+        removeNode(node)
+        addToHead(node)
+    }
+
+    private func removeNode(_ node: Node) {
+        node.prev?.next = node.next
+        node.next?.prev = node.prev
+    }
+
+    private func addToHead(_ node: Node) {
+        node.prev = head
+        node.next = head.next
+        head.next?.prev = node
+        head.next = node
+    }
+
+    private func removeTail() -> Node? {
+        guard let res = tail.prev, res !== head else {
+            return nil
+        }
+        removeNode(res)
+        return res
+    }
+}
+```
+
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

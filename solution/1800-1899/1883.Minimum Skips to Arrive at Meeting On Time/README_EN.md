@@ -1,10 +1,23 @@
+---
+comments: true
+difficulty: Hard
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1883.Minimum%20Skips%20to%20Arrive%20at%20Meeting%20On%20Time/README_EN.md
+rating: 2587
+source: Weekly Contest 243 Q4
+tags:
+    - Array
+    - Dynamic Programming
+---
+
+<!-- problem:start -->
+
 # [1883. Minimum Skips to Arrive at Meeting On Time](https://leetcode.com/problems/minimum-skips-to-arrive-at-meeting-on-time)
 
 [中文文档](/solution/1800-1899/1883.Minimum%20Skips%20to%20Arrive%20at%20Meeting%20On%20Time/README.md)
 
-<!-- tags:Array,Dynamic Programming -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>You are given an integer <code>hoursBefore</code>, the number of hours you have to travel to your meeting. To arrive at your meeting, you have to travel through <code>n</code> roads. The road lengths are given as an integer array <code>dist</code> of length <code>n</code>, where <code>dist[i]</code> describes the length of the <code>i<sup>th</sup></code> road in <strong>kilometers</strong>. In addition, you are given an integer <code>speed</code>, which is the speed (in <strong>km/h</strong>) you will travel at.</p>
 
@@ -63,7 +76,11 @@ You can skip the first and third rest to arrive in ((7/2 + <u>0</u>) + (3/2 + 0)
 	<li><code>1 &lt;= hoursBefore &lt;= 10<sup>7</sup></code></li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: Dynamic Programming
 
@@ -72,7 +89,7 @@ We define $f[i][j]$ as the shortest time considering the first $i$ roads and exa
 Since we can choose to skip or not skip the rest time of the $i$-th road, we can list the state transition equation:
 
 $$
-f[i][j]=\min\left\{\begin{aligned} \lceil f[i-1][j]+\frac{d_i}{s}\rceil & \text{Do not skip the rest time of the $i$-th road} \\ f[i-1][j-1]+\frac{d_i}{s} & \text{Skip the rest time of the $i$-th road} \end{aligned}\right.
+f[i][j]=\min\left\{\begin{aligned} \lceil f[i-1][j]+\frac{d_i}{s}\rceil & \textit{Do not skip the rest time of the $i$-th road} \\ f[i-1][j-1]+\frac{d_i}{s} & \textit{Skip the rest time of the $i$-th road} \end{aligned}\right.
 $$
 
 Where $\lceil x\rceil$ represents rounding $x$ up. It should be noted that since we need to ensure that exactly $j$ rest times are skipped, we must have $j\le i$; moreover, if $j=0$, no rest time can be skipped.
@@ -82,6 +99,8 @@ Due to the possible precision error brought by floating-point operations and rou
 The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$, where $n$ is the number of roads.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -102,6 +121,8 @@ class Solution:
         return -1
 ```
 
+#### Python3
+
 ```python
 class Solution:
     def minSkips(self, dist: List[int], speed: int, hoursBefore: int) -> int:
@@ -119,6 +140,8 @@ class Solution:
                 return j
         return -1
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -151,6 +174,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 class Solution {
 public:
@@ -178,6 +203,8 @@ public:
     }
 };
 ```
+
+#### Go
 
 ```go
 func minSkips(dist []int, speed int, hoursBefore int) int {
@@ -210,6 +237,8 @@ func minSkips(dist []int, speed int, hoursBefore int) int {
 }
 ```
 
+#### TypeScript
+
 ```ts
 function minSkips(dist: number[], speed: number, hoursBefore: number): number {
     const n = dist.length;
@@ -237,4 +266,6 @@ function minSkips(dist: number[], speed: number, hoursBefore: number): number {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

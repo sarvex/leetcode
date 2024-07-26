@@ -1,12 +1,26 @@
+---
+comments: true
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1110.Delete%20Nodes%20And%20Return%20Forest/README.md
+rating: 1511
+source: 第 144 场周赛 Q3
+tags:
+    - 树
+    - 深度优先搜索
+    - 数组
+    - 哈希表
+    - 二叉树
+---
+
+<!-- problem:start -->
+
 # [1110. 删点成林](https://leetcode.cn/problems/delete-nodes-and-return-forest)
 
 [English Version](/solution/1100-1199/1110.Delete%20Nodes%20And%20Return%20Forest/README_EN.md)
 
-<!-- tags:树,深度优先搜索,数组,哈希表,二叉树 -->
-
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
 
 <p>给出二叉树的根节点&nbsp;<code>root</code>，树上每个节点都有一个不同的值。</p>
 
@@ -43,7 +57,11 @@
 	<li><code>to_delete</code> 包含一些从&nbsp;<code>1</code> 到&nbsp;<code>1000</code>、各不相同的值。</li>
 </ul>
 
+<!-- description:end -->
+
 ## 解法
+
+<!-- solution:start -->
 
 ### 方法一：DFS
 
@@ -59,6 +77,8 @@
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是树的节点数。
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 # Definition for a binary tree node.
@@ -89,6 +109,8 @@ class Solution:
             ans.append(root)
         return ans
 ```
+
+#### Java
 
 ```java
 /**
@@ -140,6 +162,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 /**
  * Definition for a binary tree node.
@@ -186,6 +210,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 /**
  * Definition for a binary tree node.
@@ -224,6 +250,8 @@ func delNodes(root *TreeNode, to_delete []int) (ans []*TreeNode) {
 	return
 }
 ```
+
+#### TypeScript
 
 ```ts
 /**
@@ -270,6 +298,182 @@ function delNodes(root: TreeNode | null, to_delete: number[]): Array<TreeNode | 
 }
 ```
 
+#### JavaScript
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number[]} to_delete
+ * @return {TreeNode[]}
+ */
+var delNodes = function (root, to_delete) {
+    const s = Array(1001).fill(false);
+    for (const x of to_delete) {
+        s[x] = true;
+    }
+    const ans = [];
+    const dfs = root => {
+        if (!root) {
+            return null;
+        }
+        root.left = dfs(root.left);
+        root.right = dfs(root.right);
+        if (!s[root.val]) {
+            return root;
+        }
+        if (root.left) {
+            ans.push(root.left);
+        }
+        if (root.right) {
+            ans.push(root.right);
+        }
+        return null;
+    };
+    if (dfs(root)) {
+        ans.push(root);
+    }
+    return ans;
+};
+```
+
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- solution:start -->
+
+### 方法二：BFS
+
+<!-- tabs:start -->
+
+#### TypeScript
+
+```ts
+/**
+ * Definition for a binary tree node.
+ * class TreeNode {
+ *     val: number
+ *     left: TreeNode | null
+ *     right: TreeNode | null
+ *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.left = (left===undefined ? null : left)
+ *         this.right = (right===undefined ? null : right)
+ *     }
+ * }
+ */
+export function delNodes(root: T, to_delete: number[]): Array<T> {
+    if (!root) return [];
+
+    const del = new Set(to_delete);
+    const res: T[] = [];
+    let q: TreeNode[] = [root];
+
+    while (q.length) {
+        const qNext: TreeNode[] = [];
+
+        for (const node of q) {
+            if (node.left) {
+                qNext.push(node.left);
+
+                if (del.has(node.left.val)) {
+                    node.left = null;
+                }
+            }
+
+            if (node.right) {
+                qNext.push(node.right);
+
+                if (del.has(node.right.val)) {
+                    node.right = null;
+                }
+            }
+
+            if (del.has(node.val)) {
+                if (node.left) res.push(node.left);
+                if (node.right) res.push(node.right);
+            }
+        }
+
+        q = qNext;
+    }
+
+    if (!del.has(root.val)) res.push(root);
+
+    return res;
+}
+
+type T = TreeNode | null;
+```
+
+#### JavaScript
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number[]} to_delete
+ * @return {TreeNode[]}
+ */
+var delNodes = function (root, to_delete) {
+    if (!root) return [];
+
+    const del = new Set(to_delete);
+    const res = [];
+    let q = [root];
+
+    while (q.length) {
+        const qNext = [];
+
+        for (const node of q) {
+            if (node.left) {
+                qNext.push(node.left);
+
+                if (del.has(node.left.val)) {
+                    node.left = null;
+                }
+            }
+
+            if (node.right) {
+                qNext.push(node.right);
+
+                if (del.has(node.right.val)) {
+                    node.right = null;
+                }
+            }
+
+            if (del.has(node.val)) {
+                if (node.left) res.push(node.left);
+                if (node.right) res.push(node.right);
+            }
+        }
+
+        q = qNext;
+    }
+
+    if (!del.has(root.val)) res.push(root);
+
+    return res;
+};
+```
+
+<!-- tabs:end -->
+
+<!-- solution:end -->
+
+<!-- problem:end -->

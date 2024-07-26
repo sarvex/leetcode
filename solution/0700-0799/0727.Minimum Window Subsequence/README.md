@@ -1,12 +1,22 @@
+---
+comments: true
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0727.Minimum%20Window%20Subsequence/README.md
+tags:
+    - 字符串
+    - 动态规划
+    - 滑动窗口
+---
+
+<!-- problem:start -->
+
 # [727. 最小窗口子序列 🔒](https://leetcode.cn/problems/minimum-window-subsequence)
 
 [English Version](/solution/0700-0799/0727.Minimum%20Window%20Subsequence/README_EN.md)
 
-<!-- tags:字符串,动态规划,滑动窗口 -->
-
 ## 题目描述
 
-<!-- 这里写题目描述 -->
+<!-- description:start -->
 
 <p>给定字符串 <code>S</code> and <code>T</code>，找出 <code>S</code> 中最短的（连续）<strong>子串</strong> <code>W</code> ，使得 <code>T</code> 是 <code>W</code> 的 <strong>子序列</strong> 。</p>
 
@@ -33,7 +43,11 @@ S = &quot;abcdebdde&quot;, T = &quot;bde&quot;
 
 <p>&nbsp;</p>
 
+<!-- description:end -->
+
 ## 解法
+
+<!-- solution:start -->
 
 ### 方法一：动态规划
 
@@ -43,8 +57,8 @@ S = &quot;abcdebdde&quot;, T = &quot;bde&quot;
 
 $$
 f[i][j] = \begin{cases}
-i, & j = 1 \text{ and } s1[i-1] = s2[j] \\
-f[i - 1][j - 1], & j > 1 \text{ and } s1[i-1] = s2[j-1] \\
+i, & j = 1 \textit{ and } s1[i-1] = s2[j] \\
+f[i - 1][j - 1], & j > 1 \textit{ and } s1[i-1] = s2[j-1] \\
 f[i - 1][j], & s1[i-1] \ne s2[j-1]
 \end{cases}
 $$
@@ -54,6 +68,8 @@ $$
 时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别为字符串 $s1$ 和 $s2$ 的长度。
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -75,6 +91,8 @@ class Solution:
                     p = j
         return "" if k > m else s1[p : p + k]
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -104,6 +122,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 class Solution {
@@ -135,6 +155,8 @@ public:
     }
 };
 ```
+
+#### Go
 
 ```go
 func minWindow(s1 string, s2 string) string {
@@ -173,6 +195,8 @@ func minWindow(s1 string, s2 string) string {
 }
 ```
 
+#### TypeScript
+
 ```ts
 function minWindow(s1: string, s2: string): string {
     const m = s1.length;
@@ -206,4 +230,6 @@ function minWindow(s1: string, s2: string): string {
 
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

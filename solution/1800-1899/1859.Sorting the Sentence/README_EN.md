@@ -1,10 +1,23 @@
+---
+comments: true
+difficulty: Easy
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1859.Sorting%20the%20Sentence/README_EN.md
+rating: 1290
+source: Biweekly Contest 52 Q1
+tags:
+    - String
+    - Sorting
+---
+
+<!-- problem:start -->
+
 # [1859. Sorting the Sentence](https://leetcode.com/problems/sorting-the-sentence)
 
 [中文文档](/solution/1800-1899/1859.Sorting%20the%20Sentence/README.md)
 
-<!-- tags:String,Sorting -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>A <strong>sentence</strong> is a list of words that are separated by a single space with no leading or trailing spaces. Each word consists of lowercase and uppercase English letters.</p>
 
@@ -62,27 +75,33 @@
 
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: String Splitting
 
-First, we split the string $s$ by spaces to get the string array $words$. Then, we create a string array $ans$ of length $|words|$ to store the answer.
+First, we split the string $s$ by spaces to get the array of strings $\textit{ws}$. Then, we iterate through the array $\textit{ws}$, subtracting the character '1' from the last character of each word to get the result as the index of the word. We take the prefix of the word as the content of the word. Finally, we concatenate the words in index order.
 
-Next, we iterate over each string $w$ in the string array $words$, find the position $i$ represented by the last character of $w$, then take the first $|w|-1$ characters of $w$ as the new string $w'$, and place $w'$ in the $i$th position of the array $ans$.
-
-Finally, we join the array $ans$ into a string by spaces, which is the answer.
-
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the string $s$.
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
     def sortSentence(self, s: str) -> str:
-        ws = [(w[:-1], int(w[-1])) for w in s.split()]
-        ws.sort(key=lambda x: x[1])
-        return ' '.join(w for w, _ in ws)
+        ws = s.split()
+        ans = [None] * len(ws)
+        for w in ws:
+            ans[int(w[-1]) - 1] = w[:-1]
+        return " ".join(ans)
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -98,6 +117,8 @@ class Solution {
     }
 }
 ```
+
+#### C++
 
 ```cpp
 class Solution {
@@ -123,6 +144,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 func sortSentence(s string) string {
 	ws := strings.Split(s, " ")
@@ -134,6 +157,8 @@ func sortSentence(s string) string {
 }
 ```
 
+#### TypeScript
+
 ```ts
 function sortSentence(s: string): string {
     const ws = s.split(' ');
@@ -144,6 +169,8 @@ function sortSentence(s: string): string {
     return ans.join(' ');
 }
 ```
+
+#### JavaScript
 
 ```js
 /**
@@ -162,20 +189,6 @@ var sortSentence = function (s) {
 
 <!-- tabs:end -->
 
-### Solution 2
+<!-- solution:end -->
 
-<!-- tabs:start -->
-
-```python
-class Solution:
-    def sortSentence(self, s: str) -> str:
-        ws = s.split()
-        ans = [None] * len(ws)
-        for w in ws:
-            ans[int(w[-1]) - 1] = w[:-1]
-        return ' '.join(ans)
-```
-
-<!-- tabs:end -->
-
-<!-- end -->
+<!-- problem:end -->

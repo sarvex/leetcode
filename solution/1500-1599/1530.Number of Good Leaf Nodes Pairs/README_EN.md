@@ -1,10 +1,24 @@
+---
+comments: true
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1530.Number%20of%20Good%20Leaf%20Nodes%20Pairs/README_EN.md
+rating: 1745
+source: Weekly Contest 199 Q3
+tags:
+    - Tree
+    - Depth-First Search
+    - Binary Tree
+---
+
+<!-- problem:start -->
+
 # [1530. Number of Good Leaf Nodes Pairs](https://leetcode.com/problems/number-of-good-leaf-nodes-pairs)
 
 [中文文档](/solution/1500-1599/1530.Number%20of%20Good%20Leaf%20Nodes%20Pairs/README.md)
 
-<!-- tags:Tree,Depth-First Search,Binary Tree -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>You are given the <code>root</code> of a binary tree and an integer <code>distance</code>. A pair of two different <strong>leaf</strong> nodes of a binary tree is said to be good if the length of <strong>the shortest path</strong> between them is less than or equal to <code>distance</code>.</p>
 
@@ -44,11 +58,17 @@
 	<li><code>1 &lt;= distance &lt;= 10</code></li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 # Definition for a binary tree node.
@@ -84,6 +104,8 @@ class Solution:
                     ans += v1 * v2
         return ans
 ```
+
+#### Java
 
 ```java
 /**
@@ -135,6 +157,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 /**
  * Definition for a binary tree node.
@@ -178,6 +202,8 @@ public:
 };
 ```
 
+#### Go
+
 ```go
 /**
  * Definition for a binary tree node.
@@ -219,6 +245,95 @@ func dfs(root *TreeNode, cnt []int, i int) {
 }
 ```
 
+#### TypeScript
+
+```ts
+function countPairs(root: TreeNode | null, distance: number): number {
+    const pairs: number[][] = [];
+
+    const dfs = (node: TreeNode | null): number[][] => {
+        if (!node) return [];
+        if (!node.left && !node.right) return [[node.val, 1]];
+
+        const left = dfs(node.left);
+        const right = dfs(node.right);
+
+        for (const [x, dx] of left) {
+            for (const [y, dy] of right) {
+                if (dx + dy <= distance) {
+                    pairs.push([x, y]);
+                }
+            }
+        }
+
+        const res: number[][] = [];
+        for (const arr of [left, right]) {
+            for (const x of arr) {
+                if (++x[1] <= distance) res.push(x);
+            }
+        }
+
+        return res;
+    };
+
+    dfs(root);
+
+    return pairs.length;
+}
+```
+
+#### JavaScript
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} distance
+ * @return {number}
+ */
+var countPairs = function (root, distance) {
+    const pairs = [];
+
+    const dfs = node => {
+        if (!node) return [];
+        if (!node.left && !node.right) return [[node.val, 1]];
+
+        const left = dfs(node.left);
+        const right = dfs(node.right);
+
+        for (const [x, dx] of left) {
+            for (const [y, dy] of right) {
+                if (dx + dy <= distance) {
+                    pairs.push([x, y]);
+                }
+            }
+        }
+
+        const res = [];
+        for (const arr of [left, right]) {
+            for (const x of arr) {
+                if (++x[1] <= distance) res.push(x);
+            }
+        }
+
+        return res;
+    };
+
+    dfs(root);
+
+    return pairs.length;
+};
+```
+
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->

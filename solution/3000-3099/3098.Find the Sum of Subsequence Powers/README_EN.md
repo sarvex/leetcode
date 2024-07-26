@@ -1,10 +1,24 @@
+---
+comments: true
+difficulty: Hard
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3098.Find%20the%20Sum%20of%20Subsequence%20Powers/README_EN.md
+rating: 2552
+source: Biweekly Contest 127 Q4
+tags:
+    - Array
+    - Dynamic Programming
+    - Sorting
+---
+
+<!-- problem:start -->
+
 # [3098. Find the Sum of Subsequence Powers](https://leetcode.com/problems/find-the-sum-of-subsequence-powers)
 
 [中文文档](/solution/3000-3099/3098.Find%20the%20Sum%20of%20Subsequence%20Powers/README.md)
 
-<!-- tags:Array,Dynamic Programming,Sorting -->
-
 ## Description
+
+<!-- description:start -->
 
 <p>You are given an integer array <code>nums</code> of length <code>n</code>, and a <strong>positive</strong> integer <code>k</code>.</p>
 
@@ -60,24 +74,33 @@
 	<li><code>2 &lt;= k &lt;= n</code></li>
 </ul>
 
+<!-- description:end -->
+
 ## Solutions
+
+<!-- solution:start -->
 
 ### Solution 1: Memoization Search
 
-We design a function $dfs(i, j, k, mi)$, which represents the energy sum value when we are currently processing the $i$-th element, the last selected element is the $j$-th element, we still need to select $k$ elements, and the current minimum difference is $mi$. The answer is $dfs(0, n, k, +\infty)$.
+Given the problem involves the minimum difference between elements of a subsequence, we might as well sort the array $\textit{nums}$, which facilitates the calculation of the minimum difference between subsequence elements.
+
+Next, we design a function $dfs(i, j, k, mi)$, representing the value of the energy sum when processing the $i$-th element, the last selected element is the $j$-th element, $k$ more elements need to be selected, and the current minimum difference is $mi$. Therefore, the answer is $dfs(0, n, k, +\infty)$ (If the last selected element is the $n$-th element, it indicates that no element has been selected before).
 
 The execution process of the function $dfs(i, j, k, mi)$ is as follows:
 
--   If $i \geq n$, it means that all elements have been processed. If $k = 0$, return $mi$, otherwise return $0$;
--   Otherwise, we can choose not to select the $i$-th element, and the energy sum obtained is $dfs(i + 1, j, k, mi)$;
--   We can also choose to select the $i$-th element. If $j = n$, it means that no element has been selected before, and the energy sum obtained is $dfs(i + 1, i, k - 1, mi)$; otherwise, the energy sum obtained is $dfs(i + 1, i, k - 1, \min(mi, \text{nums}[i] - \text{nums}[j]))$.
--   We add up the above results, take the modulus of $10^9 + 7$, and return.
+-   If $i \geq n$, it means all elements have been processed. If $k = 0$, return $mi$; otherwise, return $0$.
+-   If the remaining number of elements $n - i$ is less than $k$, return $0$.
+-   Otherwise, we can choose not to select the $i$-th element, and the energy sum obtained is $dfs(i + 1, j, k, mi)$.
+-   We can also choose to select the $i$-th element. If $j = n$, it means no element has been selected before, then the energy sum obtained is $dfs(i + 1, i, k - 1, mi)$; otherwise, the energy sum obtained is $dfs(i + 1, i, k - 1, \min(mi, \textit{nums}[i] - \textit{nums}[j]))$.
+-   We add up the above results and return the result modulo $10^9 + 7$.
 
-To avoid repeated calculations, we can use the method of memoization search to save the calculated results.
+To avoid repeated calculations, we can use memoization, saving the results that have already been calculated.
 
-The time complexity is $O(n^5)$, and the space complexity is $O(n^5)$. Where $n$ is the length of the array.
+The time complexity is $O(n^4 \times k)$, and the space complexity is $O(n^4 \times k)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
+
+#### Python3
 
 ```python
 class Solution:
@@ -86,6 +109,8 @@ class Solution:
         def dfs(i: int, j: int, k: int, mi: int) -> int:
             if i >= n:
                 return mi if k == 0 else 0
+            if n - i < k:
+                return 0
             ans = dfs(i + 1, j, k, mi)
             if j == n:
                 ans += dfs(i + 1, i, k - 1, mi)
@@ -99,6 +124,8 @@ class Solution:
         nums.sort()
         return dfs(0, n, k, inf)
 ```
+
+#### Java
 
 ```java
 class Solution {
@@ -115,6 +142,9 @@ class Solution {
     private int dfs(int i, int j, int k, int mi) {
         if (i >= nums.length) {
             return k == 0 ? mi : 0;
+        }
+        if (nums.length - i < k) {
+            return 0;
         }
         long key = (1L * mi) << 18 | (i << 12) | (j << 6) | k;
         if (f.containsKey(key)) {
@@ -133,6 +163,8 @@ class Solution {
 }
 ```
 
+#### C++
+
 ```cpp
 class Solution {
 public:
@@ -141,28 +173,33 @@ public:
         const int mod = 1e9 + 7;
         int n = nums.size();
         sort(nums.begin(), nums.end());
-        function<int(int, int, int, int)> dfs = [&](int i, int j, int k, int mi) {
+        auto dfs = [&](auto&& dfs, int i, int j, int k, int mi) -> int {
             if (i >= n) {
                 return k == 0 ? mi : 0;
+            }
+            if (n - i < k) {
+                return 0;
             }
             long long key = (1LL * mi) << 18 | (i << 12) | (j << 6) | k;
             if (f.contains(key)) {
                 return f[key];
             }
-            long long ans = dfs(i + 1, j, k, mi);
+            long long ans = dfs(dfs, i + 1, j, k, mi);
             if (j == n) {
-                ans += dfs(i + 1, i, k - 1, mi);
+                ans += dfs(dfs, i + 1, i, k - 1, mi);
             } else {
-                ans += dfs(i + 1, i, k - 1, min(mi, nums[i] - nums[j]));
+                ans += dfs(dfs, i + 1, i, k - 1, min(mi, nums[i] - nums[j]));
             }
             ans %= mod;
             f[key] = ans;
             return f[key];
         };
-        return dfs(0, n, k, INT_MAX);
+        return dfs(dfs, 0, n, k, INT_MAX);
     }
 };
 ```
+
+#### Go
 
 ```go
 func sumOfPowers(nums []int, k int) int {
@@ -176,6 +213,9 @@ func sumOfPowers(nums []int, k int) int {
 			if k == 0 {
 				return mi
 			}
+			return 0
+		}
+		if n-i < k {
 			return 0
 		}
 		key := mi<<18 | (i << 12) | (j << 6) | k
@@ -196,6 +236,49 @@ func sumOfPowers(nums []int, k int) int {
 }
 ```
 
+#### TypeScript
+
+```ts
+function sumOfPowers(nums: number[], k: number): number {
+    const mod = BigInt(1e9 + 7);
+    nums.sort((a, b) => a - b);
+    const n = nums.length;
+    const f: Map<bigint, bigint> = new Map();
+    function dfs(i: number, j: number, k: number, mi: number): bigint {
+        if (i >= n) {
+            if (k === 0) {
+                return BigInt(mi);
+            }
+            return BigInt(0);
+        }
+        if (n - i < k) {
+            return BigInt(0);
+        }
+        const key =
+            (BigInt(mi) << BigInt(18)) |
+            (BigInt(i) << BigInt(12)) |
+            (BigInt(j) << BigInt(6)) |
+            BigInt(k);
+        if (f.has(key)) {
+            return f.get(key)!;
+        }
+        let ans = dfs(i + 1, j, k, mi);
+        if (j === n) {
+            ans += dfs(i + 1, i, k - 1, mi);
+        } else {
+            ans += dfs(i + 1, i, k - 1, Math.min(mi, nums[i] - nums[j]));
+        }
+        ans %= mod;
+        f.set(key, ans);
+        return ans;
+    }
+
+    return Number(dfs(0, n, k, Number.MAX_SAFE_INTEGER));
+}
+```
+
 <!-- tabs:end -->
 
-<!-- end -->
+<!-- solution:end -->
+
+<!-- problem:end -->
